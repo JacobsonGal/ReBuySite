@@ -1,12 +1,5 @@
-import React, { useEffect } from "react";
-import { IoNotifications, IoLogoBuffer, IoAdd } from "react-icons/io5";
+import React from "react";
 import { Link } from "react-router-dom";
-import MediaQuery from "react-responsive";
-import { css, jsx } from "@emotion/react";
-import { Button } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchNotificationData } from "../../Redux/actions/userDataActions";
-import { FaBars } from "react-icons/fa";
 import logo from "../../Assets/ReBuy.jpeg";
 
 const TopBar = ({
@@ -14,23 +7,23 @@ const TopBar = ({
   notificationCount,
   setNotificationCount,
 }) => {
-  const dispatch = useDispatch();
-  const notificationData = useSelector(
-    (state) => state.airTableData.Notification
-  );
-  useEffect(() => {
-    if (!notificationData) {
-      dispatch(fetchNotificationData());
-    }
-  });
-  const count = notificationData ? notificationData.length : null;
+  // const dispatch = useDispatch();
+  // const notificationData = useSelector(
+  //   (state) => state.airTableData.Notification
+  // );
+  // useEffect(() => {
+  //   if (!notificationData) {
+  //     dispatch(fetchNotificationData());
+  //   }
+  // });
+  // const count = notificationData ? notificationData.length : null;
   // setNotificationCount(count);
   function notificationHandler() {
     // if (count > 0 || notificationCount>0)
     console.log(notificationCount);
     if (notificationCount > 0)
       return <span class="notification-count">{notificationCount}</span>;
-    else return null;
+    else return 0;
   }
 
   return (

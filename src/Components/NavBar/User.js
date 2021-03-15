@@ -5,7 +5,7 @@ import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
 import { NavLink } from "react-router-dom";
 import Star from "@material-ui/icons/StarRounded";
-import account from "../../Assets/SVG/account.svg";
+import Person from "@material-ui/icons/PersonRounded";
 
 export default function User({ handleToggleSidebar }) {
   const intl = useIntl();
@@ -30,7 +30,8 @@ export default function User({ handleToggleSidebar }) {
         />
       );
     } else {
-      return <img src={account} alt="User" className="userPhoto" />;
+      //   return <img src={account} alt="User" className="userPhoto" />;
+      return <Person className="userPhoto" />;
     }
   }
 

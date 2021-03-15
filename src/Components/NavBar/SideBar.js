@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
-import sidebarBg from "../../Assets/bg1.jpg";
+// import sidebarBg from "../../Assets/bg1.jpg";
 import { NavLink } from "react-router-dom";
 import {
   ProSidebar,
@@ -39,7 +39,7 @@ export default function SideBar({
   return (
     <div className="sideBar">
       <ProSidebar
-        image={image ? sidebarBg : false}
+        // image={image ? sidebarBg : false}
         rtl={rtl}
         collapsed={collapsed}
         toggled={toggled}

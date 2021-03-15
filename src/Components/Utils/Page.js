@@ -2,7 +2,7 @@ import React, { Children, useState } from "react";
 import { useIntl } from "react-intl";
 import PageBody from "./PageBody";
 import LoadingOverlay from "react-loading-overlay";
-import Guest from "../../Redux/userControl";
+// import Guest from "../../Redux/userControl";
 import icon from "../../Assets/Logo/ReBuyLogoTrans.png";
 
 export default function Page({
@@ -41,7 +41,7 @@ export default function Page({
   function Body() {
     return children ? (
       children
-    ) : !Guest() && !loading ? (
+    ) : !loading ? (
       <PageBody
         data={data}
         color={color}

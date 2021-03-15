@@ -88,7 +88,7 @@ export default function SideBar({
           <div className="sidebar-btn-wrapper">
             <a
               iconShape="circle"
-              href="https://www.facebook.com/ReBuy"
+              href="https://www.facebook.com/ReBuyPlatform"
               className="sidebar-btn"
             >
               <span>

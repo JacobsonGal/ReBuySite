@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IntlProvider } from "react-intl";
 import Layout from "./Layout";
 import messages from "./Styles/MessagesMain";

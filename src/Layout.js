@@ -20,10 +20,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const [collapsed, setCollapsed] = useState(false);
   const [image, setImage] = useState(false);
   const [toggled, setToggled] = useState(true);
-  const [seen, setSeen] = useState(false);
   const [title, setTitle] = useState("ReBuy");
-  const [User, setUser] = useState("");
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const notificationData = useSelector(
     (state) => state.airTableData.Notification
@@ -35,7 +32,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
     if (!notificationData) {
       dispatch(fetchNotificationData());
     }
-  }, [notificationData, dispatch, fetchNotificationData]);
+  });
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchNotificationData } from "./Redux/actions/userDataActions";
 import SideBar from "./Components/NavBar/SideBar";
@@ -23,18 +22,9 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const [image, setImage] = useState(false);
   const [toggled, setToggled] = useState(true);
   const [title, setTitle] = useState("ReBuy");
-  const dispatch = useDispatch();
-  const notificationData = useSelector(
-    (state) => state.airTableData.Notification
-  );
+  const [notificationData, setnotificationData] = useState();
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
-
-  useEffect(() => {
-    if (!notificationData) {
-      dispatch(fetchNotificationData());
-    }
-  });
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);

@@ -1,5 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
@@ -9,7 +8,8 @@ import Person from "@material-ui/icons/PersonRounded";
 
 export default function User({ handleToggleSidebar }) {
   const intl = useIntl();
-  const userData = useSelector((state) => state.airTableData.userData);
+  // const userData = useSelector((state) => state.airTableData.userData);
+  const userData = null;
   const photo = userData
     ? userData[0]?.fields?.Picture[0].thumbnails.full.url
     : "";
@@ -30,7 +30,6 @@ export default function User({ handleToggleSidebar }) {
         />
       );
     } else {
-      //   return <img src={account} alt="User" className="userPhoto" />;
       return <Person className="userPhoto" />;
     }
   }

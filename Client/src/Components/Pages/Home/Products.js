@@ -23,7 +23,7 @@ class UpdateProduct extends Component {
   updateUser = (event) => {
     event.preventDefault();
 
-    window.location.href = `/products/update/${this.props.id}`;
+    window.location.href = `/Update/${this.props.id}`;
   };
 
   render() {
@@ -40,7 +40,7 @@ class DeleteProduct extends Component {
         `Do tou want to delete the product ${this.props.id} permanently?`
       )
     ) {
-      api.deleteMovieById(this.props.id);
+      api.deleteProductById(this.props.id);
       window.location.reload();
     }
   };
@@ -56,7 +56,7 @@ export default class ProductsList extends Component {
     this.state = {
       products: [],
       columns: [],
-      isLoading: false,
+      isLoading: this.props.loading,
     };
   }
 
@@ -66,80 +66,14 @@ export default class ProductsList extends Component {
     await api.getAllProducts().then((product) => {
       this.setState({
         products: product.data.data,
-        isLoading: false,
       });
+      this.props.setLoading(false);
     });
   };
 
   render() {
     const { products, isLoading } = this.state;
     console.log("TCL: ProductsList -> render -> products", products);
-
-    const columns = [
-      {
-        Header: "ID",
-        accessor: "_id",
-        filterable: true,
-      },
-      {
-        Header: "Name",
-        accessor: "name",
-        filterable: true,
-      },
-      {
-        Header: "Condition",
-        accessor: "condition",
-        filterable: true,
-      },
-      {
-        Header: "Description",
-        accessor: "description",
-        filterable: true,
-      },
-      {
-        Header: "Image",
-        accessor: "image",
-        filterable: true,
-      },
-      {
-        Header: "Price",
-        accessor: "price",
-        filterable: true,
-      },
-      {
-        Header: "Owner",
-        accessor: "ownerId",
-        filterable: true,
-      },
-
-      {
-        Header: "",
-        accessor: "",
-        Cell: function (props) {
-          return (
-            <span>
-              <DeleteProduct id={props.original._id} />
-            </span>
-          );
-        },
-      },
-      {
-        Header: "",
-        accessor: "",
-        Cell: function (props) {
-          return (
-            <span>
-              <UpdateProduct id={props.original._id} />
-            </span>
-          );
-        },
-      },
-    ];
-
-    let showTable = true;
-    if (!products.length) {
-      showTable = false;
-    }
 
     return (
       <Wrapper>

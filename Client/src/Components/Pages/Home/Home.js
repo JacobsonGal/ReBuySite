@@ -15,7 +15,7 @@ export default function Home({ title, setTitle, setActive }) {
       FAB="none"
       dots={false}
     >
-      <ProductsList />
+      <ProductsList loading={loading} setLoading={setLoading} />
       {setActive(false)}
     </Page>
   );

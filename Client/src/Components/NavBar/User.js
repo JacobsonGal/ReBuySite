@@ -51,14 +51,8 @@ export default function User({ handleToggleSidebar }) {
             {intl.formatMessage({ id: "settings" })}
           </NavLink>
         </MenuItem>
-        <MenuItem>
-          {/* <a href="https://yavo.app/contact-us/" onClick={handleToggleSidebar}> */}
-          {intl.formatMessage({ id: "help" })} {/* </a> */}
-        </MenuItem>
-        <MenuItem>
-          {/* <a href="https://yavo.app/" onClick={handleToggleSidebar}> */}
-          {intl.formatMessage({ id: "disconnect" })} {/* </a> */}
-        </MenuItem>
+        <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem>
+        <MenuItem>{intl.formatMessage({ id: "disconnect" })}</MenuItem>
       </SubMenu>
     </Menu>
   );

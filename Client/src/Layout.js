@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchNotificationData } from "./Redux/actions/userDataActions";
 import SideBar from "./Components/NavBar/SideBar";
+import LoadingOverlay from "react-loading-overlay";
 import Icon from "./Assets/Logo/ReBuyLogoTrans.png";
 
 import Home from "./Components/Pages/Home/Home";
@@ -12,7 +13,8 @@ import Map from "./Components/Pages/Map/Map";
 import Favorites from "./Components/Pages/Favorites/Favorites";
 import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
-import LoadingOverlay from "react-loading-overlay";
+import ProductInsert from "./Components/Pages/Home/Create";
+import ProductUpload from "./Components/Pages/Home/Update";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -111,6 +113,20 @@ export default function Layout({ setLocale, setActive, isActive }) {
                 <Route exact path="/Map">
                   <Map
                     title={intl.formatMessage({ id: "Map" })}
+                    setTitle={setTitle}
+                    setActive={setActive}
+                  />
+                </Route>
+                <Route exact path="/Upload">
+                  <ProductInsert
+                    title={intl.formatMessage({ id: "Upload" })}
+                    setTitle={setTitle}
+                    setActive={setActive}
+                  />
+                </Route>
+                <Route path="/Update/:id">
+                  <ProductUpload
+                    title={intl.formatMessage({ id: "Update" })}
                     setTitle={setTitle}
                     setActive={setActive}
                   />

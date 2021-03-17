@@ -16,9 +16,11 @@ import Home from "@material-ui/icons/HomeRounded";
 import Map from "@material-ui/icons/MapRounded";
 import Category from "@material-ui/icons/CategoryRounded";
 import Star from "@material-ui/icons/StarRounded";
+import Upload from "@material-ui/icons/ArrowUpwardRounded";
 
 import TopBar from "./TopBar";
 import User from "./User";
+import ProductInsert from "../Pages/Home/Create";
 
 export default function SideBar({
   image,
@@ -65,6 +67,11 @@ export default function SideBar({
             <MenuItem icon={<Map />}>
               <NavLink to="/Map" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "Map" })}
+              </NavLink>
+            </MenuItem>
+            <MenuItem icon={<Upload />}>
+              <NavLink to="/Upload" onClick={handleToggleSidebar}>
+                {intl.formatMessage({ id: "Upload" })}
               </NavLink>
             </MenuItem>
             <MenuItem icon={<Star />}>

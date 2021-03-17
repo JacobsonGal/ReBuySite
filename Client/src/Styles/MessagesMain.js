@@ -2,6 +2,12 @@
 export default {
   he: {
     title: "ReBuy ",
+    Home: "בית",
+    Map: "מפה",
+    Upload: "העלה",
+    Favorite: "מועדפים",
+    Catagories: "קטגוריות",
+
     sidebarTitle: "ניווט",
     description: "שלום",
     dashboard: "פעולה מהירה",
@@ -22,6 +28,12 @@ export default {
 
   en: {
     title: "ReBuy",
+    Home: "Home",
+    Map: "Map",
+    Upload: "Upload",
+    Favorite: "Favorite",
+    Catagories: "Catagories",
+
     sidebarTitle: "Pro Sidebar",
     description: "",
     dashboard: "Dashboard",

@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { IntlProvider } from "react-intl";
 import Layout from "./Layout";
 import messages from "./Styles/MessagesMain";
-import Guest from "./Redux/userControl";
 import "./Styles/App.scss";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 const ClientTheme = React.lazy(() => import("./Styles/Themes/Client"));
 const GuestTheme = React.lazy(() => import("./Styles/Themes/Guest.js"));
 
+function Guest() {
+  return false;
+}
 export default function App() {
   const [locale, setLocale] = useState("en");
   const [isActive, setActive] = useState(true);

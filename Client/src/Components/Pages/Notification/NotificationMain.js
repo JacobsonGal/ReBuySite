@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Page from "../../../Utils/Page";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchNotificationData } from "../../../Redux/actions/userDataActions";
-
 const Notification = ({
   title,
   setTitle,
@@ -11,18 +8,18 @@ const Notification = ({
 }) => {
   const [loading, setLoading] = useState(true);
 
-  const dispatch = useDispatch();
-  const notificationData = useSelector(
-    (state) => state.airTableData.Notification
-  );
-  useEffect(() => {
-    if (!notificationData) {
-      dispatch(fetchNotificationData());
-    } else {
-      setNotificationCount(notificationData.length);
-      setLoading(false);
-    }
-  }, [notificationData, dispatch, fetchNotificationData, setLoading]);
+  // const dispatch = useDispatch();
+  // const notificationData = useSelector(
+  //   (state) => state.airTableData.Notification
+  // );
+  // useEffect(() => {
+  //   if (!notificationData) {
+  //     dispatch(fetchNotificationData());
+  //   } else {
+  //     setNotificationCount(notificationData.length);
+  //     setLoading(false);
+  //   }
+  // }, [notificationData, dispatch, fetchNotificationData, setLoading]);
 
   return (
     <Page

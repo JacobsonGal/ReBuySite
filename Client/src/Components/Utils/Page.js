@@ -1,9 +1,8 @@
-import React, { Children, useState } from "react";
+import React from "react";
 import { useIntl } from "react-intl";
 import PageBody from "./PageBody";
 import LoadingOverlay from "react-loading-overlay";
-// import Guest from "../../Redux/userControl";
-import icon from "../../Assets/Logo/ReBuyLogoTrans.png";
+import icon from "../../Assets/Images/ReBuyLogoTrans.png";
 
 export default function Page({
   onlyTop,
@@ -35,7 +34,6 @@ export default function Page({
   shareRecord,
   type,
 }) {
-  const intl = useIntl();
   document.title = "ReBuy | " + title;
   setTitle(title);
   function Body() {

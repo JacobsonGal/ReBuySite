@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
-import api from "../../../API";
+import api from "../../../API/API";
 import styled from "styled-components";
-// import "react-table/react-table.css";
+import "react-table/index";
+import { Card, CardContent, CardHeader, CardMedia } from "@material-ui/core";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -64,7 +65,7 @@ export default class ProductsList extends Component {
 
     await api.getAllProducts().then((product) => {
       this.setState({
-        movies: product.data.data,
+        products: product.data.data,
         isLoading: false,
       });
     });
@@ -107,7 +108,7 @@ export default class ProductsList extends Component {
       },
       {
         Header: "Owner",
-        accessor: "ownerID",
+        accessor: "ownerId",
         filterable: true,
       },
 
@@ -142,16 +143,34 @@ export default class ProductsList extends Component {
 
     return (
       <Wrapper>
-        {showTable && (
-          <ReactTable
-            data={products}
-            columns={columns}
-            loading={isLoading}
-            defaultPageSize={10}
-            showPageSizeOptions={true}
-            minRows={0}
-          />
-        )}
+        <h1>Table</h1>
+        {products &&
+          products.map((product) => {
+            return (
+              <Card
+                style={{
+                  margin: "1rem",
+                  border: "1px solid #ececec",
+                  borderRadius: "15px",
+                }}
+              >
+                <CardContent>
+                  <p>{product["name"]}</p>
+                  <p>{product["price"]}</p>
+                  <p>{product["ownerId"]}</p>
+                  <p>{product["description"]}</p>
+                  <p>{product["condition"]}</p>
+                  <span>
+                    <DeleteProduct id={product["_id"]} />
+                  </span>
+                  <span>
+                    <UpdateProduct id={product["_id"]} />
+                  </span>
+                </CardContent>
+                <CardMedia>{product["image"]}</CardMedia>
+              </Card>
+            );
+          })}
       </Wrapper>
     );
   }

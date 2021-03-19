@@ -1,10 +1,14 @@
-$sidebar-bg-color: #0c7999;
+$sidebar-bg-color: #990c36;
 $submenu-bg-color: #0c7999;
 $submenu-bg-color-collapsed: #0c7999;
 $sidebar-color: #ffffff;
 $highlight-color: #bbafaf;
 $icon-bg-color: rgba(255, 255, 255, 0.05);
 $icon-size: 40px;
-$sidebar-width: 1rem !default;
+$sidebar-width: 0rem;
 
 @import "~react-pro-sidebar/dist/scss/styles.scss";
+.sideBar,
+.toggledBar {
+  display: none;
+}

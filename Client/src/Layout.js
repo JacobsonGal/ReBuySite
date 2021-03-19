@@ -12,6 +12,9 @@ import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
+import Login from "./API/Firebase";
+import firebase from "firebase/app";
+import { isSignIn } from "./App";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -91,53 +94,61 @@ export default function Layout({ setLocale, setActive, isActive }) {
                 setNotificationCount={setNotificationCount}
               />
               <div className={`mainPage ${toggled ? "toggled" : ""}`}>
-                <Route exact path="/">
-                  <Home
-                    title={intl.formatMessage({ id: "Home" })}
-                    setTitle={setTitle}
-                    setActive={setActive}
-                  />
-                </Route>
-                <Route exact path="/Map">
-                  <Map
-                    title={intl.formatMessage({ id: "Map" })}
-                    setTitle={setTitle}
-                    setActive={setActive}
-                  />
-                </Route>
-                <Route exact path="/Upload">
-                  <ProductInsert
-                    title={intl.formatMessage({ id: "Upload" })}
-                    setTitle={setTitle}
-                    setActive={setActive}
-                  />
-                </Route>
-                <Route path="/Update/:id">
-                  <ProductUpload
-                    title={intl.formatMessage({ id: "Update" })}
-                    setTitle={setTitle}
-                    setActive={setActive}
-                  />
-                </Route>
-                <Route exact path="/Favorites">
-                  <Favorites
-                    title={intl.formatMessage({ id: "Favorites" })}
-                    setTitle={setTitle}
-                    setActive={setActive}
-                  />
-                </Route>
-                <Route exact path="/settings/userSettings">
-                  <UserSettings
-                    title={intl.formatMessage({ id: "profile" })}
-                    setTitle={setTitle}
-                  />
-                </Route>
-                <Route exact path="/settings/mainSettings">
-                  <MainSettings
-                    title={intl.formatMessage({ id: "settings" })}
-                    setTitle={setTitle}
-                  />
-                </Route>
+                {!isSignIn() ? (
+                  <Route exact path="/">
+                    <Login />
+                  </Route>
+                ) : (
+                  <>
+                    <Route exact path="/">
+                      <Home
+                        title={intl.formatMessage({ id: "Home" })}
+                        setTitle={setTitle}
+                        setActive={setActive}
+                      />
+                    </Route>
+                    <Route exact path="/Map">
+                      <Map
+                        title={intl.formatMessage({ id: "Map" })}
+                        setTitle={setTitle}
+                        setActive={setActive}
+                      />
+                    </Route>
+                    <Route exact path="/Upload">
+                      <ProductInsert
+                        title={intl.formatMessage({ id: "Upload" })}
+                        setTitle={setTitle}
+                        setActive={setActive}
+                      />
+                    </Route>
+                    <Route path="/Update/:id">
+                      <ProductUpload
+                        title={intl.formatMessage({ id: "Update" })}
+                        setTitle={setTitle}
+                        setActive={setActive}
+                      />
+                    </Route>
+                    <Route exact path="/Favorites">
+                      <Favorites
+                        title={intl.formatMessage({ id: "Favorites" })}
+                        setTitle={setTitle}
+                        setActive={setActive}
+                      />
+                    </Route>
+                    <Route exact path="/settings/userSettings">
+                      <UserSettings
+                        title={intl.formatMessage({ id: "profile" })}
+                        setTitle={setTitle}
+                      />
+                    </Route>
+                    <Route exact path="/settings/mainSettings">
+                      <MainSettings
+                        title={intl.formatMessage({ id: "settings" })}
+                        setTitle={setTitle}
+                      />
+                    </Route>
+                  </>
+                )}
               </div>
             </div>
           </div>

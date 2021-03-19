@@ -611,17 +611,7 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
   * {
     font-size: $base-font-size;
   }
-  .vertical-timeline::before {
-    /* this is the vertical line */
-    content: "";
-    position: absolute;
-    // margin-top: -20rem;
-    left: 18px;
-    // height: 110%;
-    width: 4px;
-    float: initial;
-    background: #343799;
-  }
+
   .app {
     margin: 0rem;
     overflow: scroll;
@@ -680,9 +670,58 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
         float: left;
         height: 95%;
         width: 100%;
-        overflow-x: auto;
+        overflow-x: hidden;
         background-color: #ffff;
 
+        .login {
+          direction: ltr;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          font-weight: 400;
+          font-family: sans-serif;
+          background: #12c2e9; /* fallback for old browsers */
+          background: -webkit-linear-gradient(
+            to right,
+            #f64f59,
+            #c471ed,
+            #12c2e9
+          ); /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(
+            to right,
+            #f64f59,
+            #c471ed,
+            #12c2e9
+          ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+          * {
+            box-sizing: border-box;
+          }
+
+          // .navbar-light {
+          //   background-color: #ffffff;
+          //   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+          // }
+
+          .loginLogo {
+            width: 150px;
+            height: 150px;
+            margin-top: -50px;
+            margin-bottom: 20px;
+          }
+          .Form {
+            width: fit-content;
+            height: fit-content;
+            text-align: center;
+            margin: auto;
+            background: #ffffff;
+            box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+            padding: 60px;
+            border-radius: 15px;
+            transition: all 0.3s;
+          }
+        }
         .pageLoader {
           margin-right: 20rem;
           animation: spin 1.5s linear infinite;

@@ -12,9 +12,8 @@ import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
-import Login from "./API/Firebase";
-import firebase from "firebase/app";
-import { isSignIn } from "./App";
+import isSignIn from "./Components/SSO/Authentication";
+import Authentication from "./Components/SSO/Authentication";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -96,7 +95,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
               <div className={`mainPage ${toggled ? "toggled" : ""}`}>
                 {!isSignIn() ? (
                   <Route exact path="/">
-                    <Login />
+                    <Authentication />
                   </Route>
                 ) : (
                   <>

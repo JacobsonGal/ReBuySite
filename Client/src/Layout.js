@@ -93,7 +93,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
                 setNotificationCount={setNotificationCount}
               />
               <div className={`mainPage ${toggled ? "toggled" : ""}`}>
-                {isSignIn() ? (
+                {!isSignIn() ? (
                   <Route exact path="/">
                     <Authentication />
                   </Route>

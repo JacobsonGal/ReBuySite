@@ -236,5 +236,5 @@ export function isSignIn() {
   var user = firebase.auth().currentUser;
   console.log("user info" + user);
   // return user ? true : false;
-  return false;
+  return true;
 }

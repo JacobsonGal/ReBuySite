@@ -33,7 +33,9 @@ export default function Authentication() {
     e.preventDefault();
     const { email, password } = e.target.elements;
     try {
-      firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value);
     } catch (error) {
       alert(error);
     }
@@ -51,7 +53,7 @@ export default function Authentication() {
   };
   function googleLogin() {
     alert("google login");
-    const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+    var googleAuthProvider = new firebase.auth.GoogleAuthProvider();
     // firebase.auth().signInWithPopup(googleAuthProvider);
     firebase
       .auth()
@@ -234,5 +236,5 @@ export function isSignIn() {
   var user = firebase.auth().currentUser;
   console.log("user info" + user);
   // return user ? true : false;
-  return true;
+  return false;
 }

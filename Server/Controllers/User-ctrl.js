@@ -1,4 +1,4 @@
-const User = require("../models/ReBuyModels");
+const User = require("../models/User");
 
 const createUser = (req, res) => {
   const body = req.body;
@@ -29,6 +29,7 @@ const createUser = (req, res) => {
     })
     .catch((error) => {
       return res.status(400).json({
+        400: "400",
         error,
         message: "User not created!",
       });

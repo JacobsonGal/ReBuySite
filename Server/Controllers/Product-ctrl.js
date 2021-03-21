@@ -1,4 +1,4 @@
-const Product = require("../models/ReBuyModels");
+const Product = require("../models/Product");
 
 const createProduct = (req, res) => {
   const body = req.body;

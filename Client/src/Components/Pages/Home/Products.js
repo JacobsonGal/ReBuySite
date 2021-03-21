@@ -62,18 +62,22 @@ export default class ProductsList extends Component {
 
   componentDidMount = async () => {
     this.setState({ isLoading: true });
-
-    await api.getAllProducts().then((product) => {
-      this.setState({
-        products: product.data.data,
+    try {
+      await api.getAllProducts().then((product) => {
+        console.log(product.data.data);
+        this.setState({
+          products: product.data.data,
+        });
+        this.props.setLoading(false);
       });
-      this.props.setLoading(false);
-    });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   render() {
     const { products, isLoading } = this.state;
-    console.log("TCL: ProductsList -> render -> products", products);
+    console.log("Products", products);
 
     return (
       <Wrapper>

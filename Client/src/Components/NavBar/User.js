@@ -5,6 +5,7 @@ import { SubMenu } from "react-pro-sidebar";
 import { NavLink } from "react-router-dom";
 import Star from "@material-ui/icons/StarRounded";
 import Person from "@material-ui/icons/PersonRounded";
+import firebaseConfig from "../SSO/Config.js";
 
 export default function User({ handleToggleSidebar }) {
   const intl = useIntl();
@@ -51,7 +52,9 @@ export default function User({ handleToggleSidebar }) {
           </NavLink>
         </MenuItem>
         <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem>
-        <MenuItem>{intl.formatMessage({ id: "disconnect" })}</MenuItem>
+        <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
+          {intl.formatMessage({ id: "disconnect" })}
+        </MenuItem>
       </SubMenu>
     </Menu>
   );

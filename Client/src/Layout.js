@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { useIntl } from "react-intl";
 import SideBar from "./Components/NavBar/SideBar";
 import MobileBar from "./Components/NavBar/MobileBar";
@@ -12,8 +12,8 @@ import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
-import isSignIn from "./Components/SSO/Authentication";
-import Authentication from "./Components/SSO/Authentication";
+import { AuthContext } from "./Components/SSO/Auth";
+import Registration from "./Components/SSO/Registration";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -25,6 +25,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const [notificationData, setnotificationData] = useState();
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
+  const { currentUser } = useContext(AuthContext);
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);
@@ -65,94 +66,105 @@ export default function Layout({ setLocale, setActive, isActive }) {
         }),
       }}
     >
-      <BrowserRouter>
-        <Switch>
-          <div
-            className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}
-          >
-            <div className="main-container">
-              <div className="sideBar">
-                <SideBar
-                  image={image}
-                  collapsed={collapsed}
-                  rtl={rtl}
-                  toggled={toggled}
+      {currentUser ? (
+        <BrowserRouter>
+          <Switch>
+            <div
+              className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}
+            >
+              <div className="main-container">
+                <div className="sideBar">
+                  <SideBar
+                    image={image}
+                    collapsed={collapsed}
+                    rtl={rtl}
+                    toggled={toggled}
+                    handleToggleSidebar={handleToggleSidebar}
+                    handleCollapsedChange={handleCollapsedChange}
+                    handleRtlChange={handleRtlChange}
+                    handleImageChange={handleImageChange}
+                    notificationCount={notificationCount}
+                    setNotificationCount={setNotificationCount}
+                    setLoading={setActive}
+                    loading={isActive}
+                  />
+                </div>
+                <MobileBar
                   handleToggleSidebar={handleToggleSidebar}
-                  handleCollapsedChange={handleCollapsedChange}
-                  handleRtlChange={handleRtlChange}
-                  handleImageChange={handleImageChange}
                   notificationCount={notificationCount}
                   setNotificationCount={setNotificationCount}
-                  setLoading={setActive}
-                  loading={isActive}
                 />
-              </div>
-              <MobileBar
-                handleToggleSidebar={handleToggleSidebar}
-                notificationCount={notificationCount}
-                setNotificationCount={setNotificationCount}
-              />
-              <div className={`mainPage ${toggled ? "toggled" : ""}`}>
-                {!isSignIn() ? (
+                <div className={`mainPage ${toggled ? "toggled" : ""}`}>
+                  {/* {!isSignIn() ? (
                   <Route exact path="/">
                     <Authentication />
                   </Route>
                 ) : (
-                  <>
-                    <Route exact path="/">
-                      <Home
-                        title={intl.formatMessage({ id: "Home" })}
-                        setTitle={setTitle}
-                        setActive={setActive}
-                      />
-                    </Route>
-                    <Route exact path="/Map">
-                      <Map
-                        title={intl.formatMessage({ id: "Map" })}
-                        setTitle={setTitle}
-                        setActive={setActive}
-                      />
-                    </Route>
-                    <Route exact path="/Upload">
-                      <ProductInsert
-                        title={intl.formatMessage({ id: "Upload" })}
-                        setTitle={setTitle}
-                        setActive={setActive}
-                      />
-                    </Route>
-                    <Route path="/Update/:id">
-                      <ProductUpload
-                        title={intl.formatMessage({ id: "Update" })}
-                        setTitle={setTitle}
-                        setActive={setActive}
-                      />
-                    </Route>
-                    <Route exact path="/Favorites">
-                      <Favorites
-                        title={intl.formatMessage({ id: "Favorites" })}
-                        setTitle={setTitle}
-                        setActive={setActive}
-                      />
-                    </Route>
-                    <Route exact path="/settings/userSettings">
-                      <UserSettings
-                        title={intl.formatMessage({ id: "profile" })}
-                        setTitle={setTitle}
-                      />
-                    </Route>
-                    <Route exact path="/settings/mainSettings">
-                      <MainSettings
-                        title={intl.formatMessage({ id: "settings" })}
-                        setTitle={setTitle}
-                      />
-                    </Route>
-                  </>
-                )}
+                  <> */}
+                  <Route exact path="/">
+                    <Home
+                      title={intl.formatMessage({ id: "Home" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route exact path="/Map">
+                    <Map
+                      title={intl.formatMessage({ id: "Map" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route exact path="/Upload">
+                    <ProductInsert
+                      title={intl.formatMessage({ id: "Upload" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route path="/Update/:id">
+                    <ProductUpload
+                      title={intl.formatMessage({ id: "Update" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route exact path="/Favorites">
+                    <Favorites
+                      title={intl.formatMessage({ id: "Favorites" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route exact path="/settings/userSettings">
+                    <UserSettings
+                      title={intl.formatMessage({ id: "profile" })}
+                      setTitle={setTitle}
+                    />
+                  </Route>
+                  <Route exact path="/settings/mainSettings">
+                    <MainSettings
+                      title={intl.formatMessage({ id: "settings" })}
+                      setTitle={setTitle}
+                    />
+                  </Route>
+                  {/* </>
+                )} */}
+                </div>
               </div>
             </div>
+          </Switch>
+        </BrowserRouter>
+      ) : (
+        <div className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}>
+          <div className="main-container">
+            <div className={`mainPage ${toggled ? "toggled" : ""}`}>
+              <Registration />
+            </div>
           </div>
-        </Switch>
-      </BrowserRouter>
+        </div>
+      )}
+
       {setActive(false)}
     </LoadingOverlay>
   );

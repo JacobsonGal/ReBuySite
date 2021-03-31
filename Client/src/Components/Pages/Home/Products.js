@@ -1,9 +1,17 @@
 import React, { Component } from "react";
-import ReactTable from "react-table";
 import api from "../../../API/API";
 import styled from "styled-components";
 import "react-table/index";
-import { Card, CardContent, CardHeader, CardMedia } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  CardMedia,
+  Typography,
+  Button,
+} from "@material-ui/core";
+import img from "../../../Assets/Images/ReBuyLogoBig.png";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -81,33 +89,73 @@ export default class ProductsList extends Component {
 
     return (
       <Wrapper>
-        <h1>Table</h1>
+        <h1>Market</h1>
         {products &&
           products.map((product) => {
             return (
               <Card
                 style={{
                   margin: "1rem",
-                  // width: "10rem",
+                  maxWidth: 345,
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}
               >
-                <CardContent>
-                  <p>{product["name"]}</p>
-                  <p>{product["price"]}</p>
-                  <p>{product["ownerId"]}</p>
-                  <p>{product["description"]}</p>
-                  <p>{product["condition"]}</p>
-                  <span>
+                <CardActionArea>
+                  <CardMedia
+                    image={img}
+                    // image={product["image"]}
+                    title="Contemplative Reptile"
+                    style={{ height: 140 }}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {product["name"]} | {product["price"]}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      <p>Seller:{product["ownerId"]}</p>
+                      {/* <p>Description:{product["description"]}</p> */}
+                      <p>Condition:{product["condition"]}</p>
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
                     <DeleteProduct id={product["_id"]} />
-                  </span>
-                  <span>
+                  </Button>
+                  <Button size="small" color="primary">
                     <UpdateProduct id={product["_id"]} />
-                  </span>
-                </CardContent>
-                <CardMedia>{product["image"]}</CardMedia>
+                  </Button>
+                </CardActions>
               </Card>
+
+              // <Card
+              //   style={{
+              //     margin: "1rem",
+              //     // width: "10rem",
+              //     border: "1px solid #ececec",
+              //     borderRadius: "15px",
+              //   }}
+              // >
+              //   <CardContent>
+              //     <p>{product["name"]}</p>
+              //     <p>{product["price"]}</p>
+              //     <p>{product["ownerId"]}</p>
+              //     <p>{product["description"]}</p>
+              //     <p>{product["condition"]}</p>
+              //     <span>
+              //       <DeleteProduct id={product["_id"]} />
+              //     </span>
+              //     <span>
+              //       <UpdateProduct id={product["_id"]} />
+              //     </span>
+              //   </CardContent>
+              //   <CardMedia>{product["image"]}</CardMedia>
+              // </Card>
             );
           })}
       </Wrapper>

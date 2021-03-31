@@ -96,7 +96,7 @@ export default class ProductsList extends Component {
       <Wrapper>
         <h1>Market</h1>
         <CardLine products={products} />
-        <h1>Sugguest for you</h1>
+        <h1>Suggested just for you</h1>
         <CardLine products={products} />
       </Wrapper>
     );
@@ -106,7 +106,7 @@ export default class ProductsList extends Component {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: "120%",
+    width: "100%",
     height: "100%",
     flexWrap: "wrap",
     justifyContent: "space-around",
@@ -114,6 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     height: "100%",
+    width: "100%",
     flexWrap: "nowrap",
     transform: "translateZ(0)",
   },

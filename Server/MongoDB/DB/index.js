@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/ReBuy", { useNewUrlParser: true })
+  .connect(
+    "mongodb+srv://manu:academind123@cluster0.xsgi4.mongodb.net/rebuyApp?retryWrites=true&w=majority",
+    { useNewUrlParser: true }
+  )
   .catch((e) => {
     console.error("Connection error", e.message);
   });

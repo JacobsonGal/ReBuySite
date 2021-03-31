@@ -230,6 +230,17 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
         height: 100%;
         padding-top: 4rem;
 
+        .circleImg {
+          width: 3rem;
+          height: 3rem;
+          border: 1px solid #ececec;
+          border-radius: 50px;
+          &:hover {
+            transform: scale(1.2);
+            -webkit-transition: transform 0.3s ease-in-out;
+          }
+        }
+
         .add-div {
           margin: 1rem;
         }
@@ -725,6 +736,16 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
         overflow-x: hidden;
         background-color: #ffff;
 
+        .circleImg {
+          width: 3rem;
+          height: 3rem;
+          border: 1px solid #ececec;
+          border-radius: 50px;
+          &:hover {
+            transform: scale(1.2);
+            -webkit-transition: transform 0.3s ease-in-out;
+          }
+        }
         .login {
           direction: ltr;
           height: 100%;

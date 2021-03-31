@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/ReBuyApp/ReBuySite/issues"
   },
-  "homepage": "https://github.com/ReBuyApp/ReBuySite#readme"
+  "homepage": "https://github.com/ReBuyApp/ReBuySite#readme",
+  "dependencies": {
+    "react-pure-render": "^1.0.2"
+  }
 }

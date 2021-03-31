@@ -16,7 +16,7 @@ export default class GoogleMap extends Component {
     return (
       <div style={{ height: "100vh", width: "100%", padingBottom: "-10px" }}>
         <iframe
-          style={{ height: "98%", width: "100%" }}
+          style={{ height: "100%", width: "100%" }}
           loading="eager"
           allowFullScreen={true}
           src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyCuGRHOd6Z6oEASHyw6DFDQWr0Jlhbf8TQ&q=Space+Needle,${this.props.city}`}

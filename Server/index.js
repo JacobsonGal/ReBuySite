@@ -2,9 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const db = require("./db");
-const productRouter = require("./routes/product-router");
-const userRouter = require("./routes/Users-router");
+const db = require("./MongoDB/DB");
+const productRouter = require("./MongoDB/routes/product-router");
+const userRouter = require("./MongoDB/routes/Users-router");
 
 const app = express();
 const apiPort = 3000;

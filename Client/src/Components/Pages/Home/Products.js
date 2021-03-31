@@ -88,6 +88,7 @@ export default class ProductsList extends Component {
               <Card
                 style={{
                   margin: "1rem",
+                  // width: "10rem",
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}

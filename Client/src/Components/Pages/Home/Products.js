@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import api from "../../../API/API";
 import styled from "styled-components";
 import "react-table/index";
+import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 import {
   Card,
   CardContent,
@@ -10,6 +13,9 @@ import {
   CardMedia,
   Typography,
   Button,
+  GridList,
+  GridListTile,
+  GridListTileBar,
 } from "@material-ui/core";
 import img from "../../../Assets/Images/ReBuyLogoBig.png";
 
@@ -86,17 +92,56 @@ export default class ProductsList extends Component {
   render() {
     const { products, isLoading } = this.state;
     console.log("Products", products);
-
     return (
       <Wrapper>
         <h1>Market</h1>
+        <CardLine products={products} />
+        <h1>Sugguest for you</h1>
+        <CardLine products={products} />
+      </Wrapper>
+    );
+  }
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    width: "120%",
+    height: "100%",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+  },
+  gridList: {
+    height: "100%",
+    flexWrap: "nowrap",
+    transform: "translateZ(0)",
+  },
+  tile: {
+    height: "100%",
+  },
+  title: {
+    color: theme.palette.primary.light,
+  },
+  titleBar: {
+    background:
+      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  },
+}));
+
+function CardLine({ products }) {
+  const classes = useStyles();
+  return (
+    <div className={classes.root}>
+      <GridList className={classes.gridList} cols={2.5}>
         {products &&
-          products.map((product) => {
-            return (
+          products.map((product) => (
+            <GridListTile style={{ height: "100%" }} key={product["name"]}>
               <Card
                 style={{
                   margin: "1rem",
-                  maxWidth: 345,
+                  maxWidth: 200,
+                  height: "fit-content",
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}
@@ -110,55 +155,35 @@ export default class ProductsList extends Component {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {product["name"]} | {product["price"]}
+                      <p>{product["name"]}</p>
+                      <p>{product["price"]}</p>
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      <p>Seller:{product["ownerId"]}</p>
+                      {/* <p>Seller:{product["ownerId"]}</p> */}
                       {/* <p>Description:{product["description"]}</p> */}
                       <p>Condition:{product["condition"]}</p>
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions style={{ justifyContent: "center" }}>
                   <Button size="small" color="primary">
                     <DeleteProduct id={product["_id"]} />
+                  </Button>
+                  <Button size="small" color="primary">
+                    <StarBorderIcon />
                   </Button>
                   <Button size="small" color="primary">
                     <UpdateProduct id={product["_id"]} />
                   </Button>
                 </CardActions>
               </Card>
-
-              // <Card
-              //   style={{
-              //     margin: "1rem",
-              //     // width: "10rem",
-              //     border: "1px solid #ececec",
-              //     borderRadius: "15px",
-              //   }}
-              // >
-              //   <CardContent>
-              //     <p>{product["name"]}</p>
-              //     <p>{product["price"]}</p>
-              //     <p>{product["ownerId"]}</p>
-              //     <p>{product["description"]}</p>
-              //     <p>{product["condition"]}</p>
-              //     <span>
-              //       <DeleteProduct id={product["_id"]} />
-              //     </span>
-              //     <span>
-              //       <UpdateProduct id={product["_id"]} />
-              //     </span>
-              //   </CardContent>
-              //   <CardMedia>{product["image"]}</CardMedia>
-              // </Card>
-            );
-          })}
-      </Wrapper>
-    );
-  }
+            </GridListTile>
+          ))}
+      </GridList>
+    </div>
+  );
 }

@@ -7,11 +7,14 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import img from "../../../Assets/Images/ReBuyLogoBig.png";
+import reBuy from "../../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 export default function Marker({ product, $hover }) {
   const [isModelOpen, setIsModelOpen] = useState(false);
+  let img = product["image"]
+    ? `/${product["image"].split("public/")[1]}`
+    : reBuy;
   return (
     <div>
       <Modal
@@ -46,7 +49,6 @@ export default function Marker({ product, $hover }) {
             <CardActionArea>
               <CardMedia
                 image={img}
-                // image={product["image"]}
                 title="Contemplative Reptile"
                 style={{ height: 140 }}
               />
@@ -56,8 +58,8 @@ export default function Marker({ product, $hover }) {
                   <p>{product["price"]}</p>
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {/* <p>Seller:{product["ownerId"]}</p> */}
-                  {/* <p>Description:{product["description"]}</p> */}
+                  <p>Seller:{product["ownerId"]}</p>
+                  <p>Description:{product["description"]}</p>
                   <p>Condition:{product["condition"]}</p>
                 </Typography>
               </CardContent>
@@ -67,11 +69,7 @@ export default function Marker({ product, $hover }) {
       </Modal>
       <Button size="small" onClick={() => setIsModelOpen(true)}>
         {product ? (
-          <img
-            src={img}
-            alt="marker"
-            className={"circleImg"}
-          />
+          <img src={img} alt="marker" className={"circleImg"} />
         ) : (
           <IoPinOutline />
         )}

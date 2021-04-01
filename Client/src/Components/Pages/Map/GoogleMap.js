@@ -34,23 +34,24 @@ export default class GoogleMap extends Component {
     } catch (error) {
       console.log(error);
     }
-    this.state.products.map((p, i) =>
-      // p["address"] &&
-      // Geocode.fromAddress(p["address"]).then(
-      Geocode.fromAddress("RISHON-LE-ZION").then(
-        (response) => {
-          var { lat, lng } = response.results[0].geometry.location;
-          lat = lat + i * 0.005;
-          lng = lng + i * 0.005;
-          this.setState({
-            locations: this.state.locations.concat([{ lat, lng }]),
-          });
-          // console.log(this.state.locations);
-        },
-        (error) => {
-          console.error(error);
-        }
-      )
+    this.state.products.map(
+      (p, i) =>
+        p["address"] &&
+        Geocode.fromAddress(p["address"]).then(
+          // Geocode.fromAddress("RISHON-LE-ZION").then(
+          (response) => {
+            var { lat, lng } = response.results[0].geometry.location;
+            lat = lat + i * 0.005;
+            lng = lng + i * 0.005;
+            this.setState({
+              locations: this.state.locations.concat([{ lat, lng }]),
+            });
+            // console.log(this.state.locations);
+          },
+          (error) => {
+            console.error(error);
+          }
+        )
     );
     this.setState((state) => {
       const [first, ...rest] = state.locations;

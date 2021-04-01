@@ -2,6 +2,7 @@ const User = require("../models/User");
 
 const createUser = (req, res) => {
   const body = req.body;
+  const { path: image } = req.file;
 
   if (!body) {
     return res.status(400).json({
@@ -11,6 +12,7 @@ const createUser = (req, res) => {
   }
 
   const user = new User(body);
+  user.image = image.split("\\").join("/");
 
   if (!user) {
     return res

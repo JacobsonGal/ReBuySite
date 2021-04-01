@@ -7,7 +7,7 @@ const Product = new Schema(
     condition: { type: String, required: true },
     description: { type: String, required: true },
     address: { type: String, required: true },
-    image: { type: String, required: true },
+    images: { type: Array, default: [], required: true },
     price: { type: Number, required: true },
     ownerId: { type: Number, required: true },
   },

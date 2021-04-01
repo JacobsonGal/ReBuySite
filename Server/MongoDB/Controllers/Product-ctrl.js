@@ -1,13 +1,9 @@
 const Product = require("../models/Product");
+const fs = require("fs");
 
 const createProduct = (req, res) => {
   const body = JSON.parse(JSON.stringify(req.body));
-  console.log("body");
-
   console.log(body);
-  console.log("body");
-
-  const { path: image } = req.file;
 
   if (!body) {
     return res.status(400).json({
@@ -17,7 +13,23 @@ const createProduct = (req, res) => {
   }
 
   const product = new Product(body);
-  product.image = image.split("\\").join("/");
+  const files = req.files;
+  // const { path: image } = req.file;
+  // product.image = image.split("\\").join("/");
+
+  let imgArray = files.map((file) => {
+    let img = fs.readFileSync(file.path);
+    return (encode_image = img.toString("base64"));
+  });
+
+  let result = imgArray.map((src, i) => {
+    let finalImg = {
+      filename: files[i].originalname,
+      contentType: files[i].mimetype,
+      imageBase64: src,
+    };
+  });
+  product.image = imgArray;
 
   console.log(product);
   if (!product) {
@@ -36,6 +48,12 @@ const createProduct = (req, res) => {
       });
     })
     .catch((error) => {
+      if (error.name === "MongoError" && error.code === 11000) {
+        return Promise.reject({
+          error: `Duplicate${files[i].originalname}. File Already exists!`,
+        });
+      }
+
       return res.status(400).json({
         error,
         message: "Product not created!",

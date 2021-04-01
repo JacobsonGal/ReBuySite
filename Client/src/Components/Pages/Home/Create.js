@@ -47,7 +47,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
-      image: "",
+      images: [{}],
       price: null,
       ownerId: null,
       redirect: false,
@@ -67,13 +67,12 @@ export default class ProductInsert extends Component {
     const description = event.target.value;
     this.setState({ description });
   };
-  handleChangeInputImage = async (event) => {
-    const image = event.target.files[0];
-    if (event.target.files && event.target.files[0]) {
-      this.setState({
-        image,
-      });
-    }
+  handleChangeInputImages = async (event) => {
+    const images = event.target.files;
+    this.setState({
+      images,
+    });
+    // if (event.target.files && event.target.files[0]) {
   };
 
   handleChangePrice = async (event) => {
@@ -88,11 +87,10 @@ export default class ProductInsert extends Component {
 
   handleIncludeProduct = async () => {
     let data = new FormData();
-    console.log(this.state.name);
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
-    data.append("image", this.state.image);
+    data.append("images", this.state.images);
     data.append("price", this.state.price);
     data.append("ownerId", this.state.ownerId);
 
@@ -103,18 +101,24 @@ export default class ProductInsert extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      await api.insertProduct(data).then((res) => {
-        window.alert(`Product inserted successfully`);
-        this.setState({
-          name: "",
-          condition: "",
-          description: "",
-          image: "",
-          price: null,
-          ownerId: null,
-          redirect: true,
+      await api
+        .insertProduct(data)
+        .then((res) => {
+          window.alert(`Product inserted successfully`);
+          this.setState({
+            name: "",
+            condition: "",
+            description: "",
+            images: [{}],
+            price: null,
+            ownerId: null,
+            redirect: true,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error);
         });
-      });
     }
   };
 
@@ -123,7 +127,7 @@ export default class ProductInsert extends Component {
       name,
       condition,
       description,
-      image,
+      images,
       price,
       ownerId,
       redirect,
@@ -170,9 +174,10 @@ export default class ProductInsert extends Component {
           <Label>Image: </Label>
           <InputText
             type="file"
-            name="image"
-            id="image"
-            onChange={this.handleChangeInputImage}
+            multiple={true}
+            name="images"
+            id="images"
+            onChange={this.handleChangeInputImages}
           />
         </div>
         <div style={{ textAlign: "center" }}>

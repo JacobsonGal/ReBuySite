@@ -44,7 +44,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
   };
   return (
     <LoadingOverlay
-      active={false}
+      active={isActive}
       fadeSpeed={10000}
       spinner={
         <div
@@ -66,7 +66,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
         }),
       }}
     >
-      {currentUser ? (
+      {isActive || currentUser ? (
         <BrowserRouter>
           <Switch>
             <div

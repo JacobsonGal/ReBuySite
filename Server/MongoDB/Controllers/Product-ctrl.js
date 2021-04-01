@@ -1,7 +1,13 @@
 const Product = require("../models/Product");
 
 const createProduct = (req, res) => {
-  const body = req.body;
+  const body = JSON.parse(JSON.stringify(req.body));
+  console.log("body");
+
+  console.log(body);
+  console.log("body");
+
+  const { path: image } = req.file;
 
   if (!body) {
     return res.status(400).json({
@@ -11,7 +17,9 @@ const createProduct = (req, res) => {
   }
 
   const product = new Product(body);
+  product.image = image.split("\\").join("/");
 
+  console.log(product);
   if (!product) {
     return res
       .status(400)

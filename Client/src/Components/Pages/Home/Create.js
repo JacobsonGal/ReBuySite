@@ -68,8 +68,12 @@ export default class ProductInsert extends Component {
     this.setState({ description });
   };
   handleChangeInputImage = async (event) => {
-    const image = event.target.value;
-    this.setState({ image });
+    const image = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      this.setState({
+        image,
+      });
+    }
   };
 
   handleChangePrice = async (event) => {
@@ -83,16 +87,23 @@ export default class ProductInsert extends Component {
   };
 
   handleIncludeProduct = async () => {
-    const { name, condition, description, image, price, ownerId } = this.state;
-    const payload = { name, condition, description, image, price, ownerId };
+    let data = new FormData();
+    console.log(this.state.name);
+    data.append("name", this.state.name);
+    data.append("condition", this.state.condition);
+    data.append("description", this.state.description);
+    data.append("image", this.state.image);
+    data.append("price", this.state.price);
+    data.append("ownerId", this.state.ownerId);
+
     if (
-      Object.values(payload).some((element) => {
-        return element === "";
+      Object.values(this.state).some((element) => {
+        return element === "" || element === null;
       })
     ) {
       this.setState({ alert: true });
     } else {
-      await api.insertProduct(payload).then((res) => {
+      await api.insertProduct(data).then((res) => {
         window.alert(`Product inserted successfully`);
         this.setState({
           name: "",
@@ -158,8 +169,9 @@ export default class ProductInsert extends Component {
         <div style={{ textAlign: "center" }}>
           <Label>Image: </Label>
           <InputText
-            type="text"
-            value={image}
+            type="file"
+            name="image"
+            id="image"
             onChange={this.handleChangeInputImage}
           />
         </div>

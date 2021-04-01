@@ -11,7 +11,6 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
-import img from "../../../Assets/Images/ReBuyLogoBig.png";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -65,6 +64,7 @@ export default class ProductsList extends Component {
       products: [],
       columns: [],
       isLoading: this.props.loading,
+      imagePath: "",
     };
   }
 
@@ -101,10 +101,11 @@ export default class ProductsList extends Component {
                   borderRadius: "15px",
                 }}
               >
+                {" "}
+                {console.log(product["image"])}
                 <CardActionArea>
                   <CardMedia
-                    image={img}
-                    // image={product["image"]}
+                    image={`/${product["image"].split("public/")[1]}`}
                     title="Contemplative Reptile"
                     style={{ height: 140 }}
                   />

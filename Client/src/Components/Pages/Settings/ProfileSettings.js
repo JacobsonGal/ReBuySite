@@ -14,7 +14,12 @@ export default function ProfileSetting({ title, setTitle }) {
         <iframe
           src="http://localhost:4200"
           title="Admin"
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            width: "102%",
+            height: "102%",
+            margin: "-5px",
+            marginRight: "-1.5rem",
+          }}
         />
       ) : (
         <Card className="userSettings">

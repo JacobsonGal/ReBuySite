@@ -36,33 +36,43 @@ export default function User({ handleToggleSidebar }) {
     }
   }
 
-  function toAdmin() {
-    return <Redirect to="localhost:4200" />;
-  }
-
   return (
-    <Menu iconShape="circle">
-      <SubMenu
-        title={intl.formatMessage({ id: "welcome" }) + name}
-        icon={<Userlog />}
-      >
-        <MenuItem icon={<Star />}>
-          <NavLink to="/settings/userSettings" onClick={handleToggleSidebar}>
-            {Admin && !Admin
-              ? intl.formatMessage({ id: "profile" })
-              : intl.formatMessage({ id: "Administrator" })}
-          </NavLink>
-        </MenuItem>
-        <MenuItem>
-          <NavLink to="/settings/mainSettings" onClick={handleToggleSidebar}>
-            {intl.formatMessage({ id: "settings" })}
-          </NavLink>
-        </MenuItem>
-        <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem>
-        <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
-          {intl.formatMessage({ id: "disconnect" })}
-        </MenuItem>
-      </SubMenu>
-    </Menu>
+    <>
+      <Menu iconShape="circle">
+        <SubMenu
+          title={intl.formatMessage({ id: "welcome" }) + name}
+          icon={<Userlog />}
+        >
+          <MenuItem icon={<Star />}>
+            <NavLink to="/settings/userSettings" onClick={handleToggleSidebar}>
+              {intl.formatMessage({ id: "profile" })}
+            </NavLink>
+          </MenuItem>
+          <MenuItem>
+            <NavLink to="/settings/mainSettings" onClick={handleToggleSidebar}>
+              {intl.formatMessage({ id: "settings" })}
+            </NavLink>
+          </MenuItem>
+          <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem>
+          <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
+            {intl.formatMessage({ id: "disconnect" })}
+          </MenuItem>
+        </SubMenu>
+      </Menu>
+      {Admin && (
+        <Menu iconShape="circle">
+          <Menu title={intl.formatMessage({ id: "welcome" }) + name}>
+            <MenuItem icon={<Star />}>
+              <NavLink
+                to="/settings/userSettings"
+                onClick={handleToggleSidebar}
+              >
+                {intl.formatMessage({ id: "Administrator" })}
+              </NavLink>
+            </MenuItem>
+          </Menu>
+        </Menu>
+      )}
+    </>
   );
 }

@@ -68,7 +68,8 @@ export default class ProductInsert extends Component {
     this.setState({ description });
   };
   handleChangeInputImages = async (event) => {
-    const images = event.target.files;
+    const images = event.target.files[0];
+    console.log(images);
     this.setState({
       images,
     });

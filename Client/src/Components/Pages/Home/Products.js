@@ -148,10 +148,10 @@ function CardLine({ products }) {
                 }}
               >
                 {" "}
-                {console.log(product["image"])}
+                {console.log(product["images"])}
                 <CardActionArea>
                   <CardMedia
-                    image={`/${product["image"].split("public/")[1]}`}
+                    image={`http://localhost:3000/${product["images"]}`}
                     title="Contemplative Reptile"
                     style={{ height: 140 }}
                   />

@@ -150,11 +150,13 @@ function CardLine({ products }) {
                 {" "}
                 {console.log(product["image"])}
                 <CardActionArea>
-                  <CardMedia
-                    image={`/${product["image"].split("public/")[1]}`}
-                    title="Contemplative Reptile"
-                    style={{ height: 140 }}
-                  />
+                  {product["image"] && (
+                    <CardMedia
+                      image={`/${product["image"].split("public/")[1]}`}
+                      title="Contemplative Reptile"
+                      style={{ height: 140 }}
+                    />
+                  )}
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       <p>{product["name"]}</p>

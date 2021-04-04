@@ -2,7 +2,7 @@ import React from "react";
 import { useIntl } from "react-intl";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
-import { NavLink } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import Star from "@material-ui/icons/StarRounded";
 import Person from "@material-ui/icons/PersonRounded";
 import firebaseConfig from "../SSO/Config.js";
@@ -15,6 +15,7 @@ export default function User({ handleToggleSidebar }) {
     ? userData[0]?.fields?.Picture[0].thumbnails.full.url
     : "";
   const name = userData ? userData[0]?.fields?.["First name"] : "";
+  const Admin = userData ? userData["Admin"] : true;
 
   function Userlog() {
     if (photo !== "") {
@@ -35,6 +36,10 @@ export default function User({ handleToggleSidebar }) {
     }
   }
 
+  function toAdmin() {
+    return <Redirect to="localhost:4200" />;
+  }
+
   return (
     <Menu iconShape="circle">
       <SubMenu
@@ -43,7 +48,9 @@ export default function User({ handleToggleSidebar }) {
       >
         <MenuItem icon={<Star />}>
           <NavLink to="/settings/userSettings" onClick={handleToggleSidebar}>
-            {intl.formatMessage({ id: "profile" })}
+            {Admin && !Admin
+              ? intl.formatMessage({ id: "profile" })
+              : intl.formatMessage({ id: "Administrator" })}
           </NavLink>
         </MenuItem>
         <MenuItem>

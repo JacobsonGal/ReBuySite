@@ -10,6 +10,8 @@ const userRouter = require("./MongoDB/routes/Users-router");
 const app = express();
 const apiPort = 3000;
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
+
 const server = http.createServer(app);
 
 //socket io init

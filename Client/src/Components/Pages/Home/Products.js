@@ -148,15 +148,13 @@ function CardLine({ products }) {
                 }}
               >
                 {" "}
-                {console.log(product["image"])}
+                {console.log(product["images"][0].path)}
                 <CardActionArea>
-                  {product["image"] && (
-                    <CardMedia
-                      image={`/${product["image"].split("public/")[1]}`}
-                      title="Contemplative Reptile"
-                      style={{ height: 140 }}
-                    />
-                  )}
+                  <CardMedia
+                    image={`http://localhost:3000/${product["images"][0]}`}
+                    title="Contemplative Reptile"
+                    style={{ height: 140 }}
+                  />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       <p>{product["name"]}</p>

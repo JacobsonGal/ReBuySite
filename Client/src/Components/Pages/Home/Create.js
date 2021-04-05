@@ -47,8 +47,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
-      address: "",
-      image: "",
+      images: null,
       price: null,
       ownerId: null,
       redirect: false,
@@ -68,17 +67,14 @@ export default class ProductInsert extends Component {
     const description = event.target.value;
     this.setState({ description });
   };
-  handleChangeInputAddress = async (event) => {
-    const address = event.target.value;
-    this.setState({ address });
-  };
-  handleChangeInputImage = async (event) => {
-    const image = event.target.files[0];
-    if (event.target.files && event.target.files[0]) {
-      this.setState({
-        image,
-      });
-    }
+  handleChangeInputImages = async (event) => {
+    // const images = event.target.files;
+    let images = event.target.files;
+
+    this.setState({
+      images,
+    });
+    // if (event.target.files && event.target.files[0]) {
   };
 
   handleChangePrice = async (event) => {
@@ -93,14 +89,16 @@ export default class ProductInsert extends Component {
 
   handleIncludeProduct = async () => {
     let data = new FormData();
-    console.log(this.state.name);
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
-    data.append("address", this.state.address);
-    data.append("image", this.state.image);
+    for (let i = 0; i < this.state.images.length; i++) {
+      data.append("images", this.state.images[i]);
+    }
+
     data.append("price", this.state.price);
     data.append("ownerId", this.state.ownerId);
+    console.log(this.state.images);
 
     if (
       Object.values(this.state).some((element) => {
@@ -109,19 +107,24 @@ export default class ProductInsert extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      await api.insertProduct(data).then((res) => {
-        window.alert(`Product inserted successfully`);
-        this.setState({
-          name: "",
-          condition: "",
-          description: "",
-          address: "",
-          image: "",
-          price: null,
-          ownerId: null,
-          redirect: true,
+      await api
+        .insertProduct(data)
+        .then((res) => {
+          window.alert(`Product inserted successfully`);
+          this.setState({
+            name: "",
+            condition: "",
+            description: "",
+            images: null,
+            price: null,
+            ownerId: null,
+            redirect: true,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error);
         });
-      });
     }
   };
 
@@ -130,8 +133,7 @@ export default class ProductInsert extends Component {
       name,
       condition,
       description,
-      address,
-      image,
+      images,
       price,
       ownerId,
       redirect,
@@ -175,20 +177,13 @@ export default class ProductInsert extends Component {
           />
         </div>
         <div style={{ textAlign: "center" }}>
-          <Label>Address: </Label>
-          <InputText
-            type="text"
-            value={address}
-            onChange={this.handleChangeInputAddress}
-          />
-        </div>
-        <div style={{ textAlign: "center" }}>
           <Label>Image: </Label>
           <InputText
             type="file"
-            name="image"
-            id="image"
-            onChange={this.handleChangeInputImage}
+            multiple={true}
+            name="images"
+            id="images"
+            onChange={this.handleChangeInputImages}
           />
         </div>
         <div style={{ textAlign: "center" }}>

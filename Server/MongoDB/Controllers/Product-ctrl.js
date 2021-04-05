@@ -1,21 +1,22 @@
 const Product = require("../models/Product");
+const fs = require("fs");
 
 const createProduct = (req, res) => {
-  const body = JSON.parse(JSON.stringify(req.body));
-  console.log("body /n", body);
+  const { name, condition, description, price, ownerId } = req.body;
 
-  const { path: image } = req.file;
+  const images = req.files.map((image) => {
+    console.log(image);
+    return image.path.split("\\").join("/");
+  });
+  const product = new Product({
+    name,
+    condition,
+    description,
+    images,
+    price,
+    ownerId,
+  });
 
-  if (!body) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a Product",
-    });
-  }
-
-  const product = new Product(body);
-  product.image = image.split("\\").join("/");
-  console.log("product/n", product);
   if (!product) {
     return res
       .status(400)
@@ -32,11 +33,13 @@ const createProduct = (req, res) => {
       });
     })
     .catch((error) => {
-      return res.status(400).json({
-        error,
-        message: "Product not created!",
-      });
+      console.log(error);
     });
+
+  // return res.status(400).json({
+  //   error,
+  //   message: "Product not created!",
+  // });
 };
 
 const updateProduct = async (req, res) => {

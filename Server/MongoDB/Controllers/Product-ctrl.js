@@ -2,7 +2,7 @@ const Product = require("../models/Product");
 const fs = require("fs");
 
 const createProduct = (req, res) => {
-  const { name, condition, description, price, ownerId } = req.body;
+  const { name, condition, description, address, price, ownerId } = req.body;
 
   const images = req.files.map((image) => {
     return image.path.split("\\").join("/");
@@ -12,6 +12,7 @@ const createProduct = (req, res) => {
     name,
     condition,
     description,
+    address,
     images,
     price,
     ownerId,

@@ -47,6 +47,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
+      address: "",
       images: null,
       price: null,
       ownerId: null,
@@ -66,6 +67,10 @@ export default class ProductInsert extends Component {
   handleChangeInputDescription = async (event) => {
     const description = event.target.value;
     this.setState({ description });
+  };
+  handleChangeInputAdrress = async (event) => {
+    const address = event.target.value;
+    this.setState({ address });
   };
   handleChangeInputImages = async (event) => {
     // const images = event.target.files;
@@ -92,6 +97,7 @@ export default class ProductInsert extends Component {
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
+    data.append("address", this.state.address);
     for (let i = 0; i < this.state.images.length; i++) {
       data.append("images", this.state.images[i]);
     }
@@ -115,6 +121,7 @@ export default class ProductInsert extends Component {
             name: "",
             condition: "",
             description: "",
+            address: "",
             images: null,
             price: null,
             ownerId: null,
@@ -133,6 +140,7 @@ export default class ProductInsert extends Component {
       name,
       condition,
       description,
+      address,
       images,
       price,
       ownerId,
@@ -174,6 +182,15 @@ export default class ProductInsert extends Component {
             type="text"
             value={description}
             onChange={this.handleChangeInputDescription}
+          />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Label>Address: </Label>
+          <InputText
+            type="text"
+            value={address}
+            onChange={this.handleChangeInputAdrress}
           />
         </div>
         <div style={{ textAlign: "center" }}>

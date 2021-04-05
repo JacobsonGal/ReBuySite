@@ -167,6 +167,7 @@ function CardLine({ products }) {
                       {/* <p>Seller:{product["ownerId"]}</p> */}
                       {/* <p>Description:{product["description"]}</p> */}
                       <p>Condition:{product["condition"]}</p>
+                      <p>Address:{product["address"]}</p>
                     </Typography>
                   </CardContent>
                 </CardActionArea>

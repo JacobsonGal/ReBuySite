@@ -47,7 +47,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
-      images: [{}],
+      images: null,
       price: null,
       ownerId: null,
       redirect: false,
@@ -68,8 +68,9 @@ export default class ProductInsert extends Component {
     this.setState({ description });
   };
   handleChangeInputImages = async (event) => {
-    const images = event.target.files[0];
-    console.log(images);
+    // const images = event.target.files;
+    let images = event.target.files;
+
     this.setState({
       images,
     });
@@ -91,9 +92,13 @@ export default class ProductInsert extends Component {
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
-    data.append("images", this.state.images);
+    for (let i = 0; i < this.state.images.length; i++) {
+      data.append("images", this.state.images[i]);
+    }
+
     data.append("price", this.state.price);
     data.append("ownerId", this.state.ownerId);
+    console.log(this.state.images);
 
     if (
       Object.values(this.state).some((element) => {
@@ -110,7 +115,7 @@ export default class ProductInsert extends Component {
             name: "",
             condition: "",
             description: "",
-            images: [{}],
+            images: null,
             price: null,
             ownerId: null,
             redirect: true,

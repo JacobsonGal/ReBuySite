@@ -4,16 +4,19 @@ const fs = require("fs");
 const createProduct = (req, res) => {
   const { name, condition, description, price, ownerId } = req.body;
 
+  const images = req.files.map((image) => {
+    console.log(image);
+    return image.path.split("\\").join("/");
+  });
   const product = new Product({
     name,
     condition,
     description,
-    images: req.file.path.split("\\").join("/"),
+    images,
     price,
     ownerId,
   });
 
-  console.log(product);
   if (!product) {
     return res
       .status(400)

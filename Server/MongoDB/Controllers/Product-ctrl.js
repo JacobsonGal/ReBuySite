@@ -5,7 +5,6 @@ const createProduct = (req, res) => {
   const { name, condition, description, price, ownerId } = req.body;
 
   const images = req.files.map((image) => {
-    console.log(image);
     return image.path.split("\\").join("/");
   });
 
@@ -85,11 +84,12 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
+  console.log(req.params.id);
+
   await Product.findOneAndDelete({ _id: req.params.id }, (err, product) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
-
     if (!product) {
       return res
         .status(404)

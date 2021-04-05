@@ -8,6 +8,7 @@ const createProduct = (req, res) => {
     console.log(image);
     return image.path.split("\\").join("/");
   });
+
   const product = new Product({
     name,
     condition,

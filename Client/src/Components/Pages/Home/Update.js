@@ -47,7 +47,7 @@ export default class ProductUpdate extends Component {
       description: "",
       address: "",
       images: null,
-      price: 0,
+      price: null,
       ownerId: null,
       redirect: false,
       alert: false,
@@ -118,7 +118,7 @@ export default class ProductUpdate extends Component {
           images: null,
           price: null,
           ownerId: null,
-          redirect: false,
+          redirect: true,
           alert: false,
         });
       });
@@ -226,7 +226,7 @@ export default class ProductUpdate extends Component {
         </div>
         <div>
           <div style={{ textAlign: "center" }}>
-            <Button onClick={this.handleIncludeProduct}>Add Product</Button>
+            <Button onClick={this.handleIncludeProduct}>Update Product</Button>
             <CancelButton href={"/Home"}>Cancel</CancelButton>
             {alertMessage}
           </div>{" "}

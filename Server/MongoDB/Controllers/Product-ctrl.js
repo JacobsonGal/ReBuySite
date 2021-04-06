@@ -57,11 +57,14 @@ const updateProduct = async (req, res) => {
         message: "Product not found!",
       });
     }
+    if (req.files) {
+      product.images.map((path) => fs.unlink(path, (err) => console.log(err)));
+    }
     product.name = name;
     product.condition = condition;
     product.description = description;
     product.address = address;
-    product.image = images;
+    product.images = images;
     product.price = price;
     product.ownerId = ownerId;
     product

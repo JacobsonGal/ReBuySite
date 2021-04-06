@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import api from "../../../API/API";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
+import Alert from "react-bootstrap/Alert";
 
 const Title = styled.h1.attrs({
   className: "h1",
@@ -43,9 +45,12 @@ export default class ProductUpdate extends Component {
       name: "",
       condition: "",
       description: "",
-      image: "",
+      address: "",
+      images: null,
       price: 0,
       ownerId: null,
+      redirect: false,
+      alert: false,
     };
   }
 
@@ -61,9 +66,16 @@ export default class ProductUpdate extends Component {
     const description = event.target.value;
     this.setState({ description });
   };
-  handleChangeInputImage = async (event) => {
-    const image = event.target.value;
-    this.setState({ image });
+  handleChangeInputAdrress = async (event) => {
+    const address = event.target.value;
+    this.setState({ address });
+  };
+  handleChangeInputImages = async (event) => {
+    let images = event.target.files;
+    console.log(images);
+    this.setState({
+      images,
+    });
   };
   handleChangeInputPrice = async (event) => {
     const price = event.target.value;
@@ -74,50 +86,84 @@ export default class ProductUpdate extends Component {
     this.setState({ ownerId });
   };
   handleIncludeProduct = async () => {
-    const {
-      id,
-      name,
-      condition,
-      description,
-      image,
-      price,
-      ownerId,
-    } = this.state;
-    const payload = { name, condition, description, image, price, ownerId };
+    let data = new FormData();
+    data.append("name", this.state.name);
+    data.append("condition", this.state.condition);
+    data.append("description", this.state.description);
+    data.append("address", this.state.address);
+    for (let i = 0; i < this.state.images.length; i++) {
+      data.append("images", this.state.images[i]);
+    }
 
-    await api.updateProductById(id, payload).then((res) => {
-      window.alert(`Product inserted successfully`);
-      this.setState({
-        name: "",
-        condition: "",
-        description: "",
-        image: "",
-        price: null,
-        ownerId: null,
+    data.append("price", this.state.price);
+    data.append("ownerId", this.state.ownerId);
+    for (var pair of data.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+    if (
+      Object.values(this.state).some((element) => {
+        return element === "" || element === null;
+      })
+    ) {
+      this.setState({ alert: true });
+    } else {
+      await api.updateProductById(this.state.id, data).then((res) => {
+        console.log(res);
+        window.alert(`Product inserted successfully`);
+        this.setState({
+          name: "",
+          condition: "",
+          description: "",
+          address: "",
+          images: null,
+          price: null,
+          ownerId: null,
+          redirect: false,
+          alert: false,
+        });
       });
-    });
+    }
   };
-
   componentDidMount = async () => {
     const { id } = this.state;
-    const product = await api.getAllProducts(id);
+    const product = await api.getProductById(id);
 
     this.setState({
       name: product.data.data.name,
       condition: product.data.data.condition,
       description: product.data.data.description,
-      image: product.data.data.image,
+      images: product.data.data.images,
+      address: product.data.data.address,
       price: product.data.data.price,
       ownerId: product.data.data.ownerId,
     });
   };
 
   render() {
-    const { name, condition, description, image, price, ownerId } = this.state;
+    const {
+      name,
+      condition,
+      description,
+      images,
+      address,
+      price,
+      ownerId,
+      redirect,
+      alert,
+    } = this.state;
+    let alertMessage = "";
+    if (redirect) {
+      return <Redirect to="/" />;
+    }
+    if (alert) {
+      alertMessage = (
+        <Alert variant="danger">Please fill all the fields.</Alert>
+      );
+    }
     return (
-      <Wrapper>
-        <Title>Update Product</Title>
-        <div>
+      <Wrapper style={{ marginTop: "50px" }}>
+        <Title>Create Product</Title>
+        <div style={{ textAlign: "center" }}>
           <Label>Name: </Label>
           <InputText
             type="text"
@@ -125,7 +171,7 @@ export default class ProductUpdate extends Component {
             onChange={this.handleChangeInputName}
           />
         </div>
-        <div>
+        <div style={{ textAlign: "center" }}>
           {" "}
           <Label>Condition: </Label>
           <InputText
@@ -134,7 +180,7 @@ export default class ProductUpdate extends Component {
             onChange={this.handleChangeInputCondition}
           />
         </div>
-        <div>
+        <div style={{ textAlign: "center" }}>
           <Label>Description: </Label>
           <InputText
             type="text"
@@ -142,15 +188,26 @@ export default class ProductUpdate extends Component {
             onChange={this.handleChangeInputDescription}
           />
         </div>
-        <div>
-          <Label>Image: </Label>
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Label>Address: </Label>
           <InputText
             type="text"
-            value={image}
-            onChange={this.handleChangeInputImage}
+            value={address}
+            onChange={this.handleChangeInputAdrress}
           />
         </div>
-        <div>
+        <div style={{ textAlign: "center" }}>
+          <Label>Image: </Label>
+          <InputText
+            type="file"
+            multiple={true}
+            name="images"
+            id="images"
+            onChange={this.handleChangeInputImages}
+          />
+        </div>
+        <div style={{ textAlign: "center" }}>
           {" "}
           <Label>Price: </Label>
           <InputText
@@ -159,7 +216,7 @@ export default class ProductUpdate extends Component {
             onChange={this.handleChangePrice}
           />
         </div>
-        <div>
+        <div style={{ textAlign: "center" }}>
           <Label>OwnerId: </Label>
           <InputText
             type="number"
@@ -168,15 +225,13 @@ export default class ProductUpdate extends Component {
           />
         </div>
         <div>
-          <div>
-            <Button onClick={this.handleIncludeProduct}>Update Product</Button>
-          </div>
-          <div>
+          <div style={{ textAlign: "center" }}>
+            <Button onClick={this.handleIncludeProduct}>Add Product</Button>
             <CancelButton href={"/Home"}>Cancel</CancelButton>
-          </div>
+            {alertMessage}
+          </div>{" "}
         </div>
       </Wrapper>
-   
-   );
+    );
   }
 }

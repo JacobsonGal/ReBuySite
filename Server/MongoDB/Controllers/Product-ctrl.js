@@ -44,14 +44,11 @@ const createProduct = (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const body = req.body;
+  const { name, condition, description, address, price, ownerId } = req.body;
 
-  if (!body) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a body to update",
-    });
-  }
+  const images = req.files.map((image) => {
+    return image.path.split("\\").join("/");
+  });
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
     if (err) {
@@ -60,12 +57,13 @@ const updateProduct = async (req, res) => {
         message: "Product not found!",
       });
     }
-    product.name = body.name;
-    product.condition = body.condition;
-    product.description = body.description;
-    product.image = body.image;
-    product.price = body.price;
-    product.ownerId = body.ownerId;
+    product.name = name;
+    product.condition = condition;
+    product.description = description;
+    product.address = address;
+    product.image = images;
+    product.price = price;
+    product.ownerId = ownerId;
     product
       .save()
       .then(() => {

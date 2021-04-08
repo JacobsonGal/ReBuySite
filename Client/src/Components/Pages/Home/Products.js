@@ -47,6 +47,10 @@ class UpdateProduct extends Component {
 }
 
 class DeleteProduct extends Component {
+  constructor() {
+    super();
+    console.log("constructor");
+  }
   deleteUser = (event) => {
     event.preventDefault();
 
@@ -55,13 +59,19 @@ class DeleteProduct extends Component {
         `Do tou want to delete the product ${this.props.id} permanently?`
       )
     ) {
-      api.deleteProductById(this.props.id);
-      window.location.reload();
+      api
+        .deleteProductById(this.props.id)
+        .then((res) => {
+          this.props.deleteHandler(res.data);
+        })
+        .catch((err) => console.log(err));
+      console.log("after res");
+      // window.location.reload();
     }
   };
 
   render() {
-    return <Delete onClick={this.deleteUser}>Delete</Delete>;
+    return <Delete onClick={this.deleteUser}>DELETE</Delete>;
   }
 }
 
@@ -94,6 +104,15 @@ export default class ProductsList extends Component {
       products,
     });
   };
+  deleteHandler = (productId) => {
+    console.log(productId.data._id);
+    console.log(this.state.products);
+    this.setState({
+      products: this.state.products.filter((product) => {
+        return product._id !== productId.data._id;
+      }),
+    });
+  };
   render() {
     const { products, isLoading } = this.state;
     console.log("Products", products);
@@ -101,7 +120,7 @@ export default class ProductsList extends Component {
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        <CardLine products={products} />
+        <CardLine products={products} deleteHandler={this.deleteHandler} />
         <h1>Suggested just for you</h1>
         <CardLine products={products} />
       </Wrapper>
@@ -139,7 +158,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products }) {
+function CardLine({ products, deleteHandler }) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -182,7 +201,10 @@ function CardLine({ products }) {
                 </CardActionArea>
                 <CardActions style={{ justifyContent: "center" }}>
                   <Button size="small" color="primary">
-                    <DeleteProduct id={product["_id"]} />
+                    <DeleteProduct
+                      id={product["_id"]}
+                      deleteHandler={deleteHandler}
+                    />
                   </Button>
                   <Button size="small" color="primary">
                     <StarBorderIcon />

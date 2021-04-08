@@ -122,6 +122,9 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     width: "100%",
     flexWrap: "nowrap",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     transform: "translateZ(0)",
   },
   tile: {
@@ -147,7 +150,7 @@ function CardLine({ products }) {
               <Card
                 style={{
                   margin: "1rem",
-                  maxWidth: 200,
+                  maxWidth: 600,
                   height: "fit-content",
                   border: "1px solid #ececec",
                   borderRadius: "15px",

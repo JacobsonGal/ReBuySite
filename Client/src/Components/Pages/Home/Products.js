@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
 import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
-
+import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import {
   Card,
@@ -34,22 +35,19 @@ const Delete = styled.div`
   cursor: pointer;
 `;
 
-class UpdateProduct extends Component {
-  updateUser = (event) => {
+function UpdateProduct({ id }) {
+  const history = useHistory();
+
+  const updateUser = (event) => {
     event.preventDefault();
-
-    window.location.href = `/Update/${this.props.id}`;
+    history.push(`/Update/${id}`);
   };
-
-  render() {
-    return <Update onClick={this.updateUser}>Update</Update>;
-  }
+  return <Update onClick={updateUser}>Update</Update>;
 }
 
 class DeleteProduct extends Component {
   constructor() {
     super();
-    console.log("constructor");
   }
   deleteUser = (event) => {
     event.preventDefault();
@@ -105,8 +103,6 @@ export default class ProductsList extends Component {
     });
   };
   deleteHandler = (productId) => {
-    console.log(productId.data._id);
-    console.log(this.state.products);
     this.setState({
       products: this.state.products.filter((product) => {
         return product._id !== productId.data._id;
@@ -115,7 +111,6 @@ export default class ProductsList extends Component {
   };
   render() {
     const { products, isLoading } = this.state;
-    console.log("Products", products);
     return (
       <Wrapper>
         <h1>Market</h1>

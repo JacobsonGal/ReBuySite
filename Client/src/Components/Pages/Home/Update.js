@@ -22,7 +22,9 @@ const Label = styled.label`
 const InputText = styled.input.attrs({
   className: "form-control",
 })`
-  margin: 5px;
+  margin: 0 auto;
+  width: 80%;
+  text-align: center;
 `;
 
 const Button = styled.button.attrs({
@@ -72,7 +74,6 @@ export default class ProductUpdate extends Component {
   };
   handleChangeInputImages = async (event) => {
     let images = event.target.files;
-    console.log(images);
     this.setState({
       images,
     });
@@ -97,9 +98,7 @@ export default class ProductUpdate extends Component {
 
     data.append("price", this.state.price);
     data.append("ownerId", this.state.ownerId);
-    for (var pair of data.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
+
     if (
       Object.values(this.state).some((element) => {
         return element === "" || element === null;
@@ -108,7 +107,6 @@ export default class ProductUpdate extends Component {
       this.setState({ alert: true });
     } else {
       await api.updateProductById(this.state.id, data).then((res) => {
-        console.log(res);
         window.alert(`Product inserted successfully`);
         this.setState({
           name: "",
@@ -213,7 +211,7 @@ export default class ProductUpdate extends Component {
           <InputText
             type="number"
             value={price}
-            onChange={this.handleChangePrice}
+            onChange={this.handleChangeInputPrice}
           />
         </div>
         <div style={{ textAlign: "center" }}>
@@ -221,7 +219,7 @@ export default class ProductUpdate extends Component {
           <InputText
             type="number"
             value={ownerId}
-            onChange={this.handleChangeOwner}
+            onChange={this.handleChangeInputOwner}
           />
         </div>
         <div>

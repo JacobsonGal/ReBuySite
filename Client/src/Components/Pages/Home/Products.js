@@ -4,6 +4,8 @@ import styled from "styled-components";
 import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
+import Search from "./Search";
+
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import {
   Card,
@@ -78,7 +80,6 @@ export default class ProductsList extends Component {
     this.setState({ isLoading: true });
     try {
       await api.getAllProducts().then((product) => {
-        console.log(product.data.data);
         this.setState({
           products: product.data.data,
         });
@@ -88,13 +89,18 @@ export default class ProductsList extends Component {
       console.log(error);
     }
   };
-
+  searchHandler = (products) => {
+    this.setState({
+      products,
+    });
+  };
   render() {
     const { products, isLoading } = this.state;
     console.log("Products", products);
     return (
       <Wrapper>
         <h1>Market</h1>
+        <Search searchHandler={this.searchHandler} />
         <CardLine products={products} />
         <h1>Suggested just for you</h1>
         <CardLine products={products} />

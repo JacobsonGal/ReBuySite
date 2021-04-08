@@ -10,13 +10,14 @@ export const updateProductById = (id, payload) =>
   api.put(`/product/${id}`, payload);
 export const deleteProductById = (id) => api.delete(`/product/${id}`);
 export const getProductById = (id) => api.get(`/product/${id}`);
-
+export const search = (query) => api.get(`/products/search?query=${query}`);
 const apis = {
   insertProduct,
   getAllProducts,
   updateProductById,
   deleteProductById,
   getProductById,
+  search,
 };
 
 export default apis;

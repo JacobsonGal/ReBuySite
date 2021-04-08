@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const fs = require("fs");
+const { query } = require("express");
 
 const createProduct = (req, res) => {
   const { name, condition, description, address, price, ownerId } = req.body;
@@ -129,10 +130,25 @@ const getProducts = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
+const search = async (req, res) => {
+  const products = await Product.find(
+    { name: new RegExp(req.query.query, "i") },
+    (err, product) => {
+      if (err) {
+        console.log("there is an error", err);
+      } else {
+      }
+    }
+  );
+
+  res.send(products);
+};
+
 module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
   getProducts,
   getProductById,
+  search,
 };

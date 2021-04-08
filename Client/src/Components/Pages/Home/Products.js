@@ -154,6 +154,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CardLine({ products, deleteHandler }) {
+  const history = useHistory();
+  const cardOnClickHandler = (e, id) => {
+    history.push(`/product/${id}`);
+  };
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -171,7 +175,9 @@ function CardLine({ products, deleteHandler }) {
                 }}
               >
                 {" "}
-                <CardActionArea>
+                <CardActionArea
+                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                >
                   <CardMedia
                     image={`http://localhost:3000/${product["images"][0]}`}
                     title="Contemplative Reptile"

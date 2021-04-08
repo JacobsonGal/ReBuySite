@@ -93,7 +93,6 @@ const deleteProduct = async (req, res) => {
       return res.status(400).json({ success: false, error: err });
     }
     if (!product) {
-      console.log("no product");
       return res
         .status(404)
         .json({ success: false, error: `Product not found` });

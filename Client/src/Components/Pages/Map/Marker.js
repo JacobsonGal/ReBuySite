@@ -13,7 +13,7 @@ import { IoPinOutline } from "react-icons/io5";
 export default function Marker({ product, $hover }) {
   const [isModelOpen, setIsModelOpen] = useState(false);
   let img = product["image"]
-    ? `/${product["image"].split("public/")[1]}`
+    ? `http://localhost:3000/${product["images"][0]}`
     : reBuy;
   return (
     <div>
@@ -48,7 +48,7 @@ export default function Marker({ product, $hover }) {
           >
             <CardActionArea>
               <CardMedia
-                image={img}
+                image={`http://localhost:3000/${product["images"][0]}`}
                 title="Contemplative Reptile"
                 style={{ height: 140 }}
               />
@@ -69,7 +69,11 @@ export default function Marker({ product, $hover }) {
       </Modal>
       <Button size="small" onClick={() => setIsModelOpen(true)}>
         {product ? (
-          <img src={img} alt="marker" className={"circleImg"} />
+          <img
+            src={`http://localhost:3000/${product["images"][0]}`}
+            alt="marker"
+            className={"circleImg"}
+          />
         ) : (
           <IoPinOutline />
         )}

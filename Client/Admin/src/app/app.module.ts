@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ProductNumberComponent } from './product-number/product-number.component';
 import { AllusersComponent } from './allusers/allusers.component';
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:3000/', options: {} };
 
 @NgModule({
   declarations: [
@@ -15,7 +15,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
     ProductNumberComponent,
     AllusersComponent,
   ],
-  imports: [BrowserModule, SocketIoModule.forRoot(config), HttpClientModule],
+  imports: [BrowserModule, HttpClientModule, SocketIoModule.forRoot(config)],
   providers: [],
   bootstrap: [AppComponent],
 })

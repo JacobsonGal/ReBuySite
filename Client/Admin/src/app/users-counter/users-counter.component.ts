@@ -7,9 +7,8 @@ import { RealtimeService } from '../realtime.service';
   styleUrls: ['./users-counter.component.scss'],
 })
 export class UsersCounterComponent {
-  counter: Number; 
+  counter: Number;
   constructor(private service: RealtimeService) {
-this.counter;
-service.currentCounter.subscribe((counter) => (this.counter = counter));
+    service.currentCounter.subscribe((counter) => (this.counter = counter));
   }
 }

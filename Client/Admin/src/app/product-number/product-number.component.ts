@@ -11,7 +11,7 @@ export class ProductNumberComponent implements OnInit {
   numberOfProducts: Number;
   numberOfusers: Number;
   constructor(private dataBaseService: DatabaseService) {
-    this.numberOfProducts = 1312;
+    this.numberOfProducts = 0;
   }
 
   ngOnInit(): void {
@@ -21,7 +21,7 @@ export class ProductNumberComponent implements OnInit {
 
   fetchProducts(): void {
     this.dataBaseService.getAllProducts().subscribe((products) => {
-      console.log(products.lenght);
+      this.numberOfProducts = products.data.length;
     });
   }
   fetchusers(): void {

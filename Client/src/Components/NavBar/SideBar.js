@@ -78,7 +78,7 @@ export default function SideBar({
                 {intl.formatMessage({ id: "Favorite" })}
               </NavLink>
             </MenuItem>
-            <SubMenu
+            {/* <SubMenu
               title={intl.formatMessage({ id: "Catagories" })}
               icon={<Category />}
             >
@@ -86,7 +86,7 @@ export default function SideBar({
               <MenuItem>Tech</MenuItem>
               <MenuItem>Music</MenuItem>
               <MenuItem>Gadgets</MenuItem>
-            </SubMenu>
+            </SubMenu> */}
           </Menu>
 
           <User handleToggleSidebar={handleToggleSidebar} />

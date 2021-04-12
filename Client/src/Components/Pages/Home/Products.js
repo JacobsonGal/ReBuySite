@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
@@ -21,6 +21,9 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
+import Carousel from "react-bootstrap/Carousel";
+import "bootstrap/dist/css/bootstrap.min.css";
+import PopUp from "../../Utils/PopUp";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -146,6 +149,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
+    direction: "ltr",
   },
   gridList: {
     // height: "100%",
@@ -171,9 +175,10 @@ const useStyles = makeStyles((theme) => ({
 function CardLine({ products, images, deleteHandler }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
-    history.push(`/product/${id}`);
+    // history.push(`/product/${id}`);
   };
   const classes = useStyles();
+  const [isModelOpen, setIsModelOpen] = useState(false);
 
   function productImages(product) {
     let arr = [];
@@ -185,50 +190,54 @@ function CardLine({ products, images, deleteHandler }) {
   }
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
+      <GridList className={classes.gridList} cols={2}>
         {products &&
           products.map((product, i) => (
             <GridListTile
-              style={{ height: "100%", width: "100%" }}
+              style={{ height: "100%", maxWidth: 300, minWidth: 100 }}
               key={product["name"]}
             >
+              <PopUp
+                product={product}
+                isModelOpen={isModelOpen}
+                setIsModelOpen={setIsModelOpen}
+              />
               <Card
                 style={{
                   margin: "1rem",
-                  maxWidth: 600,
-                  minWidth: 150,
+                  maxWidth: 300,
+                  minWidth: 100,
                   height: "fit-content",
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}
               >
-                {" "}
+                {product["images"] && images[0] && (
+                  // productImages(product).map((img) => {
+                  //   return (
+                  //     <CardMedia
+                  //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
+                  //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+                  //       title="Contemplative Reptile"
+                  //       style={{ height: 140 }}
+                  //     />
+                  //   );
+                  // })
+                  // <CardMedia
+                  //   image={`data:${images[i % 5]["contentType"]};base64,${
+                  //     images[i % 5]["imageBase64"]
+                  //   }`}
+                  //   // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+                  //   title="Contemplative Reptile"
+                  //   style={{ height: 140 }}
+                  // />
+                  <SingleLineGridList images={images} />
+                  // <SingleLineGridList images={productImages(product)} />
+                )}{" "}
                 <CardActionArea
-                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                  // onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                  onClick={() => setIsModelOpen(true)}
                 >
-                  {product["images"] && images[0] && (
-                    // productImages(product).map((img) => {
-                    //   return (
-                    //     <CardMedia
-                    //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
-                    //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-                    //       title="Contemplative Reptile"
-                    //       style={{ height: 140 }}
-                    //     />
-                    //   );
-                    // })
-                    // <CardMedia
-                    //   image={`data:${images[i % 5]["contentType"]};base64,${
-                    //     images[i % 5]["imageBase64"]
-                    //   }`}
-                    //   // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-                    //   title="Contemplative Reptile"
-                    //   style={{ height: 140 }}
-                    // />
-                    <SingleLineGridList images={images} />
-                    // <SingleLineGridList images={productImages(product)} />
-                  )}
-
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       <p>{product["name"]}</p>
@@ -273,28 +282,58 @@ function SingleLineGridList({ images }) {
 
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
+      <Carousel>
         {images.map((Image) => (
-          <GridListTile key={Image["_id"].img}>
+          <Carousel.Item>
             <img
+              className="d-block w-100"
               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
               alt={Image["fileName"]}
             />
-            <GridListTileBar
-              title={Image["fileName"]}
-              classes={{
-                root: classes.titleBar,
-                title: classes.title,
-              }}
-              actionIcon={
-                <IconButton aria-label={`star ${Image["fileName"]}`}>
-                  <StarBorderIcon className={classes.title} />
-                </IconButton>
-              }
-            />
-          </GridListTile>
+          </Carousel.Item>
         ))}
-      </GridList>
+      </Carousel>
     </div>
   );
 }
+
+// function SingleLineGridList({ images }) {
+//   const classes = useStyles();
+
+//   return (
+//     <div className={classes.root}>
+//       {/* <GridList className={classes.gridList} cols={1}> */}
+//       <Carousel>
+//         {images.map((Image) => (
+//           <Carousel.Item>
+//             <img
+//               className="d-block w-100"
+//               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+//               alt={Image["fileName"]}
+//             />
+//           </Carousel.Item>
+
+//           // <GridListTile key={Image["_id"].img}>
+//           //   <img
+//           //     src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+//           //     alt={Image["fileName"]}
+//           //   />
+//           //   {/* <GridListTileBar
+//           //     title={Image["fileName"]}
+//           //     classes={{
+//           //       root: classes.titleBar,
+//           //       title: classes.title,
+//           //     }}
+//           //     actionIcon={
+//           //       <IconButton aria-label={`star ${Image["fileName"]}`}>
+//           //         <StarBorderIcon className={classes.title} />
+//           //       </IconButton>
+//           //     }
+//           //   /> */}
+//           // </GridListTile>
+//         ))}
+//       </Carousel>
+//       {/* </GridList> */}
+//     </div>
+//   );
+// }

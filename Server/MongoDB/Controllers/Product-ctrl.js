@@ -142,8 +142,23 @@ const search = async (req, res) => {
       }
     }
   );
-
   res.send(products);
+};
+
+const sort = async (req, res) => {
+  const products = await Product.find({}, (err, product) => {
+    if (err) {
+      console.log("there is an error", err);
+    }
+  });
+  const newProd = products.sort((a, b) => {
+    let nameA = a.name.toLowerCase(),
+      nameB = b.name.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+  res.send(newProd);
 };
 
 module.exports = {
@@ -153,4 +168,5 @@ module.exports = {
   getProducts,
   getProductById,
   search,
+  sort,
 };

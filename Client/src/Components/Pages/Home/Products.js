@@ -6,6 +6,8 @@ import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
+import Sort from "./Sort";
+
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import {
@@ -115,6 +117,7 @@ export default class ProductsList extends Component {
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
+        <Sort searchHandler={this.searchHandler} />
         <CardLine products={products} deleteHandler={this.deleteHandler} />
         <h1>Suggested just for you</h1>
         <CardLine products={products} />

@@ -122,7 +122,7 @@ const getProductById = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res) => { 
   await Product.find({}, (err, product) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -175,7 +175,7 @@ const createProductForScrapping = async (name,image,price) => {
   });
 };
 
-const scrape = async () => {
+const scrape = async () => { //add scrape from amazon
   console.log("im here");
   console.log("im here");
   console.log("im here");

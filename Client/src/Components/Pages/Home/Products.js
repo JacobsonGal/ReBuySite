@@ -134,8 +134,6 @@ export default class ProductsList extends Component {
           images={images}
           deleteHandler={this.deleteHandler}
         />
-        {/* <h1>Suggested just for you</h1>
-        <CardLine products={products} /> */}
       </Wrapper>
     );
   }

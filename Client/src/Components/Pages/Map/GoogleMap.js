@@ -14,12 +14,13 @@ export default class GoogleMap extends Component {
     super(props);
     this.state = {
       products: [],
+      images: [],
       locations: [{}],
       center: {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
       },
-      zoom: 13,
+      zoom: 10,
     };
   }
 
@@ -30,6 +31,12 @@ export default class GoogleMap extends Component {
         this.setState({
           products: product.data.data,
         });
+      });
+      await api.getAllImages().then((image) => {
+        this.setState({
+          images: image.data.data,
+        });
+        this.props.setLoading(false);
       });
     } catch (error) {
       console.log(error);
@@ -62,7 +69,7 @@ export default class GoogleMap extends Component {
   };
 
   render() {
-    const { products, center, zoom, locations } = this.state;
+    const { products, images, center, zoom, locations } = this.state;
     function getMapOptions(maps) {
       return {
         streetViewControl: true,
@@ -81,8 +88,8 @@ export default class GoogleMap extends Component {
         ],
         gestureHandling: "greedy",
         disableDoubleClickZoom: true,
-        minZoom: 11,
-        maxZoom: 18,
+        minZoom: 0,
+        maxZoom: 30,
         layerTypes: ["TrafficLayer"],
         mapTypeControl: true,
         mapTypeId: maps.MapTypeId.ROADMAP,
@@ -117,6 +124,7 @@ export default class GoogleMap extends Component {
                 lat={locations[i] ? locations[i].lat : null}
                 lng={locations[i] ? locations[i].lng : null}
                 product={product}
+                images={images}
                 key={product["name"]}
               />
             );

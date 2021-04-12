@@ -10,11 +10,22 @@ import {
 import reBuy from "../../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
-export default function Marker({ product, $hover }) {
+export default function Marker({ product, images, $hover }) {
   const [isModelOpen, setIsModelOpen] = useState(false);
-  let img = product["image"]
-    ? `http://localhost:3000/${product["images"][0]}`
-    : reBuy;
+  function productImages(product) {
+    let arr = [];
+    product["images"].map((src) => {
+      let temp = images.find((element) => element["_id"] === src);
+      return temp && arr.push(temp);
+    });
+    return arr;
+  }
+  let img =
+    product["images"] && images[0]
+      ? `data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`
+      : // ? `http://localhost:3000/${product["images"][0]}`
+        reBuy;
+
   return (
     <div>
       <Modal
@@ -48,7 +59,8 @@ export default function Marker({ product, $hover }) {
           >
             <CardActionArea>
               <CardMedia
-                image={`http://localhost:3000/${product["images"][0]}`}
+                // image={`http://localhost:3000/${product["images"][0]}`}
+                image={img}
                 title="Contemplative Reptile"
                 style={{ height: 140 }}
               />
@@ -70,7 +82,8 @@ export default function Marker({ product, $hover }) {
       <Button size="small" onClick={() => setIsModelOpen(true)}>
         {product ? (
           <img
-            src={`http://localhost:3000/${product["images"][0]}`}
+            // src={`http://localhost:3000/${product["images"][0]}`}
+            src={img}
             alt="marker"
             className={"circleImg"}
           />

@@ -39,11 +39,11 @@ const createProduct = (req, res) => {
         console.log(newImage.fileName + "Inserted to collection!");
       })
       .catch((error) => {
-        if (error) {
-          if (error.name === "MongoError" && error.code === 11000) {
-            console.log(Prom);
-          }
-        }
+        // if (error) {
+        //   if (error.name === "MongoError" && error.code === 11000) {
+        //     console.log(Prom);
+        //   }
+        // }
         console.log(error.message);
       });
     images.push(newImage);

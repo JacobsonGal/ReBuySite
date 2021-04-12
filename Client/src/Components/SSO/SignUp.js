@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
@@ -6,61 +6,37 @@ import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 export default function SignUp({ setRegistered }) {
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { email, password } = e.target.elements;
+    const { name, phone, email, password } = e.target.elements;
+
     try {
-      firebaseConfig
-        .auth()
-        .createUserWithEmailAndPassword(email.value, password.value);
-    } catch (error) {
-      alert(error);
-    }
-  };
+      console.log(name.value + phone.value + email.value);
+      let data = new FormData();
+      data.append("name", name.value);
+      data.append("phone", phone.value);
+      data.append("email", email.value);
 
-  const handleIncludeProduct = async () => {
-    let data = new FormData();
-    data.append("name", this.state.name);
-    data.append("condition", this.state.condition);
-    data.append("description", this.state.description);
-    data.append("address", this.state.address);
-    for (let i = 0; i < this.state.images.length; i++) {
-      data.append("images", this.state.images[i]);
-    }
-
-    data.append("price", this.state.price);
-    data.append("ownerId", this.state.ownerId);
-    console.log(this.state.images);
-
-    if (
-      Object.values(this.state).some((element) => {
-        return element === "" || element === null;
-      })
-    ) {
-      this.setState({ alert: true });
-    } else {
       await api
-        .insertProduct(data)
+        .insertUser(data)
         .then((res) => {
-          window.alert(`Product inserted successfully`);
-          this.setState({
-            name: "",
-            condition: "",
-            description: "",
-            address: "",
-            images: null,
-            price: null,
-            ownerId: null,
-            redirect: true,
-          });
+          window.alert(`User inserted successfully`);
+          firebaseConfig
+            .auth()
+            .createUserWithEmailAndPassword(email.value, password.value);
         })
         .catch((error) => {
           console.log(error);
           alert(error);
         });
+    } catch (error) {
+      alert(error);
     }
+    // const createUser = async () => {
+
+    // }
   };
+
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/" />;
@@ -68,23 +44,22 @@ export default function SignUp({ setRegistered }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Label as="h1">Sign Up</Form.Label>
-      {/* <Form.Group as={Row} controlId="formPlaintextEmail">
-              <Form.Label column sm="4">
-                First Name
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control type="text" placeholder="First Name" />
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} controlId="formPlaintextEmail">
-              <Form.Label column sm="4">
-                Last Name
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control type="text" placeholder="Last Name" />
-              </Col>
-            </Form.Group>
-            */}
+      <Form.Group as={Row} controlId="formPlaintextEmail">
+        <Form.Label column sm="4">
+          Full Name
+        </Form.Label>
+        <Col sm="8">
+          <Form.Control type="text" name="name" placeholder="Name" />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row} controlId="formPlaintextEmail">
+        <Form.Label column sm="4">
+          Phone
+        </Form.Label>
+        <Col sm="8">
+          <Form.Control type="number" name="phone" placeholder="Phone Number" />
+        </Col>
+      </Form.Group>
       <Form.Group as={Row} controlId="formPlaintextEmail">
         <Form.Label column sm="4">
           Email
@@ -118,7 +93,7 @@ export default function SignUp({ setRegistered }) {
         Sign Up
       </Button>
       <div style={{ margin: "1rem" }}>
-        Already registerd?{" "}
+        Already Registered?{" "}
         <Button onClick={() => setRegistered(true)}>Login?</Button>
       </div>
     </Form>

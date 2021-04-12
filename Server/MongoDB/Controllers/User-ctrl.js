@@ -116,6 +116,9 @@ const getUsers = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
+
+
+
 module.exports = {
   createUser,
   updateUser,

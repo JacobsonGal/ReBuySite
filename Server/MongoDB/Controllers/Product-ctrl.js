@@ -1,8 +1,12 @@
 const Product = require("../models/Product");
 const fs = require("fs");
+const request = require('request-promise'); 
+let axios = require('axios');
+let cheerio = require('cheerio');
 const { query } = require("express");
 
 const createProduct = (req, res) => {
+  
   const { name, condition, description, address, price, ownerId } = req.body;
 
   const images = req.files.map((image) => {
@@ -146,6 +150,49 @@ const search = async (req, res) => {
   res.send(products);
 };
 
+
+const createProductForScrapping = async (name,image,price) => {
+  Product.findOne({ name:name }, function (err, p) {
+    if (err) console.log(err);
+    if (p) console.log("This term already been created");
+    else {
+      var product = new Product({
+          name: name,
+          condition:"New",
+          description: "this is a scraped product",
+          address : "Ness Ziona",
+          images:image,
+          price:price,
+          ownerId:100
+
+      });
+      product.save(function (err, example) {
+        if (err) console.log(err);
+        console.log("New term created!");
+        return product;
+      });
+    }
+  });
+};
+
+const scrape = async () => {
+  console.log("im here");
+  console.log("im here");
+  console.log("im here");
+ const page = await axios.get('https://www.amazon.com/s?bbn=16225014011&rh=n%3A16225014011%2Cp_36%3A1253555011&dc&qid=1618237164&rnid=386589011&ref=lp_16225014011_nr_p_36_0')    
+  const $ = cheerio.load(page.data); 
+  $('.s-asin').each((i,el)=> {
+    const name = $(el).find('h2 span').text();  
+    const price = $(el).find('.a-price-whole').text();
+    const image = $(el).find('.s-image').attr('src');
+    createProductForScrapping(name,image,price);
+    
+});
+};
+
+
+
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -153,4 +200,5 @@ module.exports = {
   getProducts,
   getProductById,
   search,
+  scrape
 };

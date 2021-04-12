@@ -10,18 +10,22 @@ import Sort from "./Sort";
 
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  CardActions,
-  CardMedia,
-  Typography,
-  Button,
-  GridList,
-  GridListTile,
-  GridListTileBar,
-} from "@material-ui/core";
+// import {
+//   Card,
+//   CardContent,
+//   CardActionArea,
+//   CardActions,
+//   CardMedia,
+//   Typography,
+//   Button,
+//   GridList,
+//   GridListTile,
+//   GridListTileBar,
+// } from "@material-ui/core";
+
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Carousel from "react-bootstrap/Carousel";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -80,6 +84,7 @@ export default class ProductsList extends Component {
     super(props);
     this.state = {
       products: [],
+      images: [],
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
@@ -92,6 +97,12 @@ export default class ProductsList extends Component {
       await api.getAllProducts().then((product) => {
         this.setState({
           products: product.data.data,
+        });
+        this.props.setLoading(false);
+      });
+      await api.getAllImages().then((image) => {
+        this.setState({
+          images: image.data.data,
         });
         this.props.setLoading(false);
       });
@@ -112,15 +123,21 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, isLoading } = this.state;
+    const { products, images, isLoading } = this.state;
+    console.log(images);
+
     return (
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
         <Sort searchHandler={this.searchHandler} />
-        <CardLine products={products} deleteHandler={this.deleteHandler} />
-        <h1>Suggested just for you</h1>
-        <CardLine products={products} />
+        <CardLine
+          products={products}
+          images={images}
+          deleteHandler={this.deleteHandler}
+        />
+        {/* <h1>Suggested just for you</h1>
+        <CardLine products={products} /> */}
       </Wrapper>
     );
   }
@@ -156,71 +173,157 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products, deleteHandler }) {
+function CardLine({ products, images, deleteHandler }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
     history.push(`/product/${id}`);
   };
   const classes = useStyles();
+
+  function productImages(product) {
+    let arr = [];
+    product["images"].map((src) => {
+      let temp = images.find((element) => element["_id"] === src);
+      return temp && arr.push(temp);
+    });
+    return arr;
+  }
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
-        {products &&
-          products.map((product) => (
-            <GridListTile style={{ height: "100%" }} key={product["name"]}>
-              <Card
-                style={{
-                  margin: "1rem",
-                  maxWidth: 600,
-                  height: "fit-content",
-                  border: "1px solid #ececec",
-                  borderRadius: "15px",
-                }}
-              >
-                {" "}
-                <CardActionArea
-                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                >
-                  <CardMedia
-                    image={`http://localhost:3000/${product["images"][0]}`}
-                    title="Contemplative Reptile"
-                    style={{ height: 140 }}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      <p>{product["name"]}</p>
-                      <p>{product["price"]}</p>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {/* <p>Seller:{product["ownerId"]}</p> */}
-                      {/* <p>Description:{product["description"]}</p> */}
-                      <p>Condition:{product["condition"]}</p>
-                      <p>Address:{product["address"]}</p>
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions style={{ justifyContent: "center" }}>
-                  <Button size="small" color="primary">
-                    <DeleteProduct
-                      id={product["_id"]}
-                      deleteHandler={deleteHandler}
-                    />
-                  </Button>
-                  <Button size="small" color="primary">
-                    <StarBorderIcon />
-                  </Button>
-                  <Button size="small" color="primary">
-                    <UpdateProduct id={product["_id"]} />
-                  </Button>
-                </CardActions>
-              </Card>
-            </GridListTile>
-          ))}
-      </GridList>
+      {/* <GridList className={classes.gridList} cols={2.5}> */}
+      {products &&
+        products.map((product) => (
+          <Card style={{ width: "18rem" }}>
+            <MyCarousel />
+            <Card.Body>
+              <Card.Title>Card Title</Card.Title>
+              <Card.Text>
+                Some quick example text to build on the card title and make up
+                the bulk of the card's content.
+              </Card.Text>
+              <Button variant="primary">Go somewhere</Button>
+            </Card.Body>
+          </Card>
+          // <GridListTile
+          //   style={{ height: "100%", width: "100%" }}
+          //   key={product["name"]}
+          // >
+          //   <Card
+          //     style={{
+          //       margin: "1rem",
+          //       maxWidth: 600,
+          //       minWidth: 300,
+          //       height: "fit-content",
+          //       border: "1px solid #ececec",
+          //       borderRadius: "15px",
+          //     }}
+          //   >
+          //     {" "}
+          //     <CardActionArea
+          //       onClick={(e) => cardOnClickHandler(e, product["_id"])}
+          //     >
+          //       {product["images"] && images[0] && (
+          //         // productImages(product).map((img) => {
+          //         //   return (
+          //         //     <CardMedia
+          //         //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
+          //         //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+          //         //       title="Contemplative Reptile"
+          //         //       style={{ height: 140 }}
+          //         //     />
+          //         //   );
+          //         // })
+          //         <CardMedia
+          //           image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
+          //           // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+          //           title="Contemplative Reptile"
+          //           style={{ height: 140 }}
+          //         />
+          //       )}
+
+          //       <CardContent>
+          //         <Typography gutterBottom variant="h5" component="h2">
+          //           <p>{product["name"]}</p>
+          //           <p>{product["price"]}</p>
+          //         </Typography>
+          //         <Typography
+          //           variant="body2"
+          //           color="textSecondary"
+          //           component="p"
+          //         >
+          //           {/* <p>Seller:{product["ownerId"]}</p> */}
+          //           {/* <p>Description:{product["description"]}</p> */}
+          //           <p>Condition:{product["condition"]}</p>
+          //           <p>Address:{product["address"]}</p>
+          //         </Typography>
+          //       </CardContent>
+          //     </CardActionArea>
+          //     <CardActions style={{ justifyContent: "center" }}>
+          //       <Button size="small" color="primary">
+          //         <DeleteProduct
+          //           id={product["_id"]}
+          //           deleteHandler={deleteHandler}
+          //         />
+          //       </Button>
+          //       <Button size="small" color="primary">
+          //         <StarBorderIcon />
+          //       </Button>
+          //       <Button size="small" color="primary">
+          //         <UpdateProduct id={product["_id"]} />
+          //       </Button>
+          //     </CardActions>
+          //   </Card>
+          // </GridListTile>
+        ))}
+      {/* </GridList> */}
     </div>
+  );
+}
+
+function MyCarousel({ product, images }) {
+  function ProductImages() {
+    let arr = [];
+    product["images"].map((src) => {
+      let temp = images.find((element) => element["_id"] === src);
+      return temp && arr.push(temp);
+    });
+    return (
+      product["images"] &&
+      images &&
+      arr &&
+      arr.map((img) => {
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            style={{ width: "5rem", height: "5rem" }}
+            src={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+            alt="slide"
+          />
+        </Carousel.Item>;
+      })
+    );
+
+    // return arr;
+  }
+
+  return (
+    <Carousel>
+      <ProductImages />
+      {/* {product["images"] &&
+        images[0] &&
+        productImages(product).map((img) => {
+          console.log(img);
+          return (
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                style={{ width: "5rem", height: "5rem" }}
+                src={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+                alt="slide"
+              />
+            </Carousel.Item>
+          );
+        })} */}
+    </Carousel>
   );
 }

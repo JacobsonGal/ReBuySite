@@ -3,6 +3,8 @@ import api from "../../../API/API";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 const Title = styled.h1.attrs({
   className: "h1",
@@ -50,7 +52,7 @@ export default class ProductInsert extends Component {
       address: "",
       images: null,
       price: null,
-      ownerId: null,
+      // ownerId: null,
       redirect: false,
       alert: false,
     };
@@ -87,24 +89,29 @@ export default class ProductInsert extends Component {
     this.setState({ price });
   };
 
-  handleChangeOwner = async (event) => {
-    const ownerId = event.target.value;
-    this.setState({ ownerId });
-  };
+  // handleChangeOwner = async (event) => {
+  //   // const ownerId = event.target.value;
+  //   const ownerId = firebase.auth().currentUser.email;
+  //   this.setState({ ownerId });
+  // };
 
   handleIncludeProduct = async () => {
     let data = new FormData();
+    let ownerID = firebase.auth().currentUser
+      ? firebase.auth().currentUser.email
+      : "jacobsongal@gmail.com";
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
     data.append("address", this.state.address);
-    for (let i = 0; i < this.state.images.length; i++) {
-      data.append("images", this.state.images[i]);
+    if (this.state.images) {
+      for (let i = 0; i < this.state.images.length; i++) {
+        data.append("images", this.state.images[i]);
+      }
     }
-
     data.append("price", this.state.price);
-    data.append("ownerId", this.state.ownerId);
-    console.log(this.state.images);
+    data.append("ownerId", ownerID);
+    // console.log(this.state.images);
 
     if (
       Object.values(this.state).some((element) => {
@@ -113,6 +120,7 @@ export default class ProductInsert extends Component {
     ) {
       this.setState({ alert: true });
     } else {
+      data && console.log("sending data" + data.values());
       await api
         .insertProduct(data)
         .then((res) => {
@@ -124,7 +132,7 @@ export default class ProductInsert extends Component {
             address: "",
             images: null,
             price: null,
-            ownerId: null,
+            // ownerId: null,
             redirect: true,
           });
         })
@@ -143,7 +151,7 @@ export default class ProductInsert extends Component {
       address,
       images,
       price,
-      ownerId,
+      // ownerId,
       redirect,
       alert,
     } = this.state;
@@ -212,14 +220,14 @@ export default class ProductInsert extends Component {
             onChange={this.handleChangePrice}
           />
         </div>
-        <div style={{ textAlign: "center" }}>
+        {/* <div style={{ textAlign: "center" }}>
           <Label>OwnerId: </Label>
           <InputText
             type="number"
             value={ownerId}
             onChange={this.handleChangeOwner}
           />
-        </div>
+        </div> */}
         <div>
           <div style={{ textAlign: "center" }}>
             <Button onClick={this.handleIncludeProduct}>Add Product</Button>

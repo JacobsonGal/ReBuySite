@@ -6,6 +6,7 @@ const http = require("http");
 const db = require("./MongoDB/DB");
 const productRouter = require("./MongoDB/routes/product-router");
 const userRouter = require("./MongoDB/routes/Users-router");
+const imageRouter = require("./MongoDB/routes/Image-router");
 
 const app = express();
 const apiPort = 3000;
@@ -29,11 +30,11 @@ io.on("connection", (socket) => {
   if (socket.handshake.headers.origin === "http://localhost:3001") {
     count++;
     socket.broadcast.emit("count", count);
-    console.log("number of users  " + " " + count);
+    // console.log("number of users  " + " " + count);
     socket.on("disconnect", () => {
       count--;
       socket.broadcast.emit("count", count);
-      console.log("number of users  " + count);
+      // console.log("number of users  " + count);
     });
   }
 });
@@ -49,6 +50,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", userRouter);
 app.use("/api", productRouter);
+app.use("/api", imageRouter);
 
 // app.listen(apiPort, () =>
 //   console.log(`ReBuy Server running on port ${apiPort}`)

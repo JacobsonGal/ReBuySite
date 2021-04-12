@@ -7,25 +7,20 @@ import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
 import Sort from "./Sort";
-
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-// import {
-//   Card,
-//   CardContent,
-//   CardActionArea,
-//   CardActions,
-//   CardMedia,
-//   Typography,
-//   Button,
-//   GridList,
-//   GridListTile,
-//   GridListTileBar,
-// } from "@material-ui/core";
-
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Carousel from "react-bootstrap/Carousel";
+import {
+  Card,
+  CardContent,
+  CardActionArea,
+  CardActions,
+  CardMedia,
+  Typography,
+  Button,
+  GridList,
+  GridListTile,
+  GridListTileBar,
+} from "@material-ui/core";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -146,19 +141,19 @@ export default class ProductsList extends Component {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    width: "100%",
-    height: "100%",
+    // width: "100%",
+    // height: "100%",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
   },
   gridList: {
-    height: "100%",
-    width: "100%",
+    // height: "100%",
+    // width: "100%",
     flexWrap: "nowrap",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    // display: "flex",
+    // flexDirection: "column",
+    // alignItems: "center",
     transform: "translateZ(0)",
   },
   tile: {
@@ -190,140 +185,116 @@ function CardLine({ products, images, deleteHandler }) {
   }
   return (
     <div className={classes.root}>
-      {/* <GridList className={classes.gridList} cols={2.5}> */}
-      {products &&
-        products.map((product) => (
-          <Card style={{ width: "18rem" }}>
-            <MyCarousel />
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-          // <GridListTile
-          //   style={{ height: "100%", width: "100%" }}
-          //   key={product["name"]}
-          // >
-          //   <Card
-          //     style={{
-          //       margin: "1rem",
-          //       maxWidth: 600,
-          //       minWidth: 300,
-          //       height: "fit-content",
-          //       border: "1px solid #ececec",
-          //       borderRadius: "15px",
-          //     }}
-          //   >
-          //     {" "}
-          //     <CardActionArea
-          //       onClick={(e) => cardOnClickHandler(e, product["_id"])}
-          //     >
-          //       {product["images"] && images[0] && (
-          //         // productImages(product).map((img) => {
-          //         //   return (
-          //         //     <CardMedia
-          //         //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
-          //         //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-          //         //       title="Contemplative Reptile"
-          //         //       style={{ height: 140 }}
-          //         //     />
-          //         //   );
-          //         // })
-          //         <CardMedia
-          //           image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
-          //           // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-          //           title="Contemplative Reptile"
-          //           style={{ height: 140 }}
-          //         />
-          //       )}
+      <GridList className={classes.gridList} cols={2.5}>
+        {products &&
+          products.map((product, i) => (
+            <GridListTile
+              style={{ height: "100%", width: "100%" }}
+              key={product["name"]}
+            >
+              <Card
+                style={{
+                  margin: "1rem",
+                  maxWidth: 600,
+                  minWidth: 150,
+                  height: "fit-content",
+                  border: "1px solid #ececec",
+                  borderRadius: "15px",
+                }}
+              >
+                {" "}
+                <CardActionArea
+                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                >
+                  {product["images"] && images[0] && (
+                    // productImages(product).map((img) => {
+                    //   return (
+                    //     <CardMedia
+                    //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
+                    //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+                    //       title="Contemplative Reptile"
+                    //       style={{ height: 140 }}
+                    //     />
+                    //   );
+                    // })
+                    // <CardMedia
+                    //   image={`data:${images[i % 5]["contentType"]};base64,${
+                    //     images[i % 5]["imageBase64"]
+                    //   }`}
+                    //   // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
+                    //   title="Contemplative Reptile"
+                    //   style={{ height: 140 }}
+                    // />
+                    <SingleLineGridList images={images} />
+                    // <SingleLineGridList images={productImages(product)} />
+                  )}
 
-          //       <CardContent>
-          //         <Typography gutterBottom variant="h5" component="h2">
-          //           <p>{product["name"]}</p>
-          //           <p>{product["price"]}</p>
-          //         </Typography>
-          //         <Typography
-          //           variant="body2"
-          //           color="textSecondary"
-          //           component="p"
-          //         >
-          //           {/* <p>Seller:{product["ownerId"]}</p> */}
-          //           {/* <p>Description:{product["description"]}</p> */}
-          //           <p>Condition:{product["condition"]}</p>
-          //           <p>Address:{product["address"]}</p>
-          //         </Typography>
-          //       </CardContent>
-          //     </CardActionArea>
-          //     <CardActions style={{ justifyContent: "center" }}>
-          //       <Button size="small" color="primary">
-          //         <DeleteProduct
-          //           id={product["_id"]}
-          //           deleteHandler={deleteHandler}
-          //         />
-          //       </Button>
-          //       <Button size="small" color="primary">
-          //         <StarBorderIcon />
-          //       </Button>
-          //       <Button size="small" color="primary">
-          //         <UpdateProduct id={product["_id"]} />
-          //       </Button>
-          //     </CardActions>
-          //   </Card>
-          // </GridListTile>
-        ))}
-      {/* </GridList> */}
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      <p>{product["name"]}</p>
+                      <p>{product["price"]}</p>
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      {/* <p>Seller:{product["ownerId"]}</p> */}
+                      <p>Description:{product["description"]}</p>
+                      <p>Condition:{product["condition"]}</p>
+                      <p>Address:{product["address"]}</p>
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions style={{ justifyContent: "center" }}>
+                  <Button size="small" color="primary">
+                    <DeleteProduct
+                      id={product["_id"]}
+                      deleteHandler={deleteHandler}
+                    />
+                  </Button>
+                  <Button size="small" color="primary">
+                    <StarBorderIcon />
+                  </Button>
+                  <Button size="small" color="primary">
+                    <UpdateProduct id={product["_id"]} />
+                  </Button>
+                </CardActions>
+              </Card>
+            </GridListTile>
+          ))}
+      </GridList>
     </div>
   );
 }
 
-function MyCarousel({ product, images }) {
-  function ProductImages() {
-    let arr = [];
-    product["images"].map((src) => {
-      let temp = images.find((element) => element["_id"] === src);
-      return temp && arr.push(temp);
-    });
-    return (
-      product["images"] &&
-      images &&
-      arr &&
-      arr.map((img) => {
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            style={{ width: "5rem", height: "5rem" }}
-            src={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-            alt="slide"
-          />
-        </Carousel.Item>;
-      })
-    );
-
-    // return arr;
-  }
+function SingleLineGridList({ images }) {
+  const classes = useStyles();
 
   return (
-    <Carousel>
-      <ProductImages />
-      {/* {product["images"] &&
-        images[0] &&
-        productImages(product).map((img) => {
-          console.log(img);
-          return (
-            <Carousel.Item>
-              <img
-                className="d-block w-100"
-                style={{ width: "5rem", height: "5rem" }}
-                src={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-                alt="slide"
-              />
-            </Carousel.Item>
-          );
-        })} */}
-    </Carousel>
+    <div className={classes.root}>
+      <GridList className={classes.gridList} cols={2.5}>
+        {images.map((Image) => (
+          <GridListTile key={Image["_id"].img}>
+            <img
+              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+              alt={Image["fileName"]}
+            />
+            <GridListTileBar
+              title={Image["fileName"]}
+              classes={{
+                root: classes.titleBar,
+                title: classes.title,
+              }}
+              actionIcon={
+                <IconButton aria-label={`star ${Image["fileName"]}`}>
+                  <StarBorderIcon className={classes.title} />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
   );
 }

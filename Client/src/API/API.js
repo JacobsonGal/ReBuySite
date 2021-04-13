@@ -14,7 +14,8 @@ export const deleteProductById = (id) => api.delete(`/product/${id}`);
 export const getProductById = (id) => api.get(`/product/${id}`);
 export const search = (query) => api.get(`/products/search?query=${query}`);
 export const sort = () => api.get(`/products/sort`);
-
+export const groupByCategory = (category) =>
+  api.get(`products/groupby?category=${category}`);
 const apis = {
   insertProduct,
   getAllProducts,
@@ -25,6 +26,7 @@ const apis = {
   sort,
   insertUser,
   getAllImages,
+  groupByCategory,
 };
 
 export default apis;

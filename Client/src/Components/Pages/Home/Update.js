@@ -89,22 +89,18 @@ export default class ProductUpdate extends Component {
     const price = event.target.value;
     this.setState({ price });
   };
-  handleChangeInputOwner = async (event) => {
-    const ownerId = event.target.value;
-    this.setState({ ownerId });
-  };
 
   categoryArray = [
-    "sport",
-    "clothing",
-    "electricity",
-    "underwear",
-    "swimwear",
-    "homecare",
-    "plants",
-    "activewear",
-    "jewlery",
-    "other",
+    "Sport",
+    "Clothing",
+    "Electricity",
+    "Underwear",
+    "Swimwear",
+    "Homecare",
+    "Plants",
+    "Activewear",
+    "Jewlery",
+    "Other",
   ];
   handleIncludeProduct = async () => {
     let data = new FormData();
@@ -114,7 +110,7 @@ export default class ProductUpdate extends Component {
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
-    data.appent("category", this.state.category);
+    data.append("category", this.state.category);
     data.append("address", this.state.address);
     for (let i = 0; i < this.state.images.length; i++) {
       data.append("images", this.state.images[i]);
@@ -150,11 +146,12 @@ export default class ProductUpdate extends Component {
   componentDidMount = async () => {
     const { id } = this.state;
     const product = await api.getProductById(id);
-
+    console.log(product);
     this.setState({
       name: product.data.data.name,
       condition: product.data.data.condition,
       description: product.data.data.description,
+      category: product.data.data.category,
       images: product.data.data.images,
       address: product.data.data.address,
       price: product.data.data.price,
@@ -186,7 +183,7 @@ export default class ProductUpdate extends Component {
     }
     return (
       <Wrapper style={{ marginTop: "50px" }}>
-        <Title>Create Product</Title>
+        <Title>Update Product</Title>
         <div style={{ textAlign: "center" }}>
           <Label>Name: </Label>
           <InputText
@@ -258,14 +255,6 @@ export default class ProductUpdate extends Component {
             type="number"
             value={price}
             onChange={this.handleChangeInputPrice}
-          />
-        </div>
-        <div style={{ textAlign: "center" }}>
-          <Label>OwnerId: </Label>
-          <InputText
-            type="number"
-            value={ownerId}
-            onChange={this.handleChangeInputOwner}
           />
         </div>
         <div>

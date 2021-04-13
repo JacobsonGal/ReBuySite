@@ -238,7 +238,9 @@ export default class ProductInsert extends Component {
           >
             <option></option>
             {this.categoryArray.map((category) => {
-              return <option>{category}</option>;
+              return (
+                <option style={{ textAlignLast: "center" }}>{category}</option>
+              );
             })}
           </select>
         </div>

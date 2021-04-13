@@ -6,6 +6,7 @@ import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
+import Groupby from "./Groupby";
 import Sort from "./Sort";
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
@@ -109,6 +110,7 @@ export default class ProductsList extends Component {
     }
   };
   searchHandler = (products) => {
+    console.log(products);
     this.setState({
       products,
     });
@@ -128,7 +130,10 @@ export default class ProductsList extends Component {
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        <Sort searchHandler={this.searchHandler} />
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Sort searchHandler={this.searchHandler} />
+          <Groupby searchHandler={this.searchHandler} />
+        </div>
         <CardLine
           products={products}
           images={images}
@@ -249,6 +254,7 @@ function CardLine({ products, images, deleteHandler }) {
                       {/* <p>Seller:{product["ownerId"]}</p> */}
                       <p>Description:{product["description"]}</p>
                       <p>Condition:{product["condition"]}</p>
+                      <p>Category:{product["category"]}</p>
                       <p>Address:{product["address"]}</p>
                     </Typography>
                   </CardContent>

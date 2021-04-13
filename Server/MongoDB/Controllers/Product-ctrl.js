@@ -95,10 +95,51 @@ const createProduct = (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const { name, condition, description, address, price, ownerId } = req.body;
+  const {
+    name,
+    condition,
+    description,
+    address,
+    price,
+    category,
+    ownerId,
+  } = req.body;
 
-  const images = req.files.map((image) => {
-    return image.path.split("\\").join("/");
+  const files = req.files;
+  console.log("files " + files);
+  if (!files) {
+    return res
+      .status(401)
+      .json({ success: false, error: "You must provide images" });
+  }
+  const images = [];
+  const images64 = files.map((image) => {
+    let img = fs.readFileSync(image.path);
+    return (encode_image = img.toString("base64"));
+    // return image.path.split("\\").join("/");
+  });
+  images64.map((src, index) => {
+    //create object to store images in the collection
+    let finalImg = {
+      fileName: files[index].originalname,
+      contentType: files[index].mimetype,
+      imageBase64: src,
+    };
+    let newImage = new Image(finalImg);
+    newImage
+      .save()
+      .then(() => {
+        console.log(newImage.fileName + "Inserted to collection!");
+      })
+      .catch((error) => {
+        // if (error) {
+        //   if (error.name === "MongoError" && error.code === 11000) {
+        //     console.log(Prom);
+        //   }
+        // }
+        console.log(error.message);
+      });
+    images.push(newImage);
   });
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
@@ -108,9 +149,7 @@ const updateProduct = async (req, res) => {
         message: "Product not found!",
       });
     }
-    if (req.files) {
-      product.images.map((path) => fs.unlink(path, (err) => console.log(err)));
-    }
+
     product.name = name;
     product.condition = condition;
     product.description = description;
@@ -272,6 +311,41 @@ const sort = async (req, res) => {
   });
   res.send(newProd);
 };
+const groupBy = async (req, res) => {
+  const data = await Product.aggregate([
+    {
+      $group: {
+        _id: "$category",
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+  let products;
+  console.log(req.query.category);
+  if (!req.query.category) {
+    products = await Product.find({}, (err, product) => {
+      if (err) console.log(err);
+    });
+  } else {
+    products = await Product.find(
+      { category: req.query.category },
+      (err, product) => {
+        if (err) {
+          console.log("there is an error", err);
+        }
+      }
+    );
+  }
+  const newProducts = products.sort((a, b) => {
+    let nameA = a.category.toLowerCase(),
+      nameB = b.category.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+  console.log(data);
+  res.json({ products: newProducts, data: data });
+};
 
 module.exports = {
   createProduct,
@@ -282,4 +356,5 @@ module.exports = {
   getProductImagesById,
   search,
   sort,
+  groupBy,
 };

@@ -4,8 +4,8 @@ const ProductCtrl = require("../controllers/Product-ctrl");
 
 const router = express.Router();
 
-// router.post("/product", upload.array("images", 10), ProductCtrl.createProduct);
-router.post("/product", ProductCtrl.createProduct);
+router.post("/product", upload.array("images", 10), ProductCtrl.createProduct);
+// router.post("/product", ProductCtrl.createProduct);
 router.put(
   "/product/:id",
   upload.array("images", 10),

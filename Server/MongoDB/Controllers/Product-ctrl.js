@@ -5,7 +5,16 @@ const fs = require("fs");
 const { query } = require("express");
 
 const createProduct = (req, res) => {
-  const { name, condition, description, address, price, ownerId } = req.body;
+  console.log(req.body);
+  const {
+    name,
+    condition,
+    category,
+    description,
+    address,
+    price,
+    ownerId,
+  } = req.body;
   const owner = new User();
   // const owner = null;
   // User.findOne({ email: ownerId }).exec();
@@ -13,7 +22,7 @@ const createProduct = (req, res) => {
   //   return res.status(402).json({ success: false, error: "No such user" });
   // }
   const files = req.files;
-  console.log("files" + files);
+  console.log("files " + files);
   if (!files) {
     return res
       .status(401)
@@ -53,6 +62,7 @@ const createProduct = (req, res) => {
     name,
     condition,
     description,
+    category,
     address,
     price,
     owner,

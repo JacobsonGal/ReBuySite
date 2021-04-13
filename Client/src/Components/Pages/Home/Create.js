@@ -49,6 +49,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
+      category: "",
       address: "",
       images: null,
       price: null,
@@ -69,6 +70,10 @@ export default class ProductInsert extends Component {
   handleChangeInputDescription = async (event) => {
     const description = event.target.value;
     this.setState({ description });
+  };
+  handleChangeInputCategory = async (event) => {
+    const category = event.target.value;
+    this.setState({ category });
   };
   handleChangeInputAdrress = async (event) => {
     const address = event.target.value;
@@ -110,6 +115,7 @@ export default class ProductInsert extends Component {
       }
     }
     data.append("price", this.state.price);
+    data.append("category", this.state.category);
     data.append("ownerId", ownerID);
     // console.log(this.state.images);
 
@@ -129,6 +135,7 @@ export default class ProductInsert extends Component {
             name: "",
             condition: "",
             description: "",
+            category: "",
             address: "",
             images: null,
             price: null,
@@ -150,6 +157,7 @@ export default class ProductInsert extends Component {
       description,
       address,
       images,
+      category,
       price,
       // ownerId,
       redirect,
@@ -191,6 +199,23 @@ export default class ProductInsert extends Component {
             value={description}
             onChange={this.handleChangeInputDescription}
           />
+        </div>{" "}
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Label>Category: </Label>
+          <select
+            type="select"
+            class="form-control"
+            style={{ margin: "0 auto", width: "80%", textAlignLast: "center" }}
+            value={category}
+            onChange={this.handleChangeInputCategory}
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
         </div>
         <div style={{ textAlign: "center" }}>
           {" "}

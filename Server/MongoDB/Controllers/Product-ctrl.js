@@ -16,26 +16,11 @@ const createProduct = async (req, res) => {
     ownerId,
   } = req.body;
   let email = ownerId;
-  // const owner = ownerId;
-  // const owner = new User();
-  // const owner = null;
-  // const owner = User.findOne({ email: ownerId }).exec();
-  // User.findOne({ email }, function (err, docs) {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     console.log("Result : ", docs);
-  //   }
-  // });
+  const files = req.files;
   const owner = await User.findOne({ email });
   if (!owner) {
     return res.status(402).json({ success: false, error: "No such user" });
   }
-  console.log(owner);
-  console.log(owner._id);
-
-  const files = req.files;
-  console.log("files " + files);
   if (!files) {
     return res
       .status(401)
@@ -96,11 +81,6 @@ const createProduct = async (req, res) => {
     .catch((error) => {
       console.log(error);
     });
-
-  // return res.status(400).json({
-  //   error,
-  //   message: "Product not created!",
-  // });
 };
 
 const updateProduct = async (req, res) => {
@@ -125,10 +105,8 @@ const updateProduct = async (req, res) => {
   const images64 = files.map((image) => {
     let img = fs.readFileSync(image.path);
     return (encode_image = img.toString("base64"));
-    // return image.path.split("\\").join("/");
   });
   images64.map((src, index) => {
-    //create object to store images in the collection
     let finalImg = {
       fileName: files[index].originalname,
       contentType: files[index].mimetype,
@@ -141,11 +119,6 @@ const updateProduct = async (req, res) => {
         console.log(newImage.fileName + "Inserted to collection!");
       })
       .catch((error) => {
-        // if (error) {
-        //   if (error.name === "MongoError" && error.code === 11000) {
-        //     console.log(Prom);
-        //   }
-        // }
         console.log(error.message);
       });
     images.push(newImage);
@@ -213,68 +186,6 @@ const getProductById = async (req, res) => {
         .json({ success: false, error: `Product not found` });
     }
     return res.status(200).json({ success: true, data: product });
-  }).catch((err) => console.log(err));
-};
-const getProductImagesById = async (req, res) => {
-  // await Image.findOne({ _id: req.params.id }, (err, image) => {
-  //   if (err) {
-  //     return res.status(400).json({ success: false, error: err });
-  //   }
-
-  //   if (!image) {
-  //     return res.status(404).json({ success: false, error: `Image not found` });
-  //   }
-  //   return res.status(200).json({ success: true, data: image });
-  // }).catch((err) => console.log(err));
-
-  // await Product.findOne({ _id: req.params.id }, (err, product) => {
-  //   let imgArr = [];
-  //   if (err) {
-  //     return res.status(400).json({ success: false, error: err });
-  //   }
-  //   if (!product) {
-  //     return res
-  //       .status(404)
-  //       .json({ success: false, error: `product not found` });
-  //   } else {
-  //     product.Image.map((imgId) => {
-  //       console.log(imgId);
-  //       Image.findOne({ _id: imgId }, (err, image) => {
-  //         if (err) {
-  //           return res.status(400).json({ success: false, error: err });
-  //         }
-  //         if (!image) {
-  //           return res
-  //             .status(404)
-  //             .json({ success: false, error: `image not found` });
-  //         }
-  //         imgArr.push(image);
-  //       });
-  //     });
-  //   }
-  //   return res.status(200).json({ success: true, data: imgArr });
-  // }).catch((err) => console.log(err));
-
-  await Image.find({}, (err, image) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    if (!image.length) {
-      return res.status(404).json({ success: false, error: `Image not found` });
-    }
-    return res.status(200).json({ success: true, data: image });
-  }).catch((err) => console.log(err));
-};
-
-const getProductImages = async (req, res) => {
-  await Image.find({}, (err, image) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    if (!image.length) {
-      return res.status(404).json({ success: false, error: `Image not found` });
-    }
-    return res.status(200).json({ success: true, data: image });
   }).catch((err) => console.log(err));
 };
 
@@ -371,7 +282,6 @@ const groupBy = async (req, res) => {
     if (nameA > nameB) return 1;
     return 0;
   });
-  console.log(data);
   res.json({ products: newProducts, data: data });
 };
 
@@ -381,7 +291,6 @@ module.exports = {
   deleteProduct,
   getProducts,
   getProductById,
-  getProductImagesById,
   search,
   sort,
   groupBy,

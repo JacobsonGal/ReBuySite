@@ -102,6 +102,7 @@ export default class ProductsList extends Component {
       await api.getAllImages().then((image) => {
         this.setState({
           images: image.data.data,
+          isLoading: false,
         });
       });
       await api.getAllUsers().then((user) => {
@@ -144,28 +145,21 @@ export default class ProductsList extends Component {
           users={users}
           deleteHandler={this.deleteHandler}
         />
+        {this.props.setLoading(false)}
       </Wrapper>
     );
   }
 }
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    // width: "100%",
-    // height: "100%",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
     direction: "ltr",
   },
   gridList: {
-    // height: "100%",
-    // width: "100%",
     flexWrap: "nowrap",
-    // display: "flex",
-    // flexDirection: "column",
-    // alignItems: "center",
     transform: "translateZ(0)",
   },
   tile: {
@@ -218,10 +212,12 @@ function CardLine({ products, images, users, deleteHandler }) {
                     {images.map(
                       (Image) =>
                         product["images"].some((id) => id === Image._id) && (
-                          <Carousel.Item>
+                          <Carousel.Item
+                            style={{ width: "100%", height: "10rem" }}
+                          >
                             <img
                               className="d-block w-100"
-                              style={{ width: "3rem", height: "10rem" }}
+                              style={{ width: "100%", height: "100%" }}
                               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
                               alt={Image["fileName"]}
                             />

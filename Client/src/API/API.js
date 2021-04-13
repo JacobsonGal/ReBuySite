@@ -31,6 +31,7 @@ export const search = (category, condition, price) =>
 export const sort = () => api.get(`/products/sort`);
 export const groupByCategory = (category) =>
   api.get(`products/groupby?category=${category}`);
+
 const apis = {
   insertUser,
   getAllUsers,

@@ -10,7 +10,6 @@ import Map from "./Components/Pages/Map/Map";
 import Favorites from "./Components/Pages/Favorites/Favorites";
 import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
-import Product from "./Components/Pages/Home/Product";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
@@ -120,13 +119,6 @@ export default function Layout({ setLocale, setActive, isActive }) {
                   <Route path="/Update/:id">
                     <ProductUpload
                       title={intl.formatMessage({ id: "Update" })}
-                      setTitle={setTitle}
-                      setActive={setActive}
-                    />
-                  </Route>
-                  <Route path="/Product/:id">
-                    <Product
-                      title={intl.formatMessage({ id: "Product" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />

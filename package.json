@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "(cd Server && node index.js) & (cd Client && npm start)",
+    "start": "(cd Server && nodemon index.js) & (cd Client && npm start)",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +20,8 @@
   "homepage": "https://github.com/ReBuyApp/ReBuySite#readme",
   "dependencies": {
     "react-pure-render": "^1.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

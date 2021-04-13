@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+import { DatabaseService } from './../services/database.service';
 
 @Component({
   selector: 'app-pie',
@@ -7,11 +8,14 @@ import * as d3 from 'd3';
   styleUrls: ['./pie.component.scss'],
 })
 export class PieComponent implements OnInit {
-  constructor() {}
+  constructor(private dataBaseService: DatabaseService) {}
 
-  ngOnInit(): void {   this.createSvg();
-  this.createColors();
-  this.drawChart();}
+  ngOnInit(): void {
+    this.createSvg();
+    this.createColors();
+    this.fetchProducts();
+    this.drawChart();
+  }
   private data = [
     { Framework: 'Vue', Stars: '166443', Released: '2014' },
     { Framework: 'React', Stars: '150793', Released: '2013' },
@@ -26,6 +30,12 @@ export class PieComponent implements OnInit {
   // The radius of the pie chart is half the smallest side
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors;
+
+  private fetchProducts(): void {
+    this.dataBaseService.getAllProducts().subscribe((products) => {
+      this.data = products.data;
+    });
+  }
 
   private createSvg(): void {
     this.svg = d3

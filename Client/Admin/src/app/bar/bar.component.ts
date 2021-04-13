@@ -1,29 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
+import { DatabaseService } from './../services/database.service';
+import {Products} from '../products';
+
 @Component({
   selector: 'app-bar',
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss'],
 })
 export class BarComponent implements OnInit {
-  constructor() {}
+
+data:Products[]=[];
+
+  constructor(private dataBaseService: DatabaseService) {}
 
   ngOnInit(): void {
+    this.fetchProducts();
     this.createSvg();
+    
     this.drawBars(this.data);
   }
 
-  private data = [
-    { Framework: 'Vue', Stars: '166443', Released: '2014' },
-    { Framework: 'React', Stars: '150793', Released: '2013' },
-    { Framework: 'Angular', Stars: '62342', Released: '2016' },
-    { Framework: 'Backbone', Stars: '27647', Released: '2010' },
-    { Framework: 'Ember', Stars: '21471', Released: '2011' },
-  ];
+
   private svg;
   private margin = 50;
   private width = 750 - this.margin * 2;
   private height = 400 - this.margin * 2;
+
+  private fetchProducts(): void {
+    this.dataBaseService.getAllProducts().subscribe((products) => {
+   this.data=products.data;
+    });
+    console.log(this.data, 'coppied data');
+  }
 
   private createSvg(): void {
     this.svg = d3
@@ -36,10 +45,11 @@ export class BarComponent implements OnInit {
   }
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
+    // console.log(data);
     const x = d3
       .scaleBand()
       .range([0, this.width])
-      .domain(data.map((d) => d.Framework))
+      .domain(data.map((d) => d.address))
       .padding(0.2);
 
     // Draw the X-axis on the DOM
@@ -52,7 +62,7 @@ export class BarComponent implements OnInit {
       .style('text-anchor', 'end');
 
     // Create the Y-axis band scale
-    const y = d3.scaleLinear().domain([0, 200000]).range([this.height, 0]);
+    const y = d3.scaleLinear().domain([0, 5000]).range([this.height, 0]);
 
     // Draw the Y-axis on the DOM
     this.svg.append('g').call(d3.axisLeft(y));
@@ -63,11 +73,17 @@ export class BarComponent implements OnInit {
       .data(data)
       .enter()
       .append('rect')
-      .attr('x', (d) => x(d.Framework))
-      .attr('y', (d) => y(d.Stars))
+      .attr('x', (d) => x(d.address))
+      .attr('y', (d) => y(d.price))
       .attr('width', x.bandwidth())
-      .attr('height', (d) => this.height - y(d.Stars))
+      .attr('height', (d) => this.height - y(d.price))
       .attr('fill', '#d04a35');
   }
-  
 }
+// private data = [
+//   { Framework: 'Vue', Stars: '166443', Released: '2014' },
+//   { Framework: 'React', Stars: '150793', Released: '2013' },
+//   { Framework: 'Angular', Stars: '62342', Released: '2016' },
+//   { Framework: 'Backbone', Stars: '27647', Released: '2010' },
+//   { Framework: 'Ember', Stars: '21471', Released: '2011' },
+// ];

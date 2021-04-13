@@ -30,11 +30,11 @@ io.on("connection", (socket) => {
   if (socket.handshake.headers.origin === "http://localhost:3001") {
     count++;
     socket.broadcast.emit("count", count);
-    // console.log("number of users  " + " " + count);
+    console.log("number of users  " + " " + count);
     socket.on("disconnect", () => {
       count--;
       socket.broadcast.emit("count", count);
-      // console.log("number of users  " + count);
+      console.log("number of users  " + count);
     });
   }
 });

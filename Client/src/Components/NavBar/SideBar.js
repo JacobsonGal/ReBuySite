@@ -74,8 +74,8 @@ export default function SideBar({
               </NavLink>
             </MenuItem>
             <MenuItem icon={<Star />}>
-              <NavLink to="/Favorites" onClick={handleToggleSidebar}>
-                {intl.formatMessage({ id: "Favorites" })}
+              <NavLink to="/Favorite" onClick={handleToggleSidebar}>
+                {intl.formatMessage({ id: "Favorite" })}
               </NavLink>
             </MenuItem>
             {/* <SubMenu

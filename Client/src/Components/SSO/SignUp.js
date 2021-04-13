@@ -6,6 +6,7 @@ import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 export default function SignUp({ setRegistered }) {
+  const [signdUp, setsigndUp] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = e.target.elements;
@@ -23,7 +24,16 @@ export default function SignUp({ setRegistered }) {
           window.alert(`User inserted successfully`);
           firebaseConfig
             .auth()
-            .createUserWithEmailAndPassword(email.value, password.value);
+            .createUserWithEmailAndPassword(email.value, password.value)
+            .then(function (result) {
+              return result.user.updateProfile({
+                displayName: name.value,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              alert(error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -32,13 +42,11 @@ export default function SignUp({ setRegistered }) {
     } catch (error) {
       alert(error);
     }
-    // const createUser = async () => {
-
-    // }
   };
 
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
+    console.log(currentUser);
     return <Redirect to="/" />;
   }
   return (

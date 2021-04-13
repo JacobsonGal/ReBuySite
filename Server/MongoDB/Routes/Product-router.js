@@ -17,4 +17,5 @@ router.get("/product/:id", ProductCtrl.getProductImagesById);
 router.get("/products", ProductCtrl.getProducts);
 router.get("/products/search", ProductCtrl.search);
 router.get("/products/sort", ProductCtrl.sort);
+router.get("/products/groupby", ProductCtrl.groupBy);
 module.exports = router;

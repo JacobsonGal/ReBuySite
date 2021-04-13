@@ -1,7 +1,7 @@
 import { NumberSymbol } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
-import { DatabaseService } from './../database.service';
+import { DatabaseService } from '../services/database.service';
 @Component({
   selector: 'app-product-number',
   templateUrl: './product-number.component.html',
@@ -25,6 +25,5 @@ export class ProductNumberComponent implements OnInit {
     });
   }
   fetchusers(): void {
-    //kaki pipi
   }
 }

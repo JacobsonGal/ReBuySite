@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RealtimeService } from '../realtime.service';
+import { RealtimeService } from '../services/realtime.service';
 
 @Component({
   selector: 'app-users-counter',

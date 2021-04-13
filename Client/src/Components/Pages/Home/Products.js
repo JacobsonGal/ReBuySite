@@ -110,7 +110,6 @@ export default class ProductsList extends Component {
     }
   };
   searchHandler = (products) => {
-    console.log(products);
     this.setState({
       products,
     });

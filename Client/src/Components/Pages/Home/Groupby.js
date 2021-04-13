@@ -20,23 +20,11 @@ function Groupby(props) {
       });
   }, []);
 
-  const clickHandler = async () => {
-    await api
-      .groupByCategory()
-      .then((res) => {
-        console.log(res);
-        // props.searchHandler(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   const onChange = async (e) => {
     const category = e.target.value.split(" ")[0];
     await api
       .groupByCategory(category)
       .then((res) => {
-        console.log(res);
         props.searchHandler(res.data.products);
       })
       .catch((err) => {
@@ -54,7 +42,7 @@ function Groupby(props) {
           onChange={(e) => changeHandler(e)}
         /> */}
         {/* <Button onClick={clickHandler}>Group By Category</Button> */}
-        <Form.Group as={Col} controlId="formGridState">
+        <Form.Group style={{ direction: "ltr" }} controlId="formGridState">
           <Form.Label>Group By</Form.Label>
           <select onChange={(e) => onChange(e)} placeholder="Choose...">
             <option></option>

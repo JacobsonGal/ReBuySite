@@ -12,7 +12,10 @@ export const updateProductById = (id, payload) =>
   api.put(`/product/${id}`, payload);
 export const deleteProductById = (id) => api.delete(`/product/${id}`);
 export const getProductById = (id) => api.get(`/product/${id}`);
-export const search = (query) => api.get(`/products/search?query=${query}`);
+export const search = (category, condition, price) =>
+  api.get(
+    `/products/search?category=${category}&condition=${condition}&price=${price}`
+  );
 export const sort = () => api.get(`/products/sort`);
 export const groupByCategory = (category) =>
   api.get(`products/groupby?category=${category}`);

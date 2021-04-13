@@ -284,15 +284,36 @@ const getProducts = async (req, res) => {
 };
 
 const search = async (req, res) => {
-  const products = await Product.find(
-    { name: new RegExp(req.query.query, "i") },
-    (err, product) => {
-      if (err) {
-        console.log("there is an error", err);
-      } else {
-      }
+  const { condition, price, category } = req.query;
+  console.log(category);
+  let products = await Product.find({}, (err, product) => {
+    if (err) {
+      console.log(err);
     }
-  );
+  });
+  if (condition) {
+    products = products.filter((product) => {
+      return product.condition === condition;
+    });
+  }
+  if (category) {
+    products = products.filter((product) => {
+      return product.category === category;
+    });
+  }
+  if (price) {
+    products = products.filter((product) => {
+      if (product.price === "less than 500") {
+        return product.price < 500;
+      } else if (product.price == "500-1000") {
+        return product.price >= 500 && product.price < 1000;
+      } else if (product.price === "1000-5000") {
+        return product.price >= 1000 && product.price < 5000;
+      } else {
+        return product.price >= 5000;
+      }
+    });
+  }
   res.send(products);
 };
 
@@ -321,7 +342,6 @@ const groupBy = async (req, res) => {
     },
   ]);
   let products;
-  console.log(req.query.category);
   if (!req.query.category) {
     products = await Product.find({}, (err, product) => {
       if (err) console.log(err);

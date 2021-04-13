@@ -26,7 +26,7 @@ const createUser = (req, res) => {
     .then(() => {
       return res.status(201).json({
         success: true,
-        id: user._id,
+        id: product._id,
         message: "User created!",
       });
     })

@@ -10,8 +10,14 @@ import {
 import reBuy from "../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
+import Carousel from "react-bootstrap/Carousel";
 
-export default function Marker({ product, setIsModelOpen, isModelOpen }) {
+export default function Marker({
+  product,
+  images,
+  setIsModelOpen,
+  isModelOpen,
+}) {
   let img = product["image"]
     ? `http://localhost:3000/${product["images"][0]}`
     : reBuy;
@@ -29,7 +35,7 @@ export default function Marker({ product, setIsModelOpen, isModelOpen }) {
             height: "fit-content",
             width: "fit-content",
             direction: "rtl",
-            padding: "10px",
+            // padding: "10px",
             margin: "auto",
             borderRadius: "15px",
             boxShadow: "1px 1px 5px 1px #e5eefa",
@@ -42,17 +48,31 @@ export default function Marker({ product, setIsModelOpen, isModelOpen }) {
           <Card
             style={{
               width: "20rem",
-              height: "20rem",
+              height: "fit-content",
               border: "1px solid #ececec",
               borderRadius: "15px",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
             }}
           >
             <CardActionArea>
-              <CardMedia
-                image={`http://localhost:3000/${product["images"][0]}`}
-                title="Contemplative Reptile"
-                style={{ height: 140 }}
-              />
+              {product["images"] && images && (
+                <Carousel>
+                  {images.map(
+                    (Image) =>
+                      product["images"].some((id) => id === Image._id) && (
+                        <Carousel.Item>
+                          <img
+                            style={{ width: "100%", height: "10%" }}
+                            src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+                            alt={Image["fileName"]}
+                          />
+                        </Carousel.Item>
+                      )
+                  )}
+                </Carousel>
+              )}
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   <p>{product["name"]}</p>

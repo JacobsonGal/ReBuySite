@@ -84,6 +84,7 @@ export default class ProductsList extends Component {
     this.state = {
       products: [],
       images: [],
+      users: [],
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
@@ -97,17 +98,21 @@ export default class ProductsList extends Component {
         this.setState({
           products: product.data.data,
         });
-        this.props.setLoading(false);
       });
       await api.getAllImages().then((image) => {
         this.setState({
           images: image.data.data,
         });
-        this.props.setLoading(false);
+      });
+      await api.getAllUsers().then((user) => {
+        this.setState({
+          users: user.data.data,
+        });
       });
     } catch (error) {
       console.log(error);
     }
+    this.props.setLoading(false);
   };
   searchHandler = (products) => {
     this.setState({
@@ -122,8 +127,8 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, isLoading } = this.state;
-    console.log(images);
+    const { products, images, users, isLoading } = this.state;
+    console.log(users);
 
     return (
       <Wrapper>
@@ -136,6 +141,7 @@ export default class ProductsList extends Component {
         <CardLine
           products={products}
           images={images}
+          users={users}
           deleteHandler={this.deleteHandler}
         />
       </Wrapper>
@@ -174,7 +180,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products, images, deleteHandler }) {
+function CardLine({ products, images, users, deleteHandler }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
     // history.push(`/product/${id}`);
@@ -182,14 +188,6 @@ function CardLine({ products, images, deleteHandler }) {
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
 
-  function productImages(product) {
-    let arr = [];
-    product["images"].map((src) => {
-      let temp = images.find((element) => element["_id"] === src);
-      return temp && arr.push(temp);
-    });
-    return arr;
-  }
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={3}>
@@ -201,6 +199,7 @@ function CardLine({ products, images, deleteHandler }) {
             >
               <PopUp
                 product={product}
+                images={images}
                 isModelOpen={isModelOpen}
                 setIsModelOpen={setIsModelOpen}
               />
@@ -214,27 +213,22 @@ function CardLine({ products, images, deleteHandler }) {
                   borderRadius: "15px",
                 }}
               >
-                {product["images"] && images[0] && (
-                  // productImages(product).map((img) => {
-                  //   return (
-                  //     <CardMedia
-                  //       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
-                  //       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-                  //       title="Contemplative Reptile"
-                  //       style={{ height: 140 }}
-                  //     />
-                  //   );
-                  // })
-                  // <CardMedia
-                  //   image={`data:${images[i % 5]["contentType"]};base64,${
-                  //     images[i % 5]["imageBase64"]
-                  //   }`}
-                  //   // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-                  //   title="Contemplative Reptile"
-                  //   style={{ height: 140 }}
-                  // />
-                  <SingleLineGridList images={images} />
-                  // <SingleLineGridList images={productImages(product)} />
+                {product["images"] && images && (
+                  <Carousel>
+                    {images.map(
+                      (Image) =>
+                        product["images"].some((id) => id === Image._id) && (
+                          <Carousel.Item>
+                            <img
+                              className="d-block w-100"
+                              style={{ width: "3rem", height: "10rem" }}
+                              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+                              alt={Image["fileName"]}
+                            />
+                          </Carousel.Item>
+                        )
+                    )}
+                  </Carousel>
                 )}{" "}
                 <CardActionArea
                   // onClick={(e) => cardOnClickHandler(e, product["_id"])}
@@ -250,7 +244,16 @@ function CardLine({ products, images, deleteHandler }) {
                       color="textSecondary"
                       component="p"
                     >
-                      {/* <p>Seller:{product["ownerId"]}</p> */}
+                      {users.some((user) => user._id === product["owner"]) && (
+                        <p>
+                          Seller:
+                          {
+                            users.find((user) => user._id === product["owner"])[
+                              "name"
+                            ]
+                          }
+                        </p>
+                      )}
                       <p>Description:{product["description"]}</p>
                       <p>Condition:{product["condition"]}</p>
                       <p>Category:{product["category"]}</p>
@@ -279,65 +282,3 @@ function CardLine({ products, images, deleteHandler }) {
     </div>
   );
 }
-
-function SingleLineGridList({ images }) {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.root}>
-      <Carousel>
-        {images.map((Image) => (
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              style={{ width: "3rem", height: "10rem" }}
-              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-              alt={Image["fileName"]}
-            />
-          </Carousel.Item>
-        ))}
-      </Carousel>
-    </div>
-  );
-}
-
-// function SingleLineGridList({ images }) {
-//   const classes = useStyles();
-
-//   return (
-//     <div className={classes.root}>
-//       {/* <GridList className={classes.gridList} cols={1}> */}
-//       <Carousel>
-//         {images.map((Image) => (
-//           <Carousel.Item>
-//             <img
-//               className="d-block w-100"
-//               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-//               alt={Image["fileName"]}
-//             />
-//           </Carousel.Item>
-
-//           // <GridListTile key={Image["_id"].img}>
-//           //   <img
-//           //     src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-//           //     alt={Image["fileName"]}
-//           //   />
-//           //   {/* <GridListTileBar
-//           //     title={Image["fileName"]}
-//           //     classes={{
-//           //       root: classes.titleBar,
-//           //       title: classes.title,
-//           //     }}
-//           //     actionIcon={
-//           //       <IconButton aria-label={`star ${Image["fileName"]}`}>
-//           //         <StarBorderIcon className={classes.title} />
-//           //       </IconButton>
-//           //     }
-//           //   /> */}
-//           // </GridListTile>
-//         ))}
-//       </Carousel>
-//       {/* </GridList> */}
-//     </div>
-//   );
-// }

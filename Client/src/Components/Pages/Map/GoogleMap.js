@@ -25,7 +25,6 @@ export default class GoogleMap extends Component {
   }
 
   componentDidMount = async () => {
-    this.setState({ isLoading: true });
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -36,7 +35,6 @@ export default class GoogleMap extends Component {
         this.setState({
           images: image.data.data,
         });
-        this.props.setLoading(false);
       });
     } catch (error) {
       console.log(error);
@@ -66,6 +64,7 @@ export default class GoogleMap extends Component {
         locations: rest,
       };
     });
+    this.props.setLoading(false);
   };
 
   render() {

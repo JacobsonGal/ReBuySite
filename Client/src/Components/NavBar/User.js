@@ -17,7 +17,7 @@ export default function User({ handleToggleSidebar }) {
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });
 
-  console.log(currentUser);
+  // console.log(currentUser);
   function Userlog() {
     if (photo !== "" && photo !== null) {
       return (

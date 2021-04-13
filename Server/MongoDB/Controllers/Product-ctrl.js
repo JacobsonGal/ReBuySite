@@ -4,7 +4,7 @@ const User = require("../models/User");
 const fs = require("fs");
 const { query } = require("express");
 
-const createProduct = (req, res) => {
+const createProduct = async (req, res) => {
   console.log(req.body);
   const {
     name,
@@ -15,12 +15,25 @@ const createProduct = (req, res) => {
     price,
     ownerId,
   } = req.body;
-  const owner = new User();
+  let email = ownerId;
+  // const owner = ownerId;
+  // const owner = new User();
   // const owner = null;
-  // User.findOne({ email: ownerId }).exec();
-  // if (!owner) {
-  //   return res.status(402).json({ success: false, error: "No such user" });
-  // }
+  // const owner = User.findOne({ email: ownerId }).exec();
+  // User.findOne({ email }, function (err, docs) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else {
+  //     console.log("Result : ", docs);
+  //   }
+  // });
+  const owner = await User.findOne({ email });
+  if (!owner) {
+    return res.status(402).json({ success: false, error: "No such user" });
+  }
+  console.log(owner);
+  console.log(owner._id);
+
   const files = req.files;
   console.log("files " + files);
   if (!files) {
@@ -32,30 +45,26 @@ const createProduct = (req, res) => {
   const images64 = files.map((image) => {
     let img = fs.readFileSync(image.path);
     return (encode_image = img.toString("base64"));
-    // return image.path.split("\\").join("/");
   });
   images64.map((src, index) => {
-    //create object to store images in the collection
     let finalImg = {
       fileName: files[index].originalname,
       contentType: files[index].mimetype,
       imageBase64: src,
     };
     let newImage = new Image(finalImg);
+    let id = newImage._id;
+    console.log(newImage._id);
+    console.log(id);
+    images.push(newImage._id);
     newImage
       .save()
-      .then(() => {
+      .then((result) => {
         console.log(newImage.fileName + "Inserted to collection!");
       })
       .catch((error) => {
-        // if (error) {
-        //   if (error.name === "MongoError" && error.code === 11000) {
-        //     console.log(Prom);
-        //   }
-        // }
         console.log(error.message);
       });
-    images.push(newImage);
   });
 
   const product = new Product({

@@ -5,7 +5,7 @@ const fs = require("fs");
 const { query } = require("express");
 
 const createProduct = (req, res) => {
-  const { name, condition, description, address, price, ownerId } = req.body;
+  const { name, condition,category, description, address, price, ownerId } = req.body;
   const owner = new User();
   // const owner = null;
   // User.findOne({ email: ownerId }).exec();
@@ -53,6 +53,7 @@ const createProduct = (req, res) => {
     name,
     condition,
     description,
+    category,
     address,
     price,
     owner,

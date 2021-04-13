@@ -49,6 +49,7 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
+      category: "",
       address: "",
       images: null,
       price: null,
@@ -69,6 +70,10 @@ export default class ProductInsert extends Component {
   handleChangeInputDescription = async (event) => {
     const description = event.target.value;
     this.setState({ description });
+  };
+  handleChangeInputCategory = async (event) => {
+    const category = event.target.value;
+    this.setState({ category });
   };
   handleChangeInputAdrress = async (event) => {
     const address = event.target.value;
@@ -110,6 +115,7 @@ export default class ProductInsert extends Component {
       }
     }
     data.append("price", this.state.price);
+    data.append("category", this.state.category);
     data.append("ownerId", ownerID);
     // console.log(this.state.images);
 
@@ -129,6 +135,7 @@ export default class ProductInsert extends Component {
             name: "",
             condition: "",
             description: "",
+            category: "",
             address: "",
             images: null,
             price: null,
@@ -150,6 +157,7 @@ export default class ProductInsert extends Component {
       description,
       address,
       images,
+      category,
       price,
       // ownerId,
       redirect,
@@ -199,6 +207,15 @@ export default class ProductInsert extends Component {
             type="text"
             value={address}
             onChange={this.handleChangeInputAdrress}
+          />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Label>Category: </Label>
+          <InputText
+            type="text"
+            value={category}
+            onChange={this.handleChangeInputCategory}
           />
         </div>
         <div style={{ textAlign: "center" }}>

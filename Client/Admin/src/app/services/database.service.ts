@@ -12,4 +12,7 @@ export class DatabaseService {
   getAllProducts(): Observable<any> {
     return this.http.get(`${baseUrl}/products`);
   }
+  getAllUsers(): Observable<any> {
+    return this.http.get(`${baseUrl}/user`);
+  }
 }

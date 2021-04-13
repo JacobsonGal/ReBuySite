@@ -4,9 +4,10 @@ const cors = require("cors");
 const socketIo = require("socket.io");
 const http = require("http");
 const db = require("./MongoDB/DB");
-const productRouter = require("./MongoDB/routes/product-router");
+
+const productRouter = require("./MongoDB/routes/Product-router");
 const userRouter = require("./MongoDB/routes/Users-router");
-const imageRouter = require("./MongoDB/routes/Image-router");
+const transactionRouter = require("./MongoDB/Routes/Transaction-router");
 
 const app = express();
 const apiPort = 3000;
@@ -50,9 +51,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", userRouter);
 app.use("/api", productRouter);
-app.use("/api", imageRouter);
+app.use("/api", transactionRouter);
 
-// app.listen(apiPort, () =>
-//   console.log(`ReBuy Server running on port ${apiPort}`)
-// );
-server.listen(apiPort);
+server.listen(apiPort, () =>
+  console.log(`ReBuy Server running on port ${apiPort}`)
+);

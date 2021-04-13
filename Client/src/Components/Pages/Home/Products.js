@@ -82,7 +82,7 @@ export default class ProductsList extends Component {
     super(props);
     this.state = {
       products: [],
-      images: [],
+      transactions: [],
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
@@ -98,9 +98,9 @@ export default class ProductsList extends Component {
         });
         this.props.setLoading(false);
       });
-      await api.getAllImages().then((image) => {
+      await api.getAllTransactions().then((transaction) => {
         this.setState({
-          images: image.data.data,
+          transactions: transaction.data.data,
         });
         this.props.setLoading(false);
       });
@@ -121,8 +121,7 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, isLoading } = this.state;
-    console.log(images);
+    const { products, transactions, isLoading } = this.state;
 
     return (
       <Wrapper>
@@ -131,7 +130,7 @@ export default class ProductsList extends Component {
         <Sort searchHandler={this.searchHandler} />
         <CardLine
           products={products}
-          images={images}
+          transactions={transactions}
           deleteHandler={this.deleteHandler}
         />
       </Wrapper>
@@ -170,14 +169,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products, images, deleteHandler }) {
+function CardLine({ products, transactions, deleteHandler }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
     // history.push(`/product/${id}`);
   };
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
-  const [imgArr, setimgArr] = useState([]);
   return (
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={3}>
@@ -202,7 +200,7 @@ function CardLine({ products, images, deleteHandler }) {
                   borderRadius: "15px",
                 }}
               >
-                {product["images"] && images && (
+                {product["images"] && (
                   <Carousel>
                     {product["images"].map((Image) => (
                       <Carousel.Item>
@@ -262,87 +260,3 @@ function CardLine({ products, images, deleteHandler }) {
     </div>
   );
 }
-
-function SingleLineGridList({ images }) {
-  const classes = useStyles();
-  console.log(images);
-  return (
-    <div className={classes.root}>
-      <Carousel>
-        {images.map((Image) => (
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              style={{ width: "100%", height: "100%", minWidth: "3rem" }}
-              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-              alt={Image["fileName"]}
-            />
-          </Carousel.Item>
-        ))}
-      </Carousel>
-    </div>
-  );
-}
-
-// function SingleLineGridList({ images }) {
-//   const classes = useStyles();
-
-//   return (
-//     <div className={classes.root}>
-//       {/* <GridList className={classes.gridList} cols={1}> */}
-//       <Carousel>
-//         {images.map((Image) => (
-//           <Carousel.Item>
-//             <img
-//               className="d-block w-100"
-//               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-//               alt={Image["fileName"]}
-//             />
-//           </Carousel.Item>
-
-//           // <GridListTile key={Image["_id"].img}>
-//           //   <img
-//           //     src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-//           //     alt={Image["fileName"]}
-//           //   />
-//           //   {/* <GridListTileBar
-//           //     title={Image["fileName"]}
-//           //     classes={{
-//           //       root: classes.titleBar,
-//           //       title: classes.title,
-//           //     }}
-//           //     actionIcon={
-//           //       <IconButton aria-label={`star ${Image["fileName"]}`}>
-//           //         <StarBorderIcon className={classes.title} />
-//           //       </IconButton>
-//           //     }
-//           //   /> */}
-//           // </GridListTile>
-//         ))}
-//       </Carousel>
-//       {/* </GridList> */}
-//     </div>
-//   );
-// }
-
-// productImages(product).map((img) => {
-//   return (
-//     <CardMedia
-//       image={`data:${images[0]["contentType"]};base64,${images[0]["imageBase64"]}`}
-//       // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-//       title="Contemplative Reptile"
-//       style={{ height: 140 }}
-//     />
-//   );
-// })
-// <CardMedia
-//   image={`data:${images[i % 5]["contentType"]};base64,${
-//     images[i % 5]["imageBase64"]
-//   }`}
-//   // image={`data:${img["contentType"]};base64,${img["imageBase64"]}`}
-//   title="Contemplative Reptile"
-//   style={{ height: 140 }}
-// />
-// <SingleLineGridList images={images} />
-
-// <SingleLineGridList images={imgArr} />

@@ -1,5 +1,4 @@
 const Product = require("../models/Product");
-const Image = require("../Models/Transaction");
 const User = require("../models/User");
 const fs = require("fs");
 const { query } = require("express");

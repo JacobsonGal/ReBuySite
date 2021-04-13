@@ -285,7 +285,6 @@ const getProducts = async (req, res) => {
 
 const search = async (req, res) => {
   const { condition, price, category } = req.query;
-  console.log(category);
   let products = await Product.find({}, (err, product) => {
     if (err) {
       console.log(err);
@@ -301,13 +300,14 @@ const search = async (req, res) => {
       return product.category === category;
     });
   }
+  console.log(price);
   if (price) {
     products = products.filter((product) => {
-      if (product.price === "less than 500") {
+      if (price == "less than 500") {
         return product.price < 500;
-      } else if (product.price == "500-1000") {
+      } else if (price == "500-1000") {
         return product.price >= 500 && product.price < 1000;
-      } else if (product.price === "1000-5000") {
+      } else if (price === "1000-5000") {
         return product.price >= 1000 && product.price < 5000;
       } else {
         return product.price >= 5000;

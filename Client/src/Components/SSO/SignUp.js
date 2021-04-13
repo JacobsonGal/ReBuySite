@@ -2,11 +2,9 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
-import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 export default function SignUp({ setRegistered }) {
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target.elements;
@@ -16,49 +14,6 @@ export default function SignUp({ setRegistered }) {
         .createUserWithEmailAndPassword(email.value, password.value);
     } catch (error) {
       alert(error);
-    }
-  };
-
-  const handleIncludeProduct = async () => {
-    let data = new FormData();
-    data.append("name", this.state.name);
-    data.append("condition", this.state.condition);
-    data.append("description", this.state.description);
-    data.append("address", this.state.address);
-    for (let i = 0; i < this.state.images.length; i++) {
-      data.append("images", this.state.images[i]);
-    }
-
-    data.append("price", this.state.price);
-    data.append("ownerId", this.state.ownerId);
-    console.log(this.state.images);
-
-    if (
-      Object.values(this.state).some((element) => {
-        return element === "" || element === null;
-      })
-    ) {
-      this.setState({ alert: true });
-    } else {
-      await api
-        .insertProduct(data)
-        .then((res) => {
-          window.alert(`Product inserted successfully`);
-          this.setState({
-            name: "",
-            condition: "",
-            description: "",
-            address: "",
-            images: null,
-            price: null,
-            ownerId: null,
-            redirect: true,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
     }
   };
   const { currentUser } = useContext(AuthContext);

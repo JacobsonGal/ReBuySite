@@ -300,7 +300,6 @@ const search = async (req, res) => {
       return product.category === category;
     });
   }
-  console.log(price);
   if (price) {
     products = products.filter((product) => {
       if (price == "less than 500") {

@@ -191,11 +191,10 @@ function CardLine({ products, images, deleteHandler }) {
       <GridList className={classes.gridList} cols={3}>
         {products &&
           products.map((product, i) => (
-            // <GridListTile
-            //   style={{ height: "100%", width: "100%" }}
-            //   key={product["name"]}
-            // >
-            <>
+            <GridListTile
+              style={{ height: "100%", width: "fit-content" }}
+              key={product["name"]}
+            >
               <PopUp
                 product={product}
                 isModelOpen={isModelOpen}
@@ -269,8 +268,7 @@ function CardLine({ products, images, deleteHandler }) {
                   </Button>
                 </CardActions>
               </Card>
-            </>
-            // </GridListTile>
+            </GridListTile>
           ))}
       </GridList>
     </div>
@@ -287,7 +285,7 @@ function SingleLineGridList({ images }) {
           <Carousel.Item>
             <img
               className="d-block w-100"
-              style={{ width: "5rem", height: "10rem" }}
+              style={{ width: "3rem", height: "10rem" }}
               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
               alt={Image["fileName"]}
             />

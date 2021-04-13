@@ -35,7 +35,7 @@ const TopBar = ({
       </div>
 
       <div className="tabs">
-        {/* <div className="icons">
+        <div className="icons">
           <Link to="/notification" onClick={handleToggleSidebar}>
             <div class="notification-box">
               {notificationHandler}
@@ -47,19 +47,10 @@ const TopBar = ({
               </div>
             </div>
           </Link>
-        </div> */}
+        </div>
       </div>
     </div>
   );
 };
 
 export default TopBar;
-
-{
-  /* <div className="title">
-        <h1 className="titleh1">Yavo</h1>
-        <Button to="/" className="titlefast" onClick={isCollapsed}>
-          Yavo
-        </Button>
-      </div> */
-}

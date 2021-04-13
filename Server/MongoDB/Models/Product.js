@@ -11,7 +11,7 @@ const Product = new Schema(
     address: { type: String, required: true },
     price: { type: Number, required: true },
     owner: { type: Schema.Types.ObjectId, ref: "User" },
-    images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
+    images: [{ type: String }],
   },
   { timestamps: true }
 );

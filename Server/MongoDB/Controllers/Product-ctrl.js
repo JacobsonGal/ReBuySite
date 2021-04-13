@@ -44,7 +44,7 @@ const createProduct = (req, res) => {
     let newImage = new Image(finalImg);
     newImage
       .save()
-      .then(() => {
+      .then((result) => {
         console.log(newImage.fileName + "Inserted to collection!");
       })
       .catch((error) => {
@@ -55,7 +55,7 @@ const createProduct = (req, res) => {
         // }
         console.log(error.message);
       });
-    images.push(newImage);
+    images.push(newImage.imageBase64);
   });
 
   const product = new Product({

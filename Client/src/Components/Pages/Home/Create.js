@@ -100,6 +100,18 @@ export default class ProductInsert extends Component {
   //   this.setState({ ownerId });
   // };
 
+  categoryArray = [
+    "Sport",
+    "Clothing",
+    "Electricity",
+    "Underwear",
+    "Swimwear",
+    "Homecare",
+    "Plants",
+    "Activewear",
+    "Jewlery",
+    "Other",
+  ];
   handleIncludeProduct = async () => {
     let data = new FormData();
     let ownerID = firebase.auth().currentUser
@@ -186,11 +198,21 @@ export default class ProductInsert extends Component {
         <div style={{ textAlign: "center" }}>
           {" "}
           <Label>Condition: </Label>
-          <InputText
-            type="text"
+          <select
+            class="form-control"
+            style={{
+              margin: "0 auto",
+              width: "80%",
+              textAlignLast: "center",
+              direction: "ltr",
+            }}
             value={condition}
             onChange={this.handleChangeInputCondition}
-          />
+          >
+            <option></option>
+            <option>USED</option>
+            <option>NEW</option>
+          </select>
         </div>
         <div style={{ textAlign: "center" }}>
           <Label>Description: </Label>
@@ -204,17 +226,20 @@ export default class ProductInsert extends Component {
           {" "}
           <Label>Category: </Label>
           <select
-            type="select"
             class="form-control"
-            style={{ margin: "0 auto", width: "80%", textAlignLast: "center" }}
+            style={{
+              margin: "0 auto",
+              width: "80%",
+              textAlignLast: "center",
+              direction: "ltr",
+            }}
             value={category}
             onChange={this.handleChangeInputCategory}
           >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option></option>
+            {this.categoryArray.map((category) => {
+              return <option>{category}</option>;
+            })}
           </select>
         </div>
         <div style={{ textAlign: "center" }}>

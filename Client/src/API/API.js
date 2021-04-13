@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
+  // baseURL: "http://jacobsonmac.local:3000/api",
 });
 
 export const insertUser = (payload) => api.post(`/user`, payload);

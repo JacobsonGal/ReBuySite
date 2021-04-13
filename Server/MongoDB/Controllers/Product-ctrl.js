@@ -1,10 +1,9 @@
 const Product = require("../models/Product");
-const Image = require("../models/Image");
-const User = require("../models/User");
 const fs = require("fs");
 const { query } = require("express");
 
 const createProduct = (req, res) => {
+<<<<<<< HEAD
   console.log(req.body);
   const {
     name,
@@ -56,6 +55,12 @@ const createProduct = (req, res) => {
         console.log(error.message);
       });
     images.push(newImage);
+=======
+  const { name, condition, description, address, price, ownerId } = req.body;
+
+  const images = req.files.map((image) => {
+    return image.path.split("\\").join("/");
+>>>>>>> parent of 413847f (3 models and pictures)
   });
 
   const product = new Product({
@@ -64,9 +69,9 @@ const createProduct = (req, res) => {
     description,
     category,
     address,
-    price,
-    owner,
     images,
+    price,
+    ownerId,
   });
 
   if (!product) {
@@ -167,68 +172,6 @@ const getProductById = async (req, res) => {
     return res.status(200).json({ success: true, data: product });
   }).catch((err) => console.log(err));
 };
-const getProductImagesById = async (req, res) => {
-  // await Image.findOne({ _id: req.params.id }, (err, image) => {
-  //   if (err) {
-  //     return res.status(400).json({ success: false, error: err });
-  //   }
-
-  //   if (!image) {
-  //     return res.status(404).json({ success: false, error: `Image not found` });
-  //   }
-  //   return res.status(200).json({ success: true, data: image });
-  // }).catch((err) => console.log(err));
-
-  // await Product.findOne({ _id: req.params.id }, (err, product) => {
-  //   let imgArr = [];
-  //   if (err) {
-  //     return res.status(400).json({ success: false, error: err });
-  //   }
-  //   if (!product) {
-  //     return res
-  //       .status(404)
-  //       .json({ success: false, error: `product not found` });
-  //   } else {
-  //     product.Image.map((imgId) => {
-  //       console.log(imgId);
-  //       Image.findOne({ _id: imgId }, (err, image) => {
-  //         if (err) {
-  //           return res.status(400).json({ success: false, error: err });
-  //         }
-  //         if (!image) {
-  //           return res
-  //             .status(404)
-  //             .json({ success: false, error: `image not found` });
-  //         }
-  //         imgArr.push(image);
-  //       });
-  //     });
-  //   }
-  //   return res.status(200).json({ success: true, data: imgArr });
-  // }).catch((err) => console.log(err));
-
-  await Image.find({}, (err, image) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    if (!image.length) {
-      return res.status(404).json({ success: false, error: `Image not found` });
-    }
-    return res.status(200).json({ success: true, data: image });
-  }).catch((err) => console.log(err));
-};
-
-const getProductImages = async (req, res) => {
-  await Image.find({}, (err, image) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    if (!image.length) {
-      return res.status(404).json({ success: false, error: `Image not found` });
-    }
-    return res.status(200).json({ success: true, data: image });
-  }).catch((err) => console.log(err));
-};
 
 const getProducts = async (req, res) => {
   await Product.find({}, (err, product) => {
@@ -279,7 +222,6 @@ module.exports = {
   deleteProduct,
   getProducts,
   getProductById,
-  getProductImagesById,
   search,
   sort,
 };

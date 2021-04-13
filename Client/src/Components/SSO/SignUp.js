@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
-import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 export default function SignUp({ setRegistered }) {
+<<<<<<< HEAD
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = e.target.elements;
@@ -37,6 +37,19 @@ export default function SignUp({ setRegistered }) {
     // }
   };
 
+=======
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { email, password } = e.target.elements;
+    try {
+      firebaseConfig
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value);
+    } catch (error) {
+      alert(error);
+    }
+  };
+>>>>>>> parent of 413847f (3 models and pictures)
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/" />;

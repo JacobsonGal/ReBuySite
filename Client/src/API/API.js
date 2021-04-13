@@ -7,7 +7,6 @@ const api = axios.create({
 export const insertUser = (payload) => api.post(`/user`, payload);
 export const insertProduct = (payload) => api.post(`/product`, payload);
 export const getAllProducts = () => api.get(`/products`);
-export const getAllImages = () => api.get(`/images`);
 export const updateProductById = (id, payload) =>
   api.put(`/product/${id}`, payload);
 export const deleteProductById = (id) => api.delete(`/product/${id}`);
@@ -23,8 +22,6 @@ const apis = {
   getProductById,
   search,
   sort,
-  insertUser,
-  getAllImages,
 };
 
 export default apis;

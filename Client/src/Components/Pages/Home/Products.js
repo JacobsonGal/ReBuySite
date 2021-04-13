@@ -21,9 +21,12 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
+<<<<<<< HEAD
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
+=======
+>>>>>>> parent of 413847f (3 models and pictures)
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -82,7 +85,6 @@ export default class ProductsList extends Component {
     super(props);
     this.state = {
       products: [],
-      images: [],
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
@@ -95,12 +97,6 @@ export default class ProductsList extends Component {
       await api.getAllProducts().then((product) => {
         this.setState({
           products: product.data.data,
-        });
-        this.props.setLoading(false);
-      });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
         });
         this.props.setLoading(false);
       });
@@ -121,19 +117,23 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, isLoading } = this.state;
-    console.log(images);
-
+    const { products, isLoading } = this.state;
     return (
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
         <Sort searchHandler={this.searchHandler} />
+<<<<<<< HEAD
         <CardLine
           products={products}
           images={images}
           deleteHandler={this.deleteHandler}
         />
+=======
+        <CardLine products={products} deleteHandler={this.deleteHandler} />
+        <h1>Suggested just for you</h1>
+        <CardLine products={products} />
+>>>>>>> parent of 413847f (3 models and pictures)
       </Wrapper>
     );
   }
@@ -170,12 +170,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products, images, deleteHandler }) {
+function CardLine({ products, deleteHandler }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
     // history.push(`/product/${id}`);
   };
   const classes = useStyles();
+<<<<<<< HEAD
   const [isModelOpen, setIsModelOpen] = useState(false);
 
   function productImages(product) {
@@ -205,11 +206,24 @@ function CardLine({ products, images, deleteHandler }) {
                   margin: "1rem",
                   maxWidth: 300,
                   minWidth: 100,
+=======
+  return (
+    <div className={classes.root}>
+      <GridList className={classes.gridList} cols={2.5}>
+        {products &&
+          products.map((product) => (
+            <GridListTile style={{ height: "100%" }} key={product["name"]}>
+              <Card
+                style={{
+                  margin: "1rem",
+                  maxWidth: 600,
+>>>>>>> parent of 413847f (3 models and pictures)
                   height: "fit-content",
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}
               >
+<<<<<<< HEAD
                 {product["images"] && images[0] && (
                   // productImages(product).map((img) => {
                   //   return (
@@ -236,6 +250,17 @@ function CardLine({ products, images, deleteHandler }) {
                   // onClick={(e) => cardOnClickHandler(e, product["_id"])}
                   onClick={() => setIsModelOpen(true)}
                 >
+=======
+                {" "}
+                <CardActionArea
+                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                >
+                  <CardMedia
+                    image={`http://localhost:3000/${product["images"][0]}`}
+                    title="Contemplative Reptile"
+                    style={{ height: 140 }}
+                  />
+>>>>>>> parent of 413847f (3 models and pictures)
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       <p>{product["name"]}</p>
@@ -247,7 +272,11 @@ function CardLine({ products, images, deleteHandler }) {
                       component="p"
                     >
                       {/* <p>Seller:{product["ownerId"]}</p> */}
+<<<<<<< HEAD
                       <p>Description:{product["description"]}</p>
+=======
+                      {/* <p>Description:{product["description"]}</p> */}
+>>>>>>> parent of 413847f (3 models and pictures)
                       <p>Condition:{product["condition"]}</p>
                       <p>Address:{product["address"]}</p>
                     </Typography>
@@ -274,6 +303,7 @@ function CardLine({ products, images, deleteHandler }) {
     </div>
   );
 }
+<<<<<<< HEAD
 
 function SingleLineGridList({ images }) {
   const classes = useStyles();
@@ -335,3 +365,5 @@ function SingleLineGridList({ images }) {
 //     </div>
 //   );
 // }
+=======
+>>>>>>> parent of 413847f (3 models and pictures)

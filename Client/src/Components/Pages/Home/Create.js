@@ -199,6 +199,23 @@ export default class ProductInsert extends Component {
             value={description}
             onChange={this.handleChangeInputDescription}
           />
+        </div>{" "}
+        <div style={{ textAlign: "center" }}>
+          {" "}
+          <Label>Category: </Label>
+          <select
+            type="select"
+            class="form-control"
+            style={{ margin: "0 auto", width: "80%", textAlignLast: "center" }}
+            value={category}
+            onChange={this.handleChangeInputCategory}
+          >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
         </div>
         <div style={{ textAlign: "center" }}>
           {" "}
@@ -207,15 +224,6 @@ export default class ProductInsert extends Component {
             type="text"
             value={address}
             onChange={this.handleChangeInputAdrress}
-          />
-        </div>
-        <div style={{ textAlign: "center" }}>
-          {" "}
-          <Label>Category: </Label>
-          <InputText
-            type="text"
-            value={category}
-            onChange={this.handleChangeInputCategory}
           />
         </div>
         <div style={{ textAlign: "center" }}>

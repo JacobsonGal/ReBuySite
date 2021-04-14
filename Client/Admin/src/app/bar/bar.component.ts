@@ -1,37 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { DatabaseService } from './../services/database.service';
-import {Products} from '../products';
+import { Products } from '../products';
+import { nextTick } from 'process';
 
 @Component({
   selector: 'app-bar',
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss'],
 })
+@Injectable()
 export class BarComponent implements OnInit {
-
-data:Products[]=[];
+  data = [];
 
   constructor(private dataBaseService: DatabaseService) {}
 
   ngOnInit(): void {
-    this.fetchProducts();
+    const myObserver = {
+      next: (x) => {
+        // console.log(x, 'log x');
+
+        //  this.data = x.data.map((bla) => bla);
+        //console.log(this.data, 'first log');
+        // console.log(this.data[1], 'second log');
+        //   this.data.push(x.data);
+        x.data.map((val) => this.data.push(val));
+        //  console.log(this.data, 'data logged');
+      },
+      error: (err) => console.error('Observer got an error: ', err),
+      complete: () => console.log('Observer got a complete notification'),
+    };
+    this.dataBaseService.getAllProducts().subscribe(myObserver);
+    console.log(this.data, 'data products');
     this.createSvg();
-    
+    //  console.log(abc, 'abc logged');
+
     this.drawBars(this.data);
   }
-
 
   private svg;
   private margin = 50;
   private width = 750 - this.margin * 2;
   private height = 400 - this.margin * 2;
 
-  private fetchProducts(): void {
-    this.dataBaseService.getAllProducts().subscribe((products) => {
-   this.data=products.data;
-    });
-    console.log(this.data, 'coppied data');
+  private fetchProducts(observer): any {
+    console.log(
+      this.dataBaseService.getAllProducts().subscribe(observer),
+      'fetch products method'
+    );
+    this.dataBaseService.getAllProducts().subscribe(observer);
   }
 
   private createSvg(): void {
@@ -45,7 +62,7 @@ data:Products[]=[];
   }
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
-    // console.log(data);
+    console.log(data);
     const x = d3
       .scaleBand()
       .range([0, this.width])

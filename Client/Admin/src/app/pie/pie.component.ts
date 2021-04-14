@@ -58,7 +58,7 @@ export class PieComponent implements OnInit {
     // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((d: any) => Number(d.amount));
     console.log(pie, 'pie');
-
+    //
     // Build the pie chart
     this.svg
       .selectAll('pieces')

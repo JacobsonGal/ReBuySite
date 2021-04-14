@@ -2,10 +2,9 @@ const Product = require("../models/Product");
 const Image = require("../models/Image");
 const User = require("../models/User");
 const fs = require("fs");
-const { query } = require("express");
+const db = require("../DB/index");
 
 const createProduct = async (req, res) => {
-  console.log(req.body);
   const {
     name,
     condition,
@@ -252,7 +251,6 @@ const sort = async (req, res) => {
   res.send(newProd);
 };
 const groupBy = async (req, res) => {
-  console.log(req.query.category);
   const data = await Product.aggregate([
     {
       $group: {
@@ -287,6 +285,21 @@ const groupBy = async (req, res) => {
   res.json({ products: newProducts, data: data });
 };
 
+const mapAndReduce = async (req, res) => {
+  var mapFunction1 = function () {
+    console.log("stam");
+    emit(this.category, this.price);
+  };
+  var reduceFunction1 = function (keyCategory, valuesPrices) {
+    // return Array.sum(valuesPrices);
+    return 1;
+  };
+  Product.mapReduce(mapFunction1, reduceFunction1, {
+    out: "map_reduce_example",
+  });
+  res.send("hey");
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -296,4 +309,5 @@ module.exports = {
   search,
   sort,
   groupBy,
+  mapAndReduce,
 };

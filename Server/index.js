@@ -44,6 +44,6 @@ app.get("/", (req, res) => {
 app.use("/api", userRouter);
 app.use("/api", productRouter);
 app.use("/api", imageRouter);
-server.listen(apiPort, () =>
-  console.log(`ReBuy Server running on port ${apiPort}`)
-);
+server.listen(apiPort, () => {
+  console.log(`ReBuy Server running on port ${apiPort}`);
+});

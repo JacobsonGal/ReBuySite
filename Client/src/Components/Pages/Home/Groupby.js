@@ -5,12 +5,12 @@ import api from "../../../API/API";
 function Groupby(props) {
   const [products, setProducts] = useState([]);
   const [data, setData] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(async () => {
     await api
       .groupByCategory()
       .then((res) => {
-        console.log(res);
         setProducts(res.data.products);
         setData(res.data.data);
       })
@@ -26,6 +26,17 @@ function Groupby(props) {
       .then((res) => {
         console.log(res.data.products);
         props.searchHandler(res.data.products);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const mapReduceHandler = async () => {
+    await api
+      .mapAndReduce()
+      .then((res) => {
+        console.log(res);
+        setTotal(res);
       })
       .catch((err) => {
         console.log(err);
@@ -55,6 +66,7 @@ function Groupby(props) {
             })}
           </select>
         </Form.Group>
+        <Button onClick={mapReduceHandler}>MAPREDUCE</Button>
       </Form.Group>
     </Form>
   );

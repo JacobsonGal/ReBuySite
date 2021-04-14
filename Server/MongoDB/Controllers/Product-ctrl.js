@@ -252,6 +252,7 @@ const sort = async (req, res) => {
   res.send(newProd);
 };
 const groupBy = async (req, res) => {
+  console.log(req.query.category);
   const data = await Product.aggregate([
     {
       $group: {
@@ -282,6 +283,7 @@ const groupBy = async (req, res) => {
     if (nameA > nameB) return 1;
     return 0;
   });
+  console.log(data);
   res.json({ products: newProducts, data: data });
 };
 

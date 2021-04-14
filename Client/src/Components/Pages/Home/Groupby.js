@@ -13,7 +13,6 @@ function Groupby(props) {
         console.log(res);
         setProducts(res.data.products);
         setData(res.data.data);
-        // props.searchHandler(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -25,6 +24,7 @@ function Groupby(props) {
     await api
       .groupByCategory(category)
       .then((res) => {
+        console.log(res.data.products);
         props.searchHandler(res.data.products);
       })
       .catch((err) => {

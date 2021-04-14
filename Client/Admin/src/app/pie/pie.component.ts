@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { DatabaseService } from './../services/database.service';
-
+import { Products } from './../products';
 @Component({
   selector: 'app-pie',
   templateUrl: './pie.component.html',
@@ -9,20 +9,24 @@ import { DatabaseService } from './../services/database.service';
 })
 export class PieComponent implements OnInit {
   constructor(private dataBaseService: DatabaseService) {}
+  data = [];
+  prodcut: Products[] = [];
 
   ngOnInit(): void {
+    const myObserver = {
+      next: (x) => {
+        x.data.map((val) => this.data.push(val));
+      },
+      error: (err) => console.error('Observer got an error: ', err),
+      complete: () => console.log('Observer got a complete notification'),
+    };
+    this.dataBaseService.getAllProducts().subscribe(myObserver);
+
     this.createSvg();
     this.createColors();
-    this.fetchProducts();
     this.drawChart();
   }
-  private data = [
-    { Framework: 'Vue', Stars: '166443', Released: '2014' },
-    { Framework: 'React', Stars: '150793', Released: '2013' },
-    { Framework: 'Angular', Stars: '62342', Released: '2016' },
-    { Framework: 'Backbone', Stars: '27647', Released: '2010' },
-    { Framework: 'Ember', Stars: '21471', Released: '2011' },
-  ];
+
   private svg;
   private margin = 50;
   private width = 750;
@@ -30,12 +34,6 @@ export class PieComponent implements OnInit {
   // The radius of the pie chart is half the smallest side
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors;
-
-  private fetchProducts(): void {
-    this.dataBaseService.getAllProducts().subscribe((products) => {
-      this.data = products.data;
-    });
-  }
 
   private createSvg(): void {
     this.svg = d3
@@ -53,17 +51,18 @@ export class PieComponent implements OnInit {
   private createColors(): void {
     this.colors = d3
       .scaleOrdinal()
-      .domain(this.data.map((d) => d.Stars.toString()))
+      .domain(this.data_.map((d) => d.amount.toString()))
       .range(['#c7d3ec', '#a5b8db', '#879cc4', '#677795', '#5a6782']);
   }
   private drawChart(): void {
     // Compute the position of each group on the pie:
-    const pie = d3.pie<any>().value((d: any) => Number(d.Stars));
+    const pie = d3.pie<any>().value((d: any) => Number(d.amount));
+    console.log(pie, 'pie');
 
     // Build the pie chart
     this.svg
       .selectAll('pieces')
-      .data(pie(this.data))
+      .data(pie(this.data_))
       .enter()
       .append('path')
       .attr('d', d3.arc().innerRadius(0).outerRadius(this.radius))
@@ -76,12 +75,22 @@ export class PieComponent implements OnInit {
 
     this.svg
       .selectAll('pieces')
-      .data(pie(this.data))
+      .data(pie(this.data_))
       .enter()
       .append('text')
-      .text((d) => d.data.Framework)
+      .text((d) => d.data.address)
       .attr('transform', (d) => 'translate(' + labelLocation.centroid(d) + ')')
       .style('text-anchor', 'middle')
       .style('font-size', 15);
   }
+
+  private data_ = [
+    { address: 'Holon', amount: '16643', Released: '2014' },
+    { address: 'Tel Aviv', amount: '100793', Released: '2013' },
+    { address: 'Yafo', amount: '2342', Released: '2016' },
+    { address: 'Herzilia', amount: '27647', Released: '2010' },
+    { address: 'Rishon le Zion', amount: '24711', Released: '2011' },
+    { address: 'Haifa', amount: '14711', Released: '2011' },
+    { address: 'Haifa', amount: '14711', Released: '2011' },
+  ];
 }

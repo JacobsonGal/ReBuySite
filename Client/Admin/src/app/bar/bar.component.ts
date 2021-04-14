@@ -18,14 +18,8 @@ export class BarComponent implements OnInit {
   ngOnInit(): void {
     const myObserver = {
       next: (x) => {
-        // console.log(x, 'log x');
-
-        //  this.data = x.data.map((bla) => bla);
-        //console.log(this.data, 'first log');
-        // console.log(this.data[1], 'second log');
-        //   this.data.push(x.data);
+     
         x.data.map((val) => this.data.push(val));
-        //  console.log(this.data, 'data logged');
       },
       error: (err) => console.error('Observer got an error: ', err),
       complete: () => console.log('Observer got a complete notification'),
@@ -62,7 +56,7 @@ export class BarComponent implements OnInit {
   }
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
-    console.log(data);
+    console.log(data,"indside drawbars");
     const x = d3
       .scaleBand()
       .range([0, this.width])
@@ -96,11 +90,7 @@ export class BarComponent implements OnInit {
       .attr('height', (d) => this.height - y(d.price))
       .attr('fill', '#d04a35');
   }
+
+
+ 
 }
-// private data = [
-//   { Framework: 'Vue', Stars: '166443', Released: '2014' },
-//   { Framework: 'React', Stars: '150793', Released: '2013' },
-//   { Framework: 'Angular', Stars: '62342', Released: '2016' },
-//   { Framework: 'Backbone', Stars: '27647', Released: '2010' },
-//   { Framework: 'Ember', Stars: '21471', Released: '2011' },
-// ];

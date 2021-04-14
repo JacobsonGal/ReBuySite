@@ -7,13 +7,11 @@ const baseUrl = 'http://localhost:3000/api';
   providedIn: 'root',
 })
 export class DatabaseService {
-
   constructor(private http: HttpClient) {}
   getAllProducts(): Observable<any> {
     return this.http.get(`${baseUrl}/products`);
   }
   getAllUsers(): Observable<any> {
-    
     return this.http.get(`${baseUrl}/user`);
   }
 }

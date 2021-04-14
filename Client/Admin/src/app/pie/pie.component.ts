@@ -91,6 +91,5 @@ export class PieComponent implements OnInit {
     { address: 'Herzilia', amount: '27647', Released: '2010' },
     { address: 'Rishon le Zion', amount: '24711', Released: '2011' },
     { address: 'Haifa', amount: '14711', Released: '2011' },
-    { address: 'Haifa', amount: '14711', Released: '2011' },
   ];
 }

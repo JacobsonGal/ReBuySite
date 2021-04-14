@@ -3,6 +3,7 @@ import api from "../../../API/API";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 import Geocode from "react-geocode";
+import Search from "../Home/Search";
 Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
 Geocode.setLanguage("He");
 Geocode.setRegion("Il");
@@ -66,7 +67,11 @@ export default class GoogleMap extends Component {
     });
     this.props.setLoading(false);
   };
-
+  searchHandler = (products) => {
+    this.setState({
+      products,
+    });
+  };
   render() {
     const { products, images, center, zoom, locations } = this.state;
     function getMapOptions(maps) {
@@ -105,31 +110,36 @@ export default class GoogleMap extends Component {
         clickableIcons: false,
       };
     }
+
     return (
-      <div style={{ height: "96vh", width: "100%" }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{
-            key: "AIzaSyAiTqUoIPktHrM66nIC7fRevgXvj7BzN-A",
-            language: "he",
-            region: "il",
-          }}
-          defaultCenter={center}
-          defaultZoom={zoom}
-          options={getMapOptions}
-        >
-          {products.map((product, i) => {
-            return (
-              <Marker
-                lat={locations[i] ? locations[i].lat : null}
-                lng={locations[i] ? locations[i].lng : null}
-                product={product}
-                images={images}
-                key={product["name"]}
-              />
-            );
-          })}
-        </GoogleMapReact>
-      </div>
+      <>
+        <Search searchHandler={this.searchHandler} />
+        <div style={{ height: "96vh", width: "100%" }}>
+          <GoogleMapReact
+            bootstrapURLKeys={{
+              key: "AIzaSyAiTqUoIPktHrM66nIC7fRevgXvj7BzN-A",
+              language: "he",
+              region: "il",
+            }}
+            defaultCenter={center}
+            defaultZoom={zoom}
+            options={getMapOptions}
+          >
+            {products.map((product, i) => {
+              return (
+                <Marker
+                  lat={locations[i] ? locations[i].lat : null}
+                  lng={locations[i] ? locations[i].lng : null}
+                  product={product}
+                  images={images}
+                  key={product["name"]}
+                />
+              );
+            })}
+          </GoogleMapReact>
+        </div>
+        )
+      </>
     );
   }
 }

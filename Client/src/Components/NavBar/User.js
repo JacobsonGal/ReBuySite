@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
@@ -7,12 +7,34 @@ import Star from "@material-ui/icons/StarRounded";
 import Person from "@material-ui/icons/PersonRounded";
 import firebaseConfig from "../SSO/Config.js";
 import { AuthContext, Admins } from "../SSO/Auth";
+import api from "../../API/API";
 
 export default function User({ handleToggleSidebar }) {
+  const [users, setUsers] = useState([]);
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+    return async () => {
+      await api.getAllUsers().then((user) => {
+        setUsers(user.data.data);
+      });
+      await api.getAllImages().then((img) => {
+        setImages(img.data.data);
+      });
+    };
+  }, []);
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
-  const photo = currentUser ? currentUser.photoURL : "";
+  const user = users.find(
+    (usr) => usr["email"] === currentUser.email.toUpperCase() && usr["image"]
+  );
+  console.log(user);
+  const img = images.find((img) => img._id === user["image"]);
+  console.log(img);
+  const photo = img
+    ? `data:${img["contentType"]};base64,${img["imageBase64"]}`
+    : "";
+
   const name = currentUser
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });

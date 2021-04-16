@@ -69,14 +69,14 @@ export default function LogIn() {
           />
         </Col>
       </Form.Group>
-      <Form.Group as={Row}>
+      {/* <Form.Group as={Row}>
         <FacebookLoginButton />
-      </Form.Group>
+      </Form.Group> */}
       <Form.Group as={Row}>
         <GoogleLoginButton onClick={() => GoogleLogin} />
       </Form.Group>
       <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Remember Me" />
+        {/* <Form.Check type="checkbox" label="Remember Me" /> */}
       </Form.Group>
       <Button variant="primary" type="submit" size="lg">
         Login

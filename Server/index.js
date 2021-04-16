@@ -21,16 +21,17 @@ const io = socketIo(server, {
     credentials: false,
   },
 });
-var count = 0;
+let count = 0;
 io.on("connection", (socket) => {
+  // console.log("connect socket io");
   if (socket.handshake.headers.origin === "http://localhost:3001") {
     count++;
     socket.broadcast.emit("count", count);
-    console.log("number of users  " + " " + count);
+    console.log(count + " Connected Users");
     socket.on("disconnect", () => {
       count--;
       socket.broadcast.emit("count", count);
-      console.log("number of users  " + count);
+      console.log(count + " Connected Users");
     });
   }
 });

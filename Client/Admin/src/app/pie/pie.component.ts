@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { DatabaseService } from './../services/database.service';
-import { Products } from './../products';
+
 @Component({
   selector: 'app-pie',
   templateUrl: './pie.component.html',
@@ -10,7 +10,7 @@ import { Products } from './../products';
 export class PieComponent implements OnInit {
   constructor(private dataBaseService: DatabaseService) {}
   data = [];
-  prodcut: Products[] = [];
+ 
 
   ngOnInit(): void {
     const myObserver = {
@@ -57,7 +57,7 @@ export class PieComponent implements OnInit {
   private drawChart(): void {
     // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((d: any) => Number(d.amount));
-    console.log(pie, 'pie');
+    
     //
     // Build the pie chart
     this.svg
@@ -85,12 +85,11 @@ export class PieComponent implements OnInit {
   }
 
   private data_ = [
-    { address: 'Holon', amount: '16643', Released: '2014' },
-    { address: 'Tel Aviv', amount: '100793', Released: '2013' },
-    { address: 'Yafo', amount: '2342', Released: '2016' },
-    { address: 'Herzilia', amount: '27647', Released: '2010' },
-    { address: 'Rishon le Zion', amount: '24711', Released: '2011' },
-    { address: 'Haifa', amount: '14711', Released: '2011' },
-    { address: 'Haifa', amount: '14711', Released: '2011' },
+    { address: 'Holon', amount: '1664' },
+    { address: 'Tel Aviv', amount: '10079' },
+    { address: 'Herzilia', amount: '2764' },
+    { address: 'Rishon le Zion', amount: '2471' },
+    { address: 'Haifa', amount: '1471' },
+    { address: 'Ness Ziona', amount: '1000' },
   ];
 }

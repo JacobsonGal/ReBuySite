@@ -1,10 +1,22 @@
+const Product = require("../models/Product");
+const Image = require("../models/Image");
 const User = require("../models/User");
+const fs = require("fs");
+const db = require("../DB/index");
 
 const createUser = (req, res) => {
   // const body = req.body;
   const { name, phone, email } = req.body;
   console.log(req.body);
   console.log(name + phone + email);
+  const file = req.file;
+  console.log("files : " + req.file);
+
+  if (!file) {
+    return res
+      .status(401)
+      .json({ success: false, error: "You must provide images" });
+  }
 
   if (!req.body) {
     return res.status(400).json({
@@ -12,8 +24,32 @@ const createUser = (req, res) => {
       error: "You must provide a User",
     });
   }
+  const image64 = (encode_image = fs
+    .readFileSync(file.path)
+    .toString("base64"));
 
-  const user = new User({ name, phone, email });
+  let finalImg = {
+    fileName: file.originalname,
+    contentType: file.mimetype,
+    imageBase64: image64,
+  };
+
+  let newImage = new Image(finalImg);
+  let id = newImage._id;
+  console.log(newImage._id);
+  console.log(id);
+  const image = newImage;
+  newImage
+    .save()
+    .then((result) => {
+      console.log(newImage.fileName + "Inserted to collection!");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  console.log(image);
+
+  const user = new User({ name, phone, email, image });
 
   if (!user) {
     return res

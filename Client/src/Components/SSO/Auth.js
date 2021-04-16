@@ -5,6 +5,21 @@ import Icon from "../../Assets/Images/ReBuyLogoTrans.png";
 
 export const AuthContext = React.createContext();
 
+export function Admins(email) {
+  switch (email) {
+    case "jacobsongal@gmail.com":
+      return true;
+    case "jacobsongal@cs.colman.ac.il":
+      return true;
+    case "avivhorovitz1@gmail.com":
+      return true;
+    case "oshernati22@gmail.com":
+      return true;
+    default:
+      return false;
+  }
+}
+
 export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);

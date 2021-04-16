@@ -1,18 +1,19 @@
 const User = require("../models/User");
 
 const createUser = (req, res) => {
-  const body = req.body;
-  const { path: image } = req.file;
+  // const body = req.body;
+  const { name, phone, email } = req.body;
+  console.log(req.body);
+  console.log(name + phone + email);
 
-  if (!body) {
+  if (!req.body) {
     return res.status(400).json({
       success: false,
       error: "You must provide a User",
     });
   }
 
-  const user = new User(body);
-  user.image = image.split("\\").join("/");
+  const user = new User({ name, phone, email });
 
   if (!user) {
     return res
@@ -25,21 +26,23 @@ const createUser = (req, res) => {
     .then(() => {
       return res.status(201).json({
         success: true,
-        id: product._id,
+        id: user._id,
         message: "User created!",
       });
     })
     .catch((error) => {
+      console.log(error.message);
       return res.status(400).json({
         400: "400",
         error,
-        message: "User not created!",
+        message: error.message,
       });
     });
 };
 
 const updateUser = async (req, res) => {
   const body = req.body;
+  const file = req.file;
 
   if (!body) {
     return res.status(400).json({
@@ -48,17 +51,37 @@ const updateUser = async (req, res) => {
     });
   }
 
+  const images64 = (encode_image = fs
+    .readFileSync(file.path)
+    .toString("base64"));
+  let finalImg = {
+    fileName: images64.originalname,
+    contentType: images64.mimetype,
+    imageBase64: images64,
+  };
+  let newImage = new Image(finalImg);
+  newImage
+    .save()
+    .then(() => {
+      console.log(newImage.fileName + "Inserted to collection!");
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+
   User.findOne({ _id: req.params.id }, (err, user) => {
     if (err) {
       return res.status(404).json({
         err,
-        message: "Product not found!",
+        message: "User not found!",
       });
     }
     user.email = body.email;
     user.name = body.name;
     user.phone = body.phone;
     user.image = body.image;
+    user.image = newImage;
+
     user
       .save()
       .then(() => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RealtimeService } from '../realtime.service';
+import { RealtimeService } from '../services/realtime.service';
 
 @Component({
   selector: 'app-users-counter',
@@ -8,7 +8,11 @@ import { RealtimeService } from '../realtime.service';
 })
 export class UsersCounterComponent {
   counter: Number;
-  constructor(private service: RealtimeService) {
-    service.currentCounter.subscribe((counter) => (this.counter = counter));
+  constructor(private service: RealtimeService) {}
+
+  ngOnInit(): void {
+    this.service.currentCounter.subscribe(
+      (counter) => (this.counter = counter)
+    );
   }
 }

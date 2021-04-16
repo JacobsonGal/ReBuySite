@@ -35,7 +35,7 @@ const TopBar = ({
       </div>
 
       <div className="tabs">
-        <div className="icons">
+        {/* <div className="icons">
           <Link to="/notification" onClick={handleToggleSidebar}>
             <div class="notification-box">
               {notificationHandler}
@@ -47,7 +47,7 @@ const TopBar = ({
               </div>
             </div>
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

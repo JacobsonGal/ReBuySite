@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Button, Col } from "react-bootstrap";
 import api from "../../../API/API";
+import Sort from "./Sort";
+import Groupby from "./Groupby";
 
 function Search(props) {
   const [query, setQuery] = useState("");

@@ -113,7 +113,21 @@ export default class GoogleMap extends Component {
 
     return (
       <>
-        <Search searchHandler={this.searchHandler} />
+        <div
+          style={{
+            position: "absolute",
+            top: "5rem",
+            alignItems: "center",
+            width: "min-content",
+            padding: "2rem",
+            zIndex: "99",
+          }}
+        >
+          <Search
+            searchHandler={this.searchHandler}
+            style={{ position: "absolute" }}
+          />
+        </div>
         <div style={{ height: "96vh", width: "100%" }}>
           <GoogleMapReact
             bootstrapURLKeys={{

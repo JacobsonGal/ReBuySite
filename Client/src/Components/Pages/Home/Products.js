@@ -135,10 +135,23 @@ export default class ProductsList extends Component {
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Sort searchHandler={this.searchHandler} />
+          <Groupby searchHandler={this.searchHandler} />
+        </div> */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            textAlign: "center",
+            justifyContent: "center",
+          }}
+        >
           <Sort searchHandler={this.searchHandler} />
           <Groupby searchHandler={this.searchHandler} />
         </div>
+
         <CardLine
           products={products}
           images={images}

@@ -14,11 +14,14 @@ const createProduct = async (req, res) => {
     price,
     ownerId,
   } = req.body;
-  let email = ownerId;
   const files = req.files;
+  let email = ownerId.toUpperCase();
   const owner = await User.findOne({ email });
   if (!owner) {
-    return res.status(402).json({ success: false, error: "No such user" });
+    email = ownerId.toLowerCase();
+    owner = await User.findOne({ email });
+    if (!owner)
+      return res.status(402).json({ success: false, error: "No such user" });
   }
   if (!files) {
     return res
@@ -71,6 +74,12 @@ const createProduct = async (req, res) => {
   product
     .save()
     .then(() => {
+      User.updateOne(
+        {
+          _id: owner._id,
+        },
+        { $push: { products: product._id } }
+      ).then(console.log("owner updated"));
       return res.status(201).json({
         success: true,
         id: product._id,

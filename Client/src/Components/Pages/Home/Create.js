@@ -117,6 +117,7 @@ export default class ProductInsert extends Component {
     let ownerID = firebase.auth().currentUser
       ? firebase.auth().currentUser.email
       : "jacobsongal@gmail.com";
+    console.log(ownerID);
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);

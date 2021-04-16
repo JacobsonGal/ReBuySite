@@ -77,103 +77,6 @@ class DeleteProduct extends Component {
     return <Delete onClick={this.deleteUser}>DELETE</Delete>;
   }
 }
-
-export default class ProductsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      products: [],
-      images: [],
-      users: [],
-      columns: [],
-      isLoading: this.props.loading,
-      imagePath: "",
-      setLoading: this.props.setLoading,
-    };
-  }
-
-  componentDidMount = async () => {
-    this.state.setLoading(false);
-    try {
-      await api.getAllProducts().then((product) => {
-        this.setState({
-          products: product.data.data,
-        });
-      });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
-        });
-      });
-      await api.getAllUsers().then((user) => {
-        this.setState({
-          users: user.data.data,
-        });
-      });
-
-      this.state.setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  searchHandler = (products) => {
-    this.setState({
-      products,
-    });
-  };
-  deleteHandler = (productId) => {
-    this.setState({
-      products: this.state.products.filter((product) => {
-        return product._id !== productId.data._id;
-      }),
-    });
-  };
-  render() {
-    const { products, images, users } = this.state;
-    // console.log(users);
-
-    return (
-      <Wrapper>
-        <h1>Market</h1>
-        <Search searchHandler={this.searchHandler} />
-        {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Sort searchHandler={this.searchHandler} />
-          <Groupby searchHandler={this.searchHandler} />
-        </div> */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            textAlign: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Sort searchHandler={this.searchHandler} />
-          <Groupby searchHandler={this.searchHandler} />
-        </div>
-
-        <CardLine
-          products={products}
-          images={images}
-          users={users}
-          deleteHandler={this.deleteHandler}
-          from={0}
-          to={50}
-        />
-        <CardLine
-          products={products}
-          images={images}
-          users={users}
-          deleteHandler={this.deleteHandler}
-          from={50}
-          to={100}
-        />
-        {this.props.setLoading(false)}
-      </Wrapper>
-    );
-  }
-}
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -198,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function CardLine({ products, images, users, deleteHandler, from, to }) {
+export default function CardList({ products, images, users, deleteHandler, from, to }) {
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
 

@@ -3,6 +3,8 @@ const Image = require("../models/Image");
 const User = require("../models/User");
 const fs = require("fs");
 const db = require("../DB/index");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const createProduct = async (req, res) => {
   const {
@@ -337,6 +339,54 @@ const mapAndReduce = async (req, res) => {
   res.send("hey");
 };
 
+
+const createProductForScrapping = async (name, image, price) => {
+  Product.findOne({ name: name }, function (err, p) {
+    if (err) console.log(err);
+    if (p) console.log("This term already been created");
+    else {
+      let image = [];
+      image.push("6078b6e34f270e6860150cba");
+      var product = new Product({
+        name: name,
+        condition: "New",
+        description: "this is a scraped product",
+        address: "נס ציונה",
+        price: price,
+        category: "sports",
+        images: image,
+        owner: "60757be962462652dc9289b3"
+
+
+      });
+      product.save(function (err, example) {
+        if (err) console.log(err);
+        console.log("New term created!");
+        return product;
+      });
+    }
+  });
+};
+
+const scrape = async () => { //add scrape from amazon
+  console.log("im here");
+  console.log("im here");
+  console.log("im here");
+  const page = await axios.get('https://www.amazon.com/s?i=sporting-intl-ship&bbn=16225014011&rh=n%3A10971181011%2Cn%3A3422251%2Cp_36%3A1253555011&dc&qid=1618576123&rnid=10971181011&ref=sr_nr_n_12')
+  const $ = cheerio.load(page.data);
+  $('.s-asin').each((i, el) => {
+    const name = $(el).find('h2 span').text();
+    const price = $(el).find('.a-price-whole').text();
+    const image = $(el).find('.s-image').attr('src');
+    createProductForScrapping(name, image, price);
+
+  });
+};
+
+
+
+
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -347,4 +397,5 @@ module.exports = {
   sort,
   groupBy,
   mapAndReduce,
+  scrape
 };

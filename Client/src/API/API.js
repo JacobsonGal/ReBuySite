@@ -2,7 +2,6 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
-  // baseURL: "http://jacobsonmac.local:3000/api",
 });
 
 export const insertUser = (payload) => api.post(`/user`, payload);
@@ -31,6 +30,7 @@ export const search = (category, condition, price) =>
 export const sort = () => api.get(`/products/sort`);
 export const groupByCategory = (category) =>
   api.get(`products/groupby?category=${category}`);
+export const mapAndReduce = () => api.get(`/products/mapreduce`);
 
 const apis = {
   insertUser,
@@ -53,6 +53,7 @@ const apis = {
   search,
   sort,
   groupByCategory,
+  mapAndReduce,
 };
 
 export default apis;

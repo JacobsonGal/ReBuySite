@@ -2,10 +2,9 @@ const Product = require("../models/Product");
 const Image = require("../models/Image");
 const User = require("../models/User");
 const fs = require("fs");
-const { query } = require("express");
+const db = require("../DB/index");
 
 const createProduct = async (req, res) => {
-  console.log(req.body);
   const {
     name,
     condition,
@@ -282,7 +281,23 @@ const groupBy = async (req, res) => {
     if (nameA > nameB) return 1;
     return 0;
   });
+  console.log(data);
   res.json({ products: newProducts, data: data });
+};
+
+const mapAndReduce = async (req, res) => {
+  var mapFunction1 = function () {
+    console.log("stam");
+    emit(this.category, this.price);
+  };
+  var reduceFunction1 = function (keyCategory, valuesPrices) {
+    // return Array.sum(valuesPrices);
+    return 1;
+  };
+  Product.mapReduce(mapFunction1, reduceFunction1, {
+    out: "map_reduce_example",
+  });
+  res.send("hey");
 };
 
 module.exports = {
@@ -294,4 +309,5 @@ module.exports = {
   search,
   sort,
   groupBy,
+  mapAndReduce,
 };

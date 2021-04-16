@@ -16,16 +16,20 @@ export default class GoogleMap extends Component {
     this.state = {
       products: [],
       images: [],
+      users: [],
       locations: [{}],
       center: {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
       },
       zoom: 10,
+      setLoading: this.props.setLoading,
     };
+    this.state.setLoading(true);
   }
 
   componentDidMount = async () => {
+    this.state.setLoading(false);
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -37,6 +41,12 @@ export default class GoogleMap extends Component {
           images: image.data.data,
         });
       });
+      await api.getAllUsers().then((user) => {
+        this.setState({
+          users: user.data.data,
+        });
+      });
+      this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -65,7 +75,6 @@ export default class GoogleMap extends Component {
         locations: rest,
       };
     });
-    this.props.setLoading(false);
   };
   searchHandler = (products) => {
     this.setState({
@@ -73,7 +82,7 @@ export default class GoogleMap extends Component {
     });
   };
   render() {
-    const { products, images, center, zoom, locations } = this.state;
+    const { products, images,users, center, zoom, locations } = this.state;
     function getMapOptions(maps) {
       return {
         streetViewControl: true,
@@ -116,7 +125,7 @@ export default class GoogleMap extends Component {
         <div
           style={{
             position: "absolute",
-            top: "5rem",
+            top: "3rem",
             alignItems: "center",
             width: "min-content",
             padding: "2rem",
@@ -146,6 +155,7 @@ export default class GoogleMap extends Component {
                   lng={locations[i] ? locations[i].lng : null}
                   product={product}
                   images={images}
+                  users={users}
                   key={product["name"]}
                 />
               );

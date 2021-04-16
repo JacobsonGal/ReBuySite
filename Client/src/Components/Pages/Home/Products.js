@@ -88,11 +88,12 @@ export default class ProductsList extends Component {
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
+      setLoading: this.props.setLoading,
     };
   }
 
   componentDidMount = async () => {
-    this.setState({ isLoading: true });
+    this.state.setLoading(false);
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -102,7 +103,6 @@ export default class ProductsList extends Component {
       await api.getAllImages().then((image) => {
         this.setState({
           images: image.data.data,
-          isLoading: false,
         });
       });
       await api.getAllUsers().then((user) => {
@@ -110,10 +110,11 @@ export default class ProductsList extends Component {
           users: user.data.data,
         });
       });
+
+      this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }
-    this.props.setLoading(false);
   };
   searchHandler = (products) => {
     this.setState({
@@ -128,8 +129,8 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, users, isLoading } = this.state;
-    console.log(users);
+    const { products, images, users } = this.state;
+    // console.log(users);
 
     return (
       <Wrapper>
@@ -157,6 +158,16 @@ export default class ProductsList extends Component {
           images={images}
           users={users}
           deleteHandler={this.deleteHandler}
+          from={0}
+          to={50}
+        />
+        <CardLine
+          products={products}
+          images={images}
+          users={users}
+          deleteHandler={this.deleteHandler}
+          from={50}
+          to={100}
         />
         {this.props.setLoading(false)}
       </Wrapper>
@@ -187,7 +198,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CardLine({ products, images, users, deleteHandler }) {
+function CardLine({ products, images, users, deleteHandler, from, to }) {
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
     // history.push(`/product/${id}`);
@@ -199,13 +210,14 @@ function CardLine({ products, images, users, deleteHandler }) {
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={3}>
         {products &&
-          products.map((product, i) => (
+          products.slice(from, to).map((product, i) => (
             <GridListTile
               style={{ height: "100%", width: "fit-content" }}
               key={product["name"]}
             >
               <PopUp
                 product={product}
+                users={users}
                 images={images}
                 isModelOpen={isModelOpen}
                 setIsModelOpen={setIsModelOpen}
@@ -245,8 +257,17 @@ function CardLine({ products, images, users, deleteHandler }) {
                 >
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                      <p>{product["name"]}</p>
-                      <p>{product["price"]}</p>
+                      {/* <p>{product["name"]}</p>    */}
+                      <p
+                        style={{
+                          height: "6rem",
+                          overflow: "scroll",
+                          justifyContent: "center",
+                        }}
+                      >
+                        {product["name"]}
+                      </p>
+                      <p>{product["price"]}₪</p>
                     </Typography>
                     <Typography
                       variant="body2"
@@ -254,19 +275,33 @@ function CardLine({ products, images, users, deleteHandler }) {
                       component="p"
                     >
                       {users.some((user) => user._id === product["owner"]) && (
-                        <p>
-                          Seller:
-                          {
-                            users.find((user) => user._id === product["owner"])[
-                              "name"
-                            ]
-                          }
-                        </p>
+                        <div
+                          style={{
+                            backgroundColor: "#ececec",
+                            borderRadius: "15px",
+                          }}
+                        >
+                          <p>
+                            {
+                              users.find(
+                                (user) => user._id === product["owner"]
+                              )["name"]
+                            }
+                          </p>
+                          <p>
+                            Phone:{" "}
+                            {
+                              users.find(
+                                (user) => user._id === product["owner"]
+                              )["phone"]
+                            }
+                          </p>
+                        </div>
                       )}
-                      <p>Description:{product["description"]}</p>
-                      <p>Condition:{product["condition"]}</p>
-                      <p>Category:{product["category"]}</p>
-                      <p>Address:{product["address"]}</p>
+                      <p>Description: {product["description"]}</p>
+                      <p>Condition: {product["condition"]}</p>
+                      <p>Category: {product["category"]}</p>
+                      <p>Address: {product["address"]}</p>
                     </Typography>
                   </CardContent>
                 </CardActionArea>

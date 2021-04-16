@@ -4,6 +4,7 @@ import GoogleMap from "./GoogleMap";
 
 export default function Map({ title, setTitle, setActive }) {
   const [loading, setLoading] = useState(false);
+  console.log(loading);
   return (
     <Page
       loading={loading}
@@ -14,7 +15,7 @@ export default function Map({ title, setTitle, setActive }) {
       FAB="none"
       dots={false}
     >
-      <GoogleMap setLoading={setLoading} />
+      <GoogleMap loading={loading} setLoading={setLoading} />
       {setActive(false)}
     </Page>
   );

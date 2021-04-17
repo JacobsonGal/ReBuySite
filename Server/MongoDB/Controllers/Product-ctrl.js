@@ -35,22 +35,61 @@ const createProduct = async (req, res) => {
     let img = fs.readFileSync(image.path);
     return (encode_image = img.toString("base64"));
   });
-  images64.map((src, index) => {
+  // images64.map((src, index) => {
+  //   let finalImg = {
+  //     fileName: files[index].originalname,
+  //     contentType: files[index].mimetype,
+  //     imageBase64: src,
+  //   };
+  //   let newImage = new Image(finalImg);
+  //   let id = newImage._id;
+  //   newImage
+  //     .save()
+  //     .then((result) => {
+  //       console.log(newImage.fileName + "Inserted to collection!");
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.message);
+  //     });
+  // });
+  images64.map(async (src, index) => {
     let finalImg = {
       fileName: files[index].originalname,
       contentType: files[index].mimetype,
       imageBase64: src,
     };
-    let newImage = new Image(finalImg);
-    let id = newImage._id;
-    newImage
-      .save()
-      .then((result) => {
-        console.log(newImage.fileName + "Inserted to collection!");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    // let cache = Image.findOne({ fileName: files[index].originalname });
+    let cache;
+    try {
+      const cache = await Image.findOne(
+        { fileName: files[index].originalname },
+        function (err, image) {
+          if (err) console.log(err.message);
+          if (!image) console.log(`Image not found`);
+        }
+      );
+
+      if (cache) {
+        images.push(cache);
+        console.log(cache.fileName + "Inserted to product!");
+      } else {
+        let newImage = new Image(finalImg);
+        newImage
+          .save()
+          .then(() => {
+            console.log(newImage.fileName + "Inserted to collection!");
+          })
+          .catch((error) => {
+            if (error.code === 11000)
+              images.push(Image.find({ fileName: files[index].originalname }));
+            console.log(error.message);
+          });
+        images.push(newImage);
+      }
+    } catch (error) {
+      console.log(error.message);
+      // res.send({ error: error.message });
+    }
   });
 
   // scrape();

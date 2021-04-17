@@ -13,18 +13,22 @@ import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
 import PopUp from "../../Utils/PopUp";
 
-export default function Marker({ product, images, users, $hover }) {
-  const [isModelOpen, setIsModelOpen] = useState(false);
+export default function Marker({
+  product,
+  images,
+  users,
+  setIsModelOpen,
+  setData,
+  $hover,
+}) {
+  function setProduct(product) {
+    setData(product);
+    setIsModelOpen(true);
+  }
+
   return (
     <div>
-      <PopUp
-        product={product}
-        images={images}
-        users={users}
-        isModelOpen={isModelOpen}
-        setIsModelOpen={setIsModelOpen}
-      />
-      <Button size="small" onClick={() => setIsModelOpen(true)}>
+      <Button size="small" onClick={() => setProduct(product)}>
         {product["images"] && images ? (
           <Carousel>
             {images.map(

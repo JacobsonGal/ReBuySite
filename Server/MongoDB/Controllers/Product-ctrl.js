@@ -18,7 +18,7 @@ const createProduct = async (req, res) => {
   } = req.body;
   const files = req.files;
   let email = ownerId.toUpperCase();
-  const owner = await User.findOne({ email });
+  let owner = await User.findOne({ email });
   if (!owner) {
     email = ownerId.toLowerCase();
     owner = await User.findOne({ email });

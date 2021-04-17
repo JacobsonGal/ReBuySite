@@ -101,17 +101,16 @@ export default class ProductsList extends Component {
           products: product.data.data,
         });
       });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
-        });
-      });
       await api.getAllUsers().then((user) => {
         this.setState({
           users: user.data.data,
         });
       });
-
+      await api.getAllImages().then((image) => {
+        this.setState({
+          images: image.data.data,
+        });
+      });
       this.state.setLoading(false);
     } catch (error) {
       console.log(error);
@@ -202,9 +201,22 @@ const useStyles = makeStyles((theme) => ({
 export function CardLine({ products, images, users, deleteHandler, from, to }) {
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const [product, setproduct] = useState(null);
+
+  function setData(product) {
+    setproduct(product);
+    setIsModelOpen(true);
+  }
 
   return (
     <div className={classes.root}>
+      <PopUp
+        product={product}
+        users={users}
+        images={images}
+        isModelOpen={isModelOpen}
+        setIsModelOpen={setIsModelOpen}
+      />
       <GridList className={classes.gridList} cols={3}>
         {products &&
           products.slice(from, to).map((product, i) => (
@@ -212,13 +224,6 @@ export function CardLine({ products, images, users, deleteHandler, from, to }) {
               style={{ height: "100%", width: "fit-content" }}
               key={product["name"]}
             >
-              <PopUp
-                product={product}
-                users={users}
-                images={images}
-                isModelOpen={isModelOpen}
-                setIsModelOpen={setIsModelOpen}
-              />
               <Card
                 style={{
                   margin: "1rem",
@@ -250,7 +255,7 @@ export function CardLine({ products, images, users, deleteHandler, from, to }) {
                 )}{" "}
                 <CardActionArea
                   // onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                  onClick={() => setIsModelOpen(true)}
+                  onClick={() => setData(product)}
                 >
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">

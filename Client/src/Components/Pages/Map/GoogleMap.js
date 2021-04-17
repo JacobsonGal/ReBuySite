@@ -4,6 +4,8 @@ import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 import Geocode from "react-geocode";
 import Search from "../Home/Search";
+import PopUp from "../../Utils/PopUp";
+
 Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
 Geocode.setLanguage("He");
 Geocode.setRegion("Il");
@@ -17,12 +19,14 @@ export default class GoogleMap extends Component {
       products: [],
       images: [],
       users: [],
+      product: null,
       locations: [{}],
       center: {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
       },
       zoom: 10,
+      isModelOpen: false,
       setLoading: this.props.setLoading,
     };
     this.state.setLoading(true);
@@ -81,8 +85,28 @@ export default class GoogleMap extends Component {
       products,
     });
   };
+  productHandler = (product) => {
+    this.setState({
+      product,
+    });
+  };
+  modalHandler = (isModelOpen) => {
+    this.setState({
+      isModelOpen,
+    });
+  };
   render() {
-    const { products, images,users, center, zoom, locations } = this.state;
+    const {
+      products,
+      images,
+      users,
+      center,
+      zoom,
+      isModelOpen,
+      product,
+      locations,
+    } = this.state;
+
     function getMapOptions(maps) {
       return {
         streetViewControl: true,
@@ -148,6 +172,13 @@ export default class GoogleMap extends Component {
             defaultZoom={zoom}
             options={getMapOptions}
           >
+            <PopUp
+              product={product}
+              images={images}
+              users={users}
+              isModelOpen={isModelOpen}
+              setIsModelOpen={this.modalHandler}
+            />
             {products.map((product, i) => {
               return (
                 <Marker
@@ -157,6 +188,8 @@ export default class GoogleMap extends Component {
                   images={images}
                   users={users}
                   key={product["name"]}
+                  setIsModelOpen={this.modalHandler}
+                  setData={this.productHandler}
                 />
               );
             })}

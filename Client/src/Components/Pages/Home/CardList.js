@@ -101,7 +101,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardList({ products, images, users, deleteHandler, from, to }) {
+export default function CardList({
+  products,
+  images,
+  users,
+  user,
+  deleteHandler,
+  from,
+  to,
+}) {
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
 

@@ -8,6 +8,7 @@ import Person from "@material-ui/icons/PersonRounded";
 import { Avatar } from "@material-ui/core";
 import api from "../../../API/API";
 import CardList from "../Home/CardList";
+import apis from "../../../API/API";
 
 export default class ProfileSetting extends Component {
   constructor(props) {
@@ -66,52 +67,20 @@ export default class ProfileSetting extends Component {
   }
 }
 export function Profile({ users, images, products, title, setTitle }) {
-  // const [users, setUsers] = useState([]);
-  // const [images, setImages] = useState([]);
-  // const [products, setProducts] = useState([]);
-  const [userProducts, setUserProducts] = useState([]);
-
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       if (!users) {
-  //         await api.getAllUsers().then((user) => {
-  //           setUsers(user.data.data);
-  //         });
-  //       }
-  //       if (!images) {
-  //         await api.getAllImages().then((img) => {
-  //           setImages(img.data.data);
-  //         });
-  //       }
-  //       if (!products) {
-  //         await api.getAllProducts().then((products) => {
-  //           setProducts(products.data.data);
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   (!images || !users || !products) && fetchData();
-  //   console.log(users);
-  // }, [users, images, products]);
-
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
+  console.log(images, users);
   const user = users.find(
     (usr) =>
       usr["email"] === currentUser.email.toUpperCase() ||
-      (usr["email"] === currentUser.email.toLowerCase() && usr["image"])
+      (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
   );
-  const img =
-    images &&
-    images["image"] &&
-    images.find((img) => img._id === user["image"]);
-  const photo = img
-    ? `data:${img["contentType"]};base64,${img["imageBase64"]}`
-    : "";
+  // const img =
+  //   images &&
+  //   images["image"] &&
+  //   images.find((img) => img._id === user["image"]);
+
   const name = currentUser
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });
@@ -119,7 +88,17 @@ export function Profile({ users, images, products, title, setTitle }) {
 
   // user && user["products"] && setUserProducts(user["products"].find((prodId) => prodId === products["image"] user["products"]);
 
-  function getUserPhoto() {
+  async function getUserPhoto() {
+    const image = user ? await apis.getImageById(user["image"]) : "";
+    console.log(image);
+    const photo = image
+      ? `data:${image.data.data["contentType"]};base64,${image.data.data["imageBase64"]}`
+      : "";
+    // console.log(photo);
+    return photo;
+  }
+
+  function getUserProducts() {
     let arr = [];
     user &&
       user["products"] &&
@@ -135,7 +114,7 @@ export function Profile({ users, images, products, title, setTitle }) {
 
   console.log(products);
   console.log(user);
-  console.log(photo);
+  // console.log(photo);
   // console.log(userProducts);
   const deleteHandler = (productId) => {
     // setProducts(
@@ -161,7 +140,7 @@ export function Profile({ users, images, products, title, setTitle }) {
       ) : (
         <Card className="userSettings">
           <Card.Header className="userHeader">
-            {photo ? (
+            {user && user["image"] ? (
               <Card.Img
                 style={{
                   alignSelf: window.screen.width <= 800 ? "right" : "center",
@@ -170,7 +149,7 @@ export function Profile({ users, images, products, title, setTitle }) {
                   borderRadius: "50%",
                 }}
                 variant="top"
-                src={photo}
+                src={getUserPhoto()}
               />
             ) : (
               <Avatar
@@ -199,12 +178,12 @@ export function Profile({ users, images, products, title, setTitle }) {
             <h1>My Products</h1>
             {products && (
               <CardList
-                products={getUserPhoto()}
+                products={getUserProducts()}
                 images={images}
                 users={users}
                 user={user}
                 from={0}
-                to={getUserPhoto().length}
+                to={getUserProducts().length}
                 deleteHandler={deleteHandler}
               />
             )}

@@ -207,7 +207,7 @@ const deleteProduct = async (req, res) => {
         .status(404)
         .json({ success: false, error: `Product not found` });
     }
-    product.images.map((path) => fs.unlink(path, (err) => console.log(err)));
+    console.log(product);
 
     return res.status(200).json({ success: true, data: product });
   }).catch((err) => console.log(err));
@@ -339,7 +339,6 @@ const mapAndReduce = async (req, res) => {
   res.send("hey");
 };
 
-
 const createProductForScrapping = async (name, image, price) => {
   Product.findOne({ name: name }, function (err, p) {
     if (err) console.log(err);
@@ -355,9 +354,7 @@ const createProductForScrapping = async (name, image, price) => {
         price: price,
         category: "sports",
         images: image,
-        owner: "60757be962462652dc9289b3"
-
-
+        owner: "60757be962462652dc9289b3",
       });
       product.save(function (err, example) {
         if (err) console.log(err);
@@ -368,24 +365,22 @@ const createProductForScrapping = async (name, image, price) => {
   });
 };
 
-const scrape = async () => { //add scrape from amazon
+const scrape = async () => {
+  //add scrape from amazon
   console.log("im here");
   console.log("im here");
   console.log("im here");
-  const page = await axios.get('https://www.amazon.com/s?i=sporting-intl-ship&bbn=16225014011&rh=n%3A10971181011%2Cn%3A3422251%2Cp_36%3A1253555011&dc&qid=1618576123&rnid=10971181011&ref=sr_nr_n_12')
+  const page = await axios.get(
+    "https://www.amazon.com/s?i=sporting-intl-ship&bbn=16225014011&rh=n%3A10971181011%2Cn%3A3422251%2Cp_36%3A1253555011&dc&qid=1618576123&rnid=10971181011&ref=sr_nr_n_12"
+  );
   const $ = cheerio.load(page.data);
-  $('.s-asin').each((i, el) => {
-    const name = $(el).find('h2 span').text();
-    const price = $(el).find('.a-price-whole').text();
-    const image = $(el).find('.s-image').attr('src');
+  $(".s-asin").each((i, el) => {
+    const name = $(el).find("h2 span").text();
+    const price = $(el).find(".a-price-whole").text();
+    const image = $(el).find(".s-image").attr("src");
     createProductForScrapping(name, image, price);
-
   });
 };
-
-
-
-
 
 module.exports = {
   createProduct,
@@ -397,5 +392,5 @@ module.exports = {
   sort,
   groupBy,
   mapAndReduce,
-  scrape
+  scrape,
 };

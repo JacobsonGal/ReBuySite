@@ -65,6 +65,7 @@ class DeleteProduct extends Component {
       api
         .deleteProductById(this.props.id)
         .then((res) => {
+          console.log("stam");
           this.props.deleteHandler(res.data);
         })
         .catch((err) => console.log(err));

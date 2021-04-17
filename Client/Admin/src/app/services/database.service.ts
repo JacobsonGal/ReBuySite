@@ -14,4 +14,7 @@ export class DatabaseService {
   getAllUsers(): Observable<any> {
     return this.http.get(`${baseUrl}/users`);
   }
+  getAllProductsCity(): Observable<any> {
+    return this.http.get(`${baseUrl}/groupByCity`);
+  }
 }

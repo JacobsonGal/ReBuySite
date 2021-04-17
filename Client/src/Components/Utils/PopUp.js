@@ -56,6 +56,8 @@ export default function Marker({
                 height: "fit-content",
                 border: "1px solid #ececec",
                 borderRadius: "15px",
+                textAlign: "center",
+                alignItems: "center",
               }}
             >
               {product["images"] && images && (

@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
+    width: "100%",
     direction: "ltr",
   },
   gridList: {
@@ -154,9 +155,9 @@ export default function CardList({
                   <Card
                     style={{
                       margin: "1rem",
-                      maxWidth: 300,
-                      minWidth: 100,
-                      height: "fit-content",
+                      width: 250,
+                      minHeight: 400,
+                      maxHeight: "fit-content",
                       border: "1px solid #ececec",
                       borderRadius: "15px",
                     }}
@@ -183,15 +184,17 @@ export default function CardList({
                       </Carousel>
                     )}{" "}
                     <CardActionArea
-                      // onClick={(e) => cardOnClickHandler(e, product["_id"])}
                       onClick={() => setData(product)}
+                      style={{
+                        height: 400,
+                      }}
                     >
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
                           {/* <p>{product["name"]}</p>    */}
                           <p
                             style={{
-                              height: "6rem",
+                              height: "3rem",
                               overflow: "scroll",
                               justifyContent: "center",
                             }}
@@ -212,6 +215,7 @@ export default function CardList({
                               style={{
                                 backgroundColor: "#ececec",
                                 borderRadius: "15px",
+                                font: "15px assistant bold",
                               }}
                             >
                               <p>
@@ -239,7 +243,9 @@ export default function CardList({
                       </CardContent>
                     </CardActionArea>
                     {user && user["products"].some((id) => id === product._id) && (
-                      <CardActions style={{ justifyContent: "center" }}>
+                      <CardActions
+                        style={{ justifyContent: "center", height: 50 }}
+                      >
                         <Button size="small" color="primary">
                           <DeleteProduct
                             id={product["_id"]}

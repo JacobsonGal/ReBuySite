@@ -10,17 +10,19 @@ import { DatabaseService } from './../services/database.service';
 export class PieComponent implements OnInit {
   constructor(private dataBaseService: DatabaseService) {}
   data = [];
- 
 
   ngOnInit(): void {
     const myObserver = {
       next: (x) => {
+        console.log(x.data, 'x');
         x.data.map((val) => this.data.push(val));
+        console.log(x.data);
       },
       error: (err) => console.error('Observer got an error: ', err),
       complete: () => console.log('Observer got a complete notification'),
     };
-    this.dataBaseService.getAllProducts().subscribe(myObserver);
+    this.dataBaseService.getAllProductsCity().subscribe(myObserver);
+    console.log(this, 'data');
 
     this.createSvg();
     this.createColors();
@@ -57,7 +59,7 @@ export class PieComponent implements OnInit {
   private drawChart(): void {
     // Compute the position of each group on the pie:
     const pie = d3.pie<any>().value((d: any) => Number(d.amount));
-    
+
     //
     // Build the pie chart
     this.svg
@@ -86,8 +88,7 @@ export class PieComponent implements OnInit {
 
   private data_ = [
     { address: 'Holon', amount: '1664' },
-    { address: 'Tel Aviv', amount: '10079' },
-    { address: 'Herzilia', amount: '2764' },
+    { address: 'Tel Aviv', amount: '1079' },
     { address: 'Rishon le Zion', amount: '2471' },
     { address: 'Haifa', amount: '1471' },
     { address: 'Ness Ziona', amount: '1000' },

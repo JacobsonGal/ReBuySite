@@ -52,24 +52,29 @@ function Groupby(props) {
           controlId="formGridState"
         >
           {/* <Form.Label>Group By</Form.Label> */}
-
-          <select placeholder="Choose..." onChange={(e) => onChange(e)}>
-            <option value="" selected disabled>
-              Group By
-            </option>
-            {data.map((obj) => {
-              return (
-                <option>
-                  {obj._id} ({obj.total})
-                </option>
-              );
-            })}
-          </select>
+          <Form.Group controlId="exampleForm.ControlSelect1">
+            {/* <Form.Label>Group By</Form.Label> */}
+            <Form.Control
+              as="select"
+              placeholder="Choose..."
+              onChange={(e) => onChange(e)}
+            >
+              <option>Group By</option>
+              <option value="">Clear Search</option>
+              {data.map((obj) => {
+                return (
+                  <option>
+                    {obj._id} ({obj.total})
+                  </option>
+                );
+              })}
+            </Form.Control>
+          </Form.Group>
         </Form.Group>
       </Form>
-      <Button variant="warning" onClick={mapReduceHandler}>
+      {/* <Button variant="warning" onClick={mapReduceHandler}>
         MapReduce
-      </Button>
+      </Button> */}
     </div>
   );
 }

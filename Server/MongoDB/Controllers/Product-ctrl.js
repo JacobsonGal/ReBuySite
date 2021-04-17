@@ -363,6 +363,44 @@ const groupBy = async (req, res) => {
   // console.log(data);
   res.json({ products: newProducts, data: data });
 };
+
+//aviv angular
+
+const groupByCity = async (req, res) => {
+  const data = await Product.aggregate([
+    {
+      $group: {
+        _id: "$address",
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+  let products;
+  if (!req.query.category) {
+    products = await Product.find({}, (err, product) => {
+      if (err) console.log(err);
+    });
+  } else {
+    products = await Product.find(
+      { address: req.query.address },
+      (err, product) => {
+        if (err) {
+          console.log("there is an error", err);
+        }
+      }
+    );
+  }
+  const newProducts = products.sort((a, b) => {
+    let nameA = a.category.toLowerCase(),
+      nameB = b.category.toLowerCase();
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+  //console.log(data);
+  res.json({ products: newProducts, data: data });
+};
+
 const mapAndReduce = async (req, res) => {
   var mapFunction1 = function () {
     emit(this.category, this.price);
@@ -431,4 +469,5 @@ module.exports = {
   groupBy,
   mapAndReduce,
   scrape,
+  groupByCity,
 };

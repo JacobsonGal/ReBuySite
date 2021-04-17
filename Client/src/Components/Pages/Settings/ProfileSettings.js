@@ -70,6 +70,9 @@ export function Profile({ users, images, products, title, setTitle }) {
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
+  // const [user, setuser] = useState(null);
+  const [photo, setphoto] = useState(null);
+
   console.log(images, users);
   const user = users.find(
     (usr) =>
@@ -140,7 +143,7 @@ export function Profile({ users, images, products, title, setTitle }) {
       ) : (
         <Card className="userSettings">
           <Card.Header className="userHeader">
-            {user && user["image"] ? (
+            {user && user["image"] && photo ? (
               <Card.Img
                 style={{
                   alignSelf: window.screen.width <= 800 ? "right" : "center",
@@ -149,7 +152,7 @@ export function Profile({ users, images, products, title, setTitle }) {
                   borderRadius: "50%",
                 }}
                 variant="top"
-                src={getUserPhoto()}
+                src={photo}
               />
             ) : (
               <Avatar

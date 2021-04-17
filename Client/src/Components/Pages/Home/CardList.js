@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
@@ -25,6 +25,7 @@ import {
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
+import { AuthContext, Admins } from "../../SSO/Auth";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -105,7 +106,7 @@ export default function CardList({
   products,
   images,
   users,
-  user,
+
   deleteHandler,
   from,
   to,
@@ -113,6 +114,12 @@ export default function CardList({
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [product, setproduct] = useState(null);
+  const { currentUser } = useContext(AuthContext);
+  const user = users.find(
+    (usr) =>
+      usr["email"] === currentUser.email.toUpperCase() ||
+      (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
+  );
 
   function setData(product) {
     setproduct(product);
@@ -231,20 +238,22 @@ export default function CardList({
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    <CardActions style={{ justifyContent: "center" }}>
-                      <Button size="small" color="primary">
-                        <DeleteProduct
-                          id={product["_id"]}
-                          deleteHandler={deleteHandler}
-                        />
-                      </Button>
-                      {/* <Button size="small" color="primary">
+                    {user && user["products"].some((id) => id === product._id) && (
+                      <CardActions style={{ justifyContent: "center" }}>
+                        <Button size="small" color="primary">
+                          <DeleteProduct
+                            id={product["_id"]}
+                            deleteHandler={deleteHandler}
+                          />
+                        </Button>
+                        {/* <Button size="small" color="primary">
                     <StarBorderIcon />
                   </Button> */}
-                      <Button size="small" color="primary">
-                        <UpdateProduct id={product["_id"]} />
-                      </Button>
-                    </CardActions>
+                        <Button size="small" color="primary">
+                          <UpdateProduct id={product["_id"]} />
+                        </Button>
+                      </CardActions>
+                    )}
                   </Card>
                 </GridListTile>
               )

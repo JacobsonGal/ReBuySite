@@ -25,6 +25,7 @@ import {
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
+import CardList from "./CardList";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -65,11 +66,9 @@ class DeleteProduct extends Component {
       api
         .deleteProductById(this.props.id)
         .then((res) => {
-          console.log("stam");
           this.props.deleteHandler(res.data);
         })
         .catch((err) => console.log(err));
-      console.log("after res");
       // window.location.reload();
     }
   };
@@ -122,6 +121,7 @@ export default class ProductsList extends Component {
     });
   };
   deleteHandler = (productId) => {
+    console.log(productId);
     this.setState({
       products: this.state.products.filter((product) => {
         return product._id !== productId.data._id;
@@ -153,7 +153,7 @@ export default class ProductsList extends Component {
           <Groupby searchHandler={this.searchHandler} />
         </div>
 
-        <CardLine
+        <CardList
           products={products}
           images={images}
           users={users}
@@ -161,7 +161,7 @@ export default class ProductsList extends Component {
           from={0}
           to={50}
         />
-        <CardLine
+        <CardList
           products={products}
           images={images}
           users={users}
@@ -174,157 +174,157 @@ export default class ProductsList extends Component {
     );
   }
 }
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    direction: "ltr",
-  },
-  gridList: {
-    flexWrap: "nowrap",
-    transform: "translateZ(0)",
-  },
-  tile: {
-    height: "100%",
-  },
-  title: {
-    color: theme.palette.primary.light,
-  },
-  titleBar: {
-    background:
-      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//     flexWrap: "wrap",
+//     justifyContent: "space-around",
+//     overflow: "hidden",
+//     direction: "ltr",
+//   },
+//   gridList: {
+//     flexWrap: "nowrap",
+//     transform: "translateZ(0)",
+//   },
+//   tile: {
+//     height: "100%",
+//   },
+//   title: {
+//     color: theme.palette.primary.light,
+//   },
+//   titleBar: {
+//     background:
+//       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+//   },
+// }));
 
-export function CardLine({ products, images, users, deleteHandler, from, to }) {
-  const classes = useStyles();
-  const [isModelOpen, setIsModelOpen] = useState(false);
-  const [product, setproduct] = useState(null);
+// export function CardLine({ products, images, users, deleteHandler, from, to }) {
+//   const classes = useStyles();
+//   const [isModelOpen, setIsModelOpen] = useState(false);
+//   const [product, setproduct] = useState(null);
 
-  function setData(product) {
-    setproduct(product);
-    setIsModelOpen(true);
-  }
+//   function setData(product) {
+//     setproduct(product);
+//     setIsModelOpen(true);
+//   }
 
-  return (
-    <div className={classes.root}>
-      <PopUp
-        product={product}
-        users={users}
-        images={images}
-        isModelOpen={isModelOpen}
-        setIsModelOpen={setIsModelOpen}
-      />
-      <GridList className={classes.gridList} cols={3}>
-        {products &&
-          products.slice(from, to).map((product, i) => (
-            <GridListTile
-              style={{ height: "100%", width: "fit-content" }}
-              key={product["name"]}
-            >
-              <Card
-                style={{
-                  margin: "1rem",
-                  maxWidth: 300,
-                  minWidth: 100,
-                  height: "fit-content",
-                  border: "1px solid #ececec",
-                  borderRadius: "15px",
-                }}
-              >
-                {product["images"] && images && (
-                  <Carousel>
-                    {images.map(
-                      (Image) =>
-                        product["images"].some((id) => id === Image._id) && (
-                          <Carousel.Item
-                            style={{ width: "100%", height: "10rem" }}
-                          >
-                            <img
-                              className="d-block w-100"
-                              style={{ width: "100%", height: "100%" }}
-                              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                              alt={Image["fileName"]}
-                            />
-                          </Carousel.Item>
-                        )
-                    )}
-                  </Carousel>
-                )}{" "}
-                <CardActionArea
-                  // onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                  onClick={() => setData(product)}
-                >
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {/* <p>{product["name"]}</p>    */}
-                      <p
-                        style={{
-                          height: "6rem",
-                          overflow: "scroll",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {product["name"]}
-                      </p>
-                      <p>{product["price"]}₪</p>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      {users.some((user) => user._id === product["owner"]) && (
-                        <div
-                          style={{
-                            backgroundColor: "#ececec",
-                            borderRadius: "15px",
-                          }}
-                        >
-                          <p>
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["name"]
-                            }
-                          </p>
-                          <p>
-                            Phone:{" "}
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }
-                          </p>
-                        </div>
-                      )}
-                      <p>Description: {product["description"]}</p>
-                      <p>Condition: {product["condition"]}</p>
-                      <p>Category: {product["category"]}</p>
-                      <p>Address: {product["address"]}</p>
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions style={{ justifyContent: "center" }}>
-                  <Button size="small" color="primary">
-                    <DeleteProduct
-                      id={product["_id"]}
-                      deleteHandler={deleteHandler}
-                    />
-                  </Button>
-                  <Button size="small" color="primary">
-                    <StarBorderIcon />
-                  </Button>
-                  <Button size="small" color="primary">
-                    <UpdateProduct id={product["_id"]} />
-                  </Button>
-                </CardActions>
-              </Card>
-            </GridListTile>
-          ))}
-      </GridList>
-    </div>
-  );
-}
+//   return (
+//     <div className={classes.root}>
+//       <PopUp
+//         product={product}
+//         users={users}
+//         images={images}
+//         isModelOpen={isModelOpen}
+//         setIsModelOpen={setIsModelOpen}
+//       />
+//       <GridList className={classes.gridList} cols={3}>
+//         {products &&
+//           products.slice(from, to).map((product, i) => (
+//             <GridListTile
+//               style={{ height: "100%", width: "fit-content" }}
+//               key={product["name"]}
+//             >
+//               <Card
+//                 style={{
+//                   margin: "1rem",
+//                   maxWidth: 300,
+//                   minWidth: 100,
+//                   height: "fit-content",
+//                   border: "1px solid #ececec",
+//                   borderRadius: "15px",
+//                 }}
+//               >
+//                 {product["images"] && images && (
+//                   <Carousel>
+//                     {images.map(
+//                       (Image) =>
+//                         product["images"].some((id) => id === Image._id) && (
+//                           <Carousel.Item
+//                             style={{ width: "100%", height: "10rem" }}
+//                           >
+//                             <img
+//                               className="d-block w-100"
+//                               style={{ width: "100%", height: "100%" }}
+//                               src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+//                               alt={Image["fileName"]}
+//                             />
+//                           </Carousel.Item>
+//                         )
+//                     )}
+//                   </Carousel>
+//                 )}{" "}
+//                 <CardActionArea
+//                   // onClick={(e) => cardOnClickHandler(e, product["_id"])}
+//                   onClick={() => setData(product)}
+//                 >
+//                   <CardContent>
+//                     <Typography gutterBottom variant="h5" component="h2">
+//                       {/* <p>{product["name"]}</p>    */}
+//                       <p
+//                         style={{
+//                           height: "6rem",
+//                           overflow: "scroll",
+//                           justifyContent: "center",
+//                         }}
+//                       >
+//                         {product["name"]}
+//                       </p>
+//                       <p>{product["price"]}₪</p>
+//                     </Typography>
+//                     <Typography
+//                       variant="body2"
+//                       color="textSecondary"
+//                       component="p"
+//                     >
+//                       {users.some((user) => user._id === product["owner"]) && (
+//                         <div
+//                           style={{
+//                             backgroundColor: "#ececec",
+//                             borderRadius: "15px",
+//                           }}
+//                         >
+//                           <p>
+//                             {
+//                               users.find(
+//                                 (user) => user._id === product["owner"]
+//                               )["name"]
+//                             }
+//                           </p>
+//                           <p>
+//                             Phone:{" "}
+//                             {
+//                               users.find(
+//                                 (user) => user._id === product["owner"]
+//                               )["phone"]
+//                             }
+//                           </p>
+//                         </div>
+//                       )}
+//                       <p>Description: {product["description"]}</p>
+//                       <p>Condition: {product["condition"]}</p>
+//                       <p>Category: {product["category"]}</p>
+//                       <p>Address: {product["address"]}</p>
+//                     </Typography>
+//                   </CardContent>
+//                 </CardActionArea>
+//                 <CardActions style={{ justifyContent: "center" }}>
+//                   <Button size="small" color="primary">
+//                     <DeleteProduct
+//                       id={product["_id"]}
+//                       deleteHandler={deleteHandler}
+//                     />
+//                   </Button>
+//                   <Button size="small" color="primary">
+//                     <StarBorderIcon />
+//                   </Button>
+//                   <Button size="small" color="primary">
+//                     <UpdateProduct id={product["_id"]} />
+//                   </Button>
+//                 </CardActions>
+//               </Card>
+//             </GridListTile>
+//           ))}
+//       </GridList>
+//     </div>
+//   );
+// }

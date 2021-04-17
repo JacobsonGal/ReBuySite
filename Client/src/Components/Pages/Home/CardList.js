@@ -112,123 +112,143 @@ export default function CardList({
 }) {
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const [product, setproduct] = useState(null);
+
+  function setData(product) {
+    setproduct(product);
+    setIsModelOpen(true);
+  }
 
   return (
     <div className={classes.root}>
+      <PopUp
+        product={product}
+        users={users}
+        images={images}
+        isModelOpen={isModelOpen}
+        setIsModelOpen={setIsModelOpen}
+      />
       <GridList className={classes.gridList} cols={3}>
         {products &&
-          products.slice(from, to).map((product, i) => (
-            <GridListTile
-              style={{ height: "100%", width: "fit-content" }}
-              key={product["name"]}
-            >
-              <PopUp
+          products.slice(from, to).map(
+            (product, i) =>
+              product && (
+                <GridListTile
+                  style={{ height: "100%", width: "fit-content" }}
+                  key={product["name"]}
+                >
+                  {/* <PopUp
                 product={product}
                 users={users}
                 images={images}
                 isModelOpen={isModelOpen}
                 setIsModelOpen={setIsModelOpen}
-              />
-              <Card
-                style={{
-                  margin: "1rem",
-                  maxWidth: 300,
-                  minWidth: 100,
-                  height: "fit-content",
-                  border: "1px solid #ececec",
-                  borderRadius: "15px",
-                }}
-              >
-                {product["images"] && images && (
-                  <Carousel>
-                    {images.map(
-                      (Image) =>
-                        product["images"].some((id) => id === Image._id) && (
-                          <Carousel.Item
-                            style={{ width: "100%", height: "10rem" }}
-                          >
-                            <img
-                              className="d-block w-100"
-                              style={{ width: "100%", height: "100%" }}
-                              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                              alt={Image["fileName"]}
-                            />
-                          </Carousel.Item>
-                        )
-                    )}
-                  </Carousel>
-                )}{" "}
-                <CardActionArea
-                  // onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                  onClick={() => setIsModelOpen(true)}
-                >
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {/* <p>{product["name"]}</p>    */}
-                      <p
-                        style={{
-                          height: "6rem",
-                          overflow: "scroll",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {product["name"]}
-                      </p>
-                      <p>{product["price"]}₪</p>
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
+              /> */}
+                  <Card
+                    style={{
+                      margin: "1rem",
+                      maxWidth: 300,
+                      minWidth: 100,
+                      height: "fit-content",
+                      border: "1px solid #ececec",
+                      borderRadius: "15px",
+                    }}
+                  >
+                    {product["images"] && images && (
+                      <Carousel>
+                        {images.map(
+                          (Image) =>
+                            product["images"].some(
+                              (id) => id === Image._id
+                            ) && (
+                              <Carousel.Item
+                                style={{ width: "100%", height: "10rem" }}
+                              >
+                                <img
+                                  className="d-block w-100"
+                                  style={{ width: "100%", height: "100%" }}
+                                  src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
+                                  alt={Image["fileName"]}
+                                />
+                              </Carousel.Item>
+                            )
+                        )}
+                      </Carousel>
+                    )}{" "}
+                    <CardActionArea
+                      // onClick={(e) => cardOnClickHandler(e, product["_id"])}
+                      onClick={() => setData(product)}
                     >
-                      {users.some((user) => user._id === product["owner"]) && (
-                        <div
-                          style={{
-                            backgroundColor: "#ececec",
-                            borderRadius: "15px",
-                          }}
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {/* <p>{product["name"]}</p>    */}
+                          <p
+                            style={{
+                              height: "6rem",
+                              overflow: "scroll",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {product["name"]}
+                          </p>
+                          <p>{product["price"]}₪</p>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
                         >
-                          <p>
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["name"]
-                            }
-                          </p>
-                          <p>
-                            Phone:{" "}
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }
-                          </p>
-                        </div>
-                      )}
-                      <p>Description: {product["description"]}</p>
-                      <p>Condition: {product["condition"]}</p>
-                      <p>Category: {product["category"]}</p>
-                      <p>Address: {product["address"]}</p>
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions style={{ justifyContent: "center" }}>
-                  <Button size="small" color="primary">
-                    <DeleteProduct
-                      id={product["_id"]}
-                      deleteHandler={deleteHandler}
-                    />
-                  </Button>
-                  <Button size="small" color="primary">
+                          {users.some(
+                            (user) => user._id === product["owner"]
+                          ) && (
+                            <div
+                              style={{
+                                backgroundColor: "#ececec",
+                                borderRadius: "15px",
+                              }}
+                            >
+                              <p>
+                                {
+                                  users.find(
+                                    (user) => user._id === product["owner"]
+                                  )["name"]
+                                }
+                              </p>
+                              <p>
+                                Phone:{" "}
+                                {
+                                  users.find(
+                                    (user) => user._id === product["owner"]
+                                  )["phone"]
+                                }
+                              </p>
+                            </div>
+                          )}
+                          <p>Description: {product["description"]}</p>
+                          <p>Condition: {product["condition"]}</p>
+                          <p>Category: {product["category"]}</p>
+                          <p>Address: {product["address"]}</p>
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    <CardActions style={{ justifyContent: "center" }}>
+                      <Button size="small" color="primary">
+                        <DeleteProduct
+                          id={product["_id"]}
+                          deleteHandler={deleteHandler}
+                        />
+                      </Button>
+                      {/* <Button size="small" color="primary">
                     <StarBorderIcon />
-                  </Button>
-                  <Button size="small" color="primary">
-                    <UpdateProduct id={product["_id"]} />
-                  </Button>
-                </CardActions>
-              </Card>
-            </GridListTile>
-          ))}
+                  </Button> */}
+                      <Button size="small" color="primary">
+                        <UpdateProduct id={product["_id"]} />
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </GridListTile>
+              )
+          )}
       </GridList>
     </div>
   );

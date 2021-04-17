@@ -53,6 +53,8 @@ const createProduct = async (req, res) => {
       });
   });
 
+  // scrape();
+
   const product = new Product({
     name,
     condition,

@@ -43,20 +43,20 @@ function Groupby(props) {
       });
   };
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
-      <Form>
-        <Form.Group
-          style={{
-            direction: "ltr",
-          }}
-          controlId="formGridState"
-        >
-          {/* <Form.Label>Group By</Form.Label> */}
-
-          <select placeholder="Choose..." onChange={(e) => onChange(e)}>
-            <option value="" selected disabled>
-              Group By
-            </option>
+    <Form>
+      <Form.Group controlId="formGroupEmail">
+        {/* <Form.Label>Groupby Category</Form.Label> */}
+        {/* <Form.Control
+          type="text"
+          style={{ direction: "ltr" }}
+          placeholder="Enter search"
+          onChange={(e) => changeHandler(e)}
+        /> */}
+        {/* <Button onClick={clickHandler}>Group By Category</Button> */}
+        <Form.Group style={{ direction: "ltr" }} controlId="formGridState">
+          <Form.Label>Group By</Form.Label>
+          <select onChange={(e) => onChange(e)} placeholder="Choose...">
+            <option></option>
             {data.map((obj) => {
               return (
                 <option>
@@ -66,33 +66,10 @@ function Groupby(props) {
             })}
           </select>
         </Form.Group>
-      </Form>
-      <Button variant="warning" onClick={mapReduceHandler}>
-        MapReduce
-      </Button>
-    </div>
+        <Button onClick={mapReduceHandler}>MAPREDUCE</Button>
+      </Form.Group>
+    </Form>
   );
 }
 
 export default Groupby;
-
-{
-  /* <Form.Group controlId="formGroupEmail"> */
-}
-{
-  /* <Form.Label>Groupby Category</Form.Label> */
-}
-{
-  /* <Form.Control
-          type="text"
-          style={{ direction: "ltr" }}
-          placeholder="Enter search"
-          onChange={(e) => changeHandler(e)}
-        /> */
-}
-{
-  /* <Button onClick={clickHandler}>Group By Category</Button> */
-}
-{
-  /* </Form.Group> */
-}

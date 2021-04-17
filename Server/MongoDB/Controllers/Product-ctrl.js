@@ -112,55 +112,27 @@ const updateProduct = async (req, res) => {
       .json({ success: false, error: "You must provide images" });
   }
   const images = [];
-  if (files.length !== 0) {
-    const images64 = files.map((image) => {
-      let img = fs.readFileSync(image.path);
-      return (encode_image = img.toString("base64"));
-    });
-    images64.map(async (src, index) => {
-      let finalImg = {
-        fileName: files[index].originalname,
-        contentType: files[index].mimetype,
-        imageBase64: src,
-      };
-      // let cache = Image.findOne({ fileName: files[index].originalname });
-      let cache;
-      try {
-        const cache = await Image.findOne(
-          { fileName: files[index].originalname },
-          function (err, image) {
-            if (err) console.log(err.message);
-            if (!image) console.log(`Image not found`);
-          }
-        );
-
-        console.log(cache);
-        if (cache) {
-          images.push(cache);
-          console.log(cache.fileName + "Inserted to product!");
-        } else {
-          let newImage = new Image(finalImg);
-          newImage
-            .save()
-            .then(() => {
-              console.log(newImage.fileName + "Inserted to collection!");
-            })
-            .catch((error) => {
-              if (error.code === 11000)
-                images.push(
-                  Image.find({ fileName: files[index].originalname })
-                );
-              console.log(error.message);
-            });
-          images.push(newImage);
-        }
-      } catch (error) {
+  const images64 = files.map((image) => {
+    let img = fs.readFileSync(image.path);
+    return (encode_image = img.toString("base64"));
+  });
+  images64.map((src, index) => {
+    let finalImg = {
+      fileName: files[index].originalname,
+      contentType: files[index].mimetype,
+      imageBase64: src,
+    };
+    let newImage = new Image(finalImg);
+    newImage
+      .save()
+      .then(() => {
+        console.log(newImage.fileName + "Inserted to collection!");
+      })
+      .catch((error) => {
         console.log(error.message);
-        // res.send({ error: error.message });
-      }
-    });
-  }
-  console.log(images);
+      });
+    images.push(newImage);
+  });
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
     if (err) {
@@ -174,8 +146,7 @@ const updateProduct = async (req, res) => {
     product.condition = condition;
     product.description = description;
     product.address = address;
-    if (files.length !== 0) product.images = images;
-    else product.images = product.images;
+    product.images = images;
     product.price = price;
     product.ownerId = ownerId;
     product
@@ -229,19 +200,17 @@ const getProductById = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
-  await Product.find({})
-    .sort({ createdAt: "desc" })
-    .exec((err, product) => {
-      if (err) {
-        return res.status(400).json({ success: false, error: err });
-      }
-      if (!product.length) {
-        return res
-          .status(404)
-          .json({ success: false, error: `Product not found` });
-      }
-      return res.status(200).json({ success: true, data: product });
-    });
+  await Product.find({}, (err, product) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+    if (!product.length) {
+      return res
+        .status(404)
+        .json({ success: false, error: `Product not found` });
+    }
+    return res.status(200).json({ success: true, data: product });
+  }).catch((err) => console.log(err));
 };
 
 const search = async (req, res) => {
@@ -276,6 +245,7 @@ const search = async (req, res) => {
   }
   res.send(products);
 };
+
 const sort = async (req, res) => {
   const products = await Product.find({}, (err, product) => {
     if (err) {
@@ -322,11 +292,13 @@ const groupBy = async (req, res) => {
     if (nameA > nameB) return 1;
     return 0;
   });
-  // console.log(data);
+  console.log(data);
   res.json({ products: newProducts, data: data });
 };
+
 const mapAndReduce = async (req, res) => {
   var mapFunction1 = function () {
+    console.log("stam");
     emit(this.category, this.price);
   };
   var reduceFunction1 = function (keyCategory, valuesPrices) {

@@ -10,15 +10,13 @@ export default function SignUp({ setRegistered }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = e.target.elements;
-    console.log(e.target[4].files[0]);
-    const file = e.target[4].files[0];
+
     try {
-      console.log(name.value + phone.value + email.value + file);
+      console.log(name.value + phone.value + email.value);
       let data = new FormData();
       data.append("name", name.value);
       data.append("phone", phone.value);
       data.append("email", email.value);
-      data.append("image", file);
 
       await api
         .insertUser(data)
@@ -88,14 +86,6 @@ export default function SignUp({ setRegistered }) {
             name="password"
             placeholder="Password"
           />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} controlId="formPlaintextPassword">
-        <Form.Label column sm="4">
-          Profile Photo
-        </Form.Label>
-        <Col sm="8">
-          <Form.Control type="file" name="image" id="image" />
         </Col>
       </Form.Group>
       {/* <Form.Group as={Row} controlId="formPlaintextPassword">

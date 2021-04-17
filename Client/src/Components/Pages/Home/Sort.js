@@ -13,11 +13,7 @@ function Search(props) {
         console.log(err);
       });
   };
-  return (
-    <Button variant="success" onClick={clickHandler}>
-      Sort By Name
-    </Button>
-  );
+  return <Button onClick={clickHandler}>Sort By Name</Button>;
 }
 
 export default Search;

@@ -88,12 +88,11 @@ export default class ProductsList extends Component {
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
-      setLoading: this.props.setLoading,
     };
   }
 
   componentDidMount = async () => {
-    this.state.setLoading(false);
+    this.setState({ isLoading: true });
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -103,6 +102,7 @@ export default class ProductsList extends Component {
       await api.getAllImages().then((image) => {
         this.setState({
           images: image.data.data,
+          isLoading: false,
         });
       });
       await api.getAllUsers().then((user) => {
@@ -110,11 +110,10 @@ export default class ProductsList extends Component {
           users: user.data.data,
         });
       });
-
-      this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }
+    this.props.setLoading(false);
   };
   searchHandler = (products) => {
     this.setState({
@@ -129,45 +128,22 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, users } = this.state;
-    // console.log(users);
+    const { products, images, users, isLoading } = this.state;
+    console.log(users);
 
     return (
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        {/* <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Sort searchHandler={this.searchHandler} />
-          <Groupby searchHandler={this.searchHandler} />
-        </div> */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-            textAlign: "center",
-            justifyContent: "center",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Sort searchHandler={this.searchHandler} />
           <Groupby searchHandler={this.searchHandler} />
         </div>
-
         <CardLine
           products={products}
           images={images}
           users={users}
           deleteHandler={this.deleteHandler}
-          from={0}
-          to={50}
-        />
-        <CardLine
-          products={products}
-          images={images}
-          users={users}
-          deleteHandler={this.deleteHandler}
-          from={50}
-          to={100}
         />
         {this.props.setLoading(false)}
       </Wrapper>
@@ -198,7 +174,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+<<<<<<< HEAD
 export function CardLine({ products, images, users, deleteHandler, from, to }) {
+=======
+function CardLine({ products, images, users, deleteHandler }) {
+  const history = useHistory();
+  const cardOnClickHandler = (e, id) => {
+    // history.push(`/product/${id}`);
+  };
+>>>>>>> parent of 0001c0fab (Merge branch 'master' of https://github.com/ReBuyApp/ReBuySite into yuvalYosef)
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
 
@@ -206,14 +190,13 @@ export function CardLine({ products, images, users, deleteHandler, from, to }) {
     <div className={classes.root}>
       <GridList className={classes.gridList} cols={3}>
         {products &&
-          products.slice(from, to).map((product, i) => (
+          products.map((product, i) => (
             <GridListTile
               style={{ height: "100%", width: "fit-content" }}
               key={product["name"]}
             >
               <PopUp
                 product={product}
-                users={users}
                 images={images}
                 isModelOpen={isModelOpen}
                 setIsModelOpen={setIsModelOpen}
@@ -253,17 +236,8 @@ export function CardLine({ products, images, users, deleteHandler, from, to }) {
                 >
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {/* <p>{product["name"]}</p>    */}
-                      <p
-                        style={{
-                          height: "6rem",
-                          overflow: "scroll",
-                          justifyContent: "center",
-                        }}
-                      >
-                        {product["name"]}
-                      </p>
-                      <p>{product["price"]}₪</p>
+                      <p>{product["name"]}</p>
+                      <p>{product["price"]}</p>
                     </Typography>
                     <Typography
                       variant="body2"
@@ -271,33 +245,19 @@ export function CardLine({ products, images, users, deleteHandler, from, to }) {
                       component="p"
                     >
                       {users.some((user) => user._id === product["owner"]) && (
-                        <div
-                          style={{
-                            backgroundColor: "#ececec",
-                            borderRadius: "15px",
-                          }}
-                        >
-                          <p>
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["name"]
-                            }
-                          </p>
-                          <p>
-                            Phone:{" "}
-                            {
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }
-                          </p>
-                        </div>
+                        <p>
+                          Seller:
+                          {
+                            users.find((user) => user._id === product["owner"])[
+                              "name"
+                            ]
+                          }
+                        </p>
                       )}
-                      <p>Description: {product["description"]}</p>
-                      <p>Condition: {product["condition"]}</p>
-                      <p>Category: {product["category"]}</p>
-                      <p>Address: {product["address"]}</p>
+                      <p>Description:{product["description"]}</p>
+                      <p>Condition:{product["condition"]}</p>
+                      <p>Category:{product["category"]}</p>
+                      <p>Address:{product["address"]}</p>
                     </Typography>
                   </CardContent>
                 </CardActionArea>

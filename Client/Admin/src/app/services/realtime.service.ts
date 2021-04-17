@@ -6,5 +6,13 @@ import { Observable } from 'rxjs';
 })
 export class RealtimeService {
   currentCounter = this.socket.fromEvent<Number>('count');
+
   constructor(private socket: Socket) {}
+  public getcounter = () => {
+    return Observable.create((observer) => {
+      this.socket.on('connection', (count) => {
+        observer.next(count);
+      });
+    });
+  };
 }

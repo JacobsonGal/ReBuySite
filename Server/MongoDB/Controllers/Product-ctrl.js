@@ -43,9 +43,6 @@ const createProduct = async (req, res) => {
     };
     let newImage = new Image(finalImg);
     let id = newImage._id;
-    console.log(newImage._id);
-    console.log(id);
-    images.push(newImage._id);
     newImage
       .save()
       .then((result) => {
@@ -134,7 +131,6 @@ const updateProduct = async (req, res) => {
           }
         );
 
-        console.log(cache);
         if (cache) {
           images.push(cache);
           console.log(cache.fileName + "Inserted to product!");
@@ -160,7 +156,6 @@ const updateProduct = async (req, res) => {
       }
     });
   }
-  console.log(images);
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
     if (err) {
@@ -197,6 +192,7 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
+  console.log("delete");
   await Product.findOneAndDelete({ _id: req.params.id }, (err, product) => {
     if (err) {
       console.log("Error");

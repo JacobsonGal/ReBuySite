@@ -92,7 +92,7 @@ const getImages = async (req, res) => {
     if (!image.length) {
       return res.status(404).json({ success: false, error: `Image not found` });
     }
-    console.log(image);
+
     return res.status(200).json({ success: true, data: image });
   }).catch((err) => console.log(err));
 };

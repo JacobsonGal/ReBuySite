@@ -36,8 +36,7 @@ const createUser = (req, res) => {
 
   let newImage = new Image(finalImg);
   let id = newImage._id;
-  console.log(newImage._id);
-  console.log(id);
+
   const image = newImage;
   newImage
     .save()
@@ -47,7 +46,6 @@ const createUser = (req, res) => {
     .catch((error) => {
       console.log(error.message);
     });
-  console.log(image);
 
   const user = new User({ name, phone, email, image });
 
@@ -174,9 +172,6 @@ const getUsers = async (req, res) => {
     return res.status(200).json({ success: true, data: user });
   }).catch((err) => console.log(err));
 };
-
-
-
 
 module.exports = {
   createUser,

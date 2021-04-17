@@ -65,11 +65,9 @@ class DeleteProduct extends Component {
       api
         .deleteProductById(this.props.id)
         .then((res) => {
-          console.log("stam");
           this.props.deleteHandler(res.data);
         })
         .catch((err) => console.log(err));
-      console.log("after res");
       // window.location.reload();
     }
   };
@@ -122,6 +120,7 @@ export default class ProductsList extends Component {
     });
   };
   deleteHandler = (productId) => {
+    console.log(productId);
     this.setState({
       products: this.state.products.filter((product) => {
         return product._id !== productId.data._id;

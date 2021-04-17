@@ -104,7 +104,7 @@ const updateProduct = async (req, res) => {
   } = req.body;
 
   const files = req.files;
-  console.log("files " + files);
+
   if (!files) {
     return res
       .status(401)
@@ -175,6 +175,7 @@ const updateProduct = async (req, res) => {
     else product.images = product.images;
     product.price = price;
     product.ownerId = ownerId;
+    product.category = category;
     product
       .save()
       .then(() => {

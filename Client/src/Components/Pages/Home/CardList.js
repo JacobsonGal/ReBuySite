@@ -84,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
+    width: "100%",
     direction: "ltr",
   },
   gridList: {
@@ -155,7 +156,7 @@ export default function CardList({
                     style={{
                       margin: "1rem",
                       width: 250,
-                      minHeight: 500,
+                      minHeight: 400,
                       maxHeight: "fit-content",
                       border: "1px solid #ececec",
                       borderRadius: "15px",

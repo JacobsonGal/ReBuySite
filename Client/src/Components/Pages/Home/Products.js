@@ -27,9 +27,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
 import CardList from "./CardList";
 
-const Wrapper = styled.div`
-  padding: 0 40px 40px 40px;
-`;
+const Wrapper = styled.div``;
+// const Wrapper = styled.div`
+//   padding: 0 40px 40px 40px;
+// `;
 
 const Update = styled.div`
   color: #ef9b0f;

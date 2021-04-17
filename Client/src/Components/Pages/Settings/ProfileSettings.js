@@ -184,7 +184,6 @@ export function Profile({ users, images, products, title, setTitle }) {
                 products={getUserProducts()}
                 images={images}
                 users={users}
-                user={user}
                 from={0}
                 to={getUserProducts().length}
                 deleteHandler={deleteHandler}

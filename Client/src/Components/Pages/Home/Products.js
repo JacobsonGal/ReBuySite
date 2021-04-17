@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
@@ -6,8 +6,6 @@ import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
-import Groupby from "./Groupby";
-import Sort from "./Sort";
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import {
@@ -22,9 +20,6 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
-import Carousel from "react-bootstrap/Carousel";
-import "bootstrap/dist/css/bootstrap.min.css";
-import PopUp from "../../Utils/PopUp";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -83,8 +78,6 @@ export default class ProductsList extends Component {
     super(props);
     this.state = {
       products: [],
-      images: [],
-      users: [],
       columns: [],
       isLoading: this.props.loading,
       imagePath: "",
@@ -98,22 +91,11 @@ export default class ProductsList extends Component {
         this.setState({
           products: product.data.data,
         });
-      });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
-          isLoading: false,
-        });
-      });
-      await api.getAllUsers().then((user) => {
-        this.setState({
-          users: user.data.data,
-        });
+        this.props.setLoading(false);
       });
     } catch (error) {
       console.log(error);
     }
-    this.props.setLoading(false);
   };
   searchHandler = (products) => {
     this.setState({
@@ -128,38 +110,35 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, images, users, isLoading } = this.state;
-    console.log(users);
-
+    const { products, isLoading } = this.state;
     return (
       <Wrapper>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Sort searchHandler={this.searchHandler} />
-          <Groupby searchHandler={this.searchHandler} />
-        </div>
-        <CardLine
-          products={products}
-          images={images}
-          users={users}
-          deleteHandler={this.deleteHandler}
-        />
-        {this.props.setLoading(false)}
+        <CardLine products={products} deleteHandler={this.deleteHandler} />
+        <h1>Suggested just for you</h1>
+        <CardLine products={products} />
       </Wrapper>
     );
   }
 }
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    width: "100%",
+    height: "100%",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    direction: "ltr",
   },
   gridList: {
+    height: "100%",
+    width: "100%",
     flexWrap: "nowrap",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     transform: "translateZ(0)",
   },
   tile: {
@@ -175,65 +154,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export function CardLine({ products, images, users, deleteHandler, from, to }) {
 =======
 function CardLine({ products, images, users, deleteHandler }) {
+=======
+function CardLine({ products, deleteHandler }) {
+>>>>>>> parent of 150183014 ()
   const history = useHistory();
   const cardOnClickHandler = (e, id) => {
-    // history.push(`/product/${id}`);
+    history.push(`/product/${id}`);
   };
 >>>>>>> parent of 0001c0fab (Merge branch 'master' of https://github.com/ReBuyApp/ReBuySite into yuvalYosef)
   const classes = useStyles();
-  const [isModelOpen, setIsModelOpen] = useState(false);
-
   return (
     <div className={classes.root}>
-      <GridList className={classes.gridList} cols={3}>
+      <GridList className={classes.gridList} cols={2.5}>
         {products &&
-          products.map((product, i) => (
-            <GridListTile
-              style={{ height: "100%", width: "fit-content" }}
-              key={product["name"]}
-            >
-              <PopUp
-                product={product}
-                images={images}
-                isModelOpen={isModelOpen}
-                setIsModelOpen={setIsModelOpen}
-              />
+          products.map((product) => (
+            <GridListTile style={{ height: "100%" }} key={product["name"]}>
               <Card
                 style={{
                   margin: "1rem",
-                  maxWidth: 300,
-                  minWidth: 100,
+                  maxWidth: 600,
                   height: "fit-content",
                   border: "1px solid #ececec",
                   borderRadius: "15px",
                 }}
               >
-                {product["images"] && images && (
-                  <Carousel>
-                    {images.map(
-                      (Image) =>
-                        product["images"].some((id) => id === Image._id) && (
-                          <Carousel.Item
-                            style={{ width: "100%", height: "10rem" }}
-                          >
-                            <img
-                              className="d-block w-100"
-                              style={{ width: "100%", height: "100%" }}
-                              src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                              alt={Image["fileName"]}
-                            />
-                          </Carousel.Item>
-                        )
-                    )}
-                  </Carousel>
-                )}{" "}
+                {" "}
                 <CardActionArea
-                  // onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                  onClick={() => setIsModelOpen(true)}
+                  onClick={(e) => cardOnClickHandler(e, product["_id"])}
                 >
+                  <CardMedia
+                    image={`http://localhost:3000/${product["images"][0]}`}
+                    title="Contemplative Reptile"
+                    style={{ height: 140 }}
+                  />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                       <p>{product["name"]}</p>
@@ -244,19 +201,9 @@ function CardLine({ products, images, users, deleteHandler }) {
                       color="textSecondary"
                       component="p"
                     >
-                      {users.some((user) => user._id === product["owner"]) && (
-                        <p>
-                          Seller:
-                          {
-                            users.find((user) => user._id === product["owner"])[
-                              "name"
-                            ]
-                          }
-                        </p>
-                      )}
-                      <p>Description:{product["description"]}</p>
+                      {/* <p>Seller:{product["ownerId"]}</p> */}
+                      {/* <p>Description:{product["description"]}</p> */}
                       <p>Condition:{product["condition"]}</p>
-                      <p>Category:{product["category"]}</p>
                       <p>Address:{product["address"]}</p>
                     </Typography>
                   </CardContent>

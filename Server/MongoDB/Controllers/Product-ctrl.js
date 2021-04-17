@@ -1,11 +1,11 @@
 const Product = require("../models/Product");
-const Image = require("../models/Image");
-const User = require("../models/User");
 const fs = require("fs");
-const db = require("../DB/index");
-const axios = require("axios");
-const cheerio = require("cheerio");
+const request = require('request-promise'); 
+let axios = require('axios');
+let cheerio = require('cheerio');
+const { query } = require("express");
 
+<<<<<<< HEAD
 const createProduct = async (req, res) => {
   const {
     name,
@@ -54,17 +54,24 @@ const createProduct = async (req, res) => {
       .catch((error) => {
         console.log(error.message);
       });
+=======
+const createProduct = (req, res) => {
+  
+  const { name, condition, description, address, price, ownerId } = req.body;
+
+  const images = req.files.map((image) => {
+    return image.path.split("\\").join("/");
+>>>>>>> parent of 150183014 ()
   });
 
   const product = new Product({
     name,
     condition,
     description,
-    category,
     address,
-    price,
-    owner,
     images,
+    price,
+    ownerId,
   });
 
   if (!product) {
@@ -91,47 +98,18 @@ const createProduct = async (req, res) => {
     .catch((error) => {
       console.log(error);
     });
+
+  // return res.status(400).json({
+  //   error,
+  //   message: "Product not created!",
+  // });
 };
 
 const updateProduct = async (req, res) => {
-  const {
-    name,
-    condition,
-    description,
-    address,
-    price,
-    category,
-    ownerId,
-  } = req.body;
+  const { name, condition, description, address, price, ownerId } = req.body;
 
-  const files = req.files;
-  console.log("files " + files);
-  if (!files) {
-    return res
-      .status(401)
-      .json({ success: false, error: "You must provide images" });
-  }
-  const images = [];
-  const images64 = files.map((image) => {
-    let img = fs.readFileSync(image.path);
-    return (encode_image = img.toString("base64"));
-  });
-  images64.map((src, index) => {
-    let finalImg = {
-      fileName: files[index].originalname,
-      contentType: files[index].mimetype,
-      imageBase64: src,
-    };
-    let newImage = new Image(finalImg);
-    newImage
-      .save()
-      .then(() => {
-        console.log(newImage.fileName + "Inserted to collection!");
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
-    images.push(newImage);
+  const images = req.files.map((image) => {
+    return image.path.split("\\").join("/");
   });
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
@@ -141,7 +119,9 @@ const updateProduct = async (req, res) => {
         message: "Product not found!",
       });
     }
-
+    if (req.files) {
+      product.images.map((path) => fs.unlink(path, (err) => console.log(err)));
+    }
     product.name = name;
     product.condition = condition;
     product.description = description;
@@ -199,7 +179,7 @@ const getProductById = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res) => { 
   await Product.find({}, (err, product) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
@@ -214,121 +194,33 @@ const getProducts = async (req, res) => {
 };
 
 const search = async (req, res) => {
-  const { condition, price, category } = req.query;
-  let products = await Product.find({}, (err, product) => {
-    if (err) {
-      console.log(err);
-    }
-  });
-  if (condition) {
-    products = products.filter((product) => {
-      return product.condition === condition;
-    });
-  }
-  if (category) {
-    products = products.filter((product) => {
-      return product.category === category;
-    });
-  }
-  if (price) {
-    products = products.filter((product) => {
-      if (price == "less than 500") {
-        return product.price < 500;
-      } else if (price == "500-1000") {
-        return product.price >= 500 && product.price < 1000;
-      } else if (price === "1000-5000") {
-        return product.price >= 1000 && product.price < 5000;
+  const products = await Product.find(
+    { name: new RegExp(req.query.query, "i") },
+    (err, product) => {
+      if (err) {
+        console.log("there is an error", err);
       } else {
-        return product.price >= 5000;
       }
-    });
-  }
+    }
+  );
+
   res.send(products);
 };
 
-const sort = async (req, res) => {
-  const products = await Product.find({}, (err, product) => {
-    if (err) {
-      console.log("there is an error", err);
-    }
-  });
-  const newProd = products.sort((a, b) => {
-    let nameA = a.name.toLowerCase(),
-      nameB = b.name.toLowerCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-  res.send(newProd);
-};
-const groupBy = async (req, res) => {
-  const data = await Product.aggregate([
-    {
-      $group: {
-        _id: "$category",
-        total: { $sum: 1 },
-      },
-    },
-  ]);
-  let products;
-  if (!req.query.category) {
-    products = await Product.find({}, (err, product) => {
-      if (err) console.log(err);
-    });
-  } else {
-    products = await Product.find(
-      { category: req.query.category },
-      (err, product) => {
-        if (err) {
-          console.log("there is an error", err);
-        }
-      }
-    );
-  }
-  const newProducts = products.sort((a, b) => {
-    let nameA = a.category.toLowerCase(),
-      nameB = b.category.toLowerCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-  console.log(data);
-  res.json({ products: newProducts, data: data });
-};
 
-const mapAndReduce = async (req, res) => {
-  var mapFunction1 = function () {
-    console.log("stam");
-    emit(this.category, this.price);
-  };
-  var reduceFunction1 = function (keyCategory, valuesPrices) {
-    // return Array.sum(valuesPrices);
-    return 1;
-  };
-  Product.mapReduce(mapFunction1, reduceFunction1, {
-    out: "map_reduce_example",
-  });
-  res.send("hey");
-};
-
-
-const createProductForScrapping = async (name, image, price) => {
-  Product.findOne({ name: name }, function (err, p) {
+const createProductForScrapping = async (name,image,price) => {
+  Product.findOne({ name:name }, function (err, p) {
     if (err) console.log(err);
     if (p) console.log("This term already been created");
     else {
-      let image = [];
-      image.push("6078b6e34f270e6860150cba");
       var product = new Product({
-        name: name,
-        condition: "New",
-        description: "this is a scraped product",
-        address: "נס ציונה",
-        price: price,
-        category: "sports",
-        images: image,
-        owner: "60757be962462652dc9289b3"
-
+          name: name,
+          condition:"New",
+          description: "this is a scraped product",
+          address : "Ness Ziona",
+          images:image,
+          price:price,
+          ownerId:100
 
       });
       product.save(function (err, example) {
@@ -344,17 +236,16 @@ const scrape = async () => { //add scrape from amazon
   console.log("im here");
   console.log("im here");
   console.log("im here");
-  const page = await axios.get('https://www.amazon.com/s?i=sporting-intl-ship&bbn=16225014011&rh=n%3A10971181011%2Cn%3A3422251%2Cp_36%3A1253555011&dc&qid=1618576123&rnid=10971181011&ref=sr_nr_n_12')
-  const $ = cheerio.load(page.data);
-  $('.s-asin').each((i, el) => {
-    const name = $(el).find('h2 span').text();
+ const page = await axios.get('https://www.amazon.com/s?bbn=16225014011&rh=n%3A16225014011%2Cp_36%3A1253555011&dc&qid=1618237164&rnid=386589011&ref=lp_16225014011_nr_p_36_0')    
+  const $ = cheerio.load(page.data); 
+  $('.s-asin').each((i,el)=> {
+    const name = $(el).find('h2 span').text();  
     const price = $(el).find('.a-price-whole').text();
     const image = $(el).find('.s-image').attr('src');
-    createProductForScrapping(name, image, price);
-
-  });
+    createProductForScrapping(name,image,price);
+    
+});
 };
-
 
 
 
@@ -366,8 +257,5 @@ module.exports = {
   getProducts,
   getProductById,
   search,
-  sort,
-  groupBy,
-  mapAndReduce,
   scrape
 };

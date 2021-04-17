@@ -10,38 +10,72 @@ import {
 import reBuy from "../../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
-import Carousel from "react-bootstrap/Carousel";
-import PopUp from "../../Utils/PopUp";
-
-export default function Marker({ product, images, $hover }) {
+export default function Marker({ product, $hover }) {
   const [isModelOpen, setIsModelOpen] = useState(false);
+  let img = product["image"]
+    ? `http://localhost:3000/${product["images"][0]}`
+    : reBuy;
   return (
     <div>
-      <PopUp
-        product={product}
-        images={images}
-        isModelOpen={isModelOpen}
-        setIsModelOpen={setIsModelOpen}
-      />
+      <Modal
+        style={{
+          overlay: {
+            zIndex: "999",
+            margin: "auto",
+          },
+          content: {
+            inset: "0px",
+            height: "fit-content",
+            width: "fit-content",
+            direction: "rtl",
+            padding: "10px",
+            margin: "auto",
+            borderRadius: "15px",
+            boxShadow: "1px 1px 5px 1px #e5eefa",
+          },
+        }}
+        isOpen={isModelOpen}
+        onRequestClose={() => setIsModelOpen(false)}
+      >
+        {product && (
+          <Card
+            style={{
+              width: "20rem",
+              height: "20rem",
+              border: "1px solid #ececec",
+              borderRadius: "15px",
+            }}
+          >
+            <CardActionArea>
+              <CardMedia
+                image={`http://localhost:3000/${product["images"][0]}`}
+                title="Contemplative Reptile"
+                style={{ height: 140 }}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  <p>{product["name"]}</p>
+                  <p>{product["price"]}</p>
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  <p>Seller:{product["ownerId"]}</p>
+                  <p>Description:{product["description"]}</p>
+                  <p>Condition:{product["condition"]}</p>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        )}
+      </Modal>
       <Button size="small" onClick={() => setIsModelOpen(true)}>
-        {product["images"] && images ? (
-          <Carousel>
-            {images.map(
-              (Image) =>
-                product["images"].some((id) => id === Image._id) && (
-                  <Carousel.Item>
-                    <img
-                      className={"circleImg"}
-                      style={{ width: "3rem", height: "3rem" }}
-                      src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                      alt={Image["fileName"]}
-                    />
-                  </Carousel.Item>
-                )
-            )}
-          </Carousel>
+        {product ? (
+          <img
+            src={`http://localhost:3000/${product["images"][0]}`}
+            alt="marker"
+            className={"circleImg"}
+          />
         ) : (
-          <img src={reBuy} alt="marker" className={"circleImg"} />
+          <IoPinOutline />
         )}
       </Button>
     </div>

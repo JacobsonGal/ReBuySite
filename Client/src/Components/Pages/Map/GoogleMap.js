@@ -3,7 +3,6 @@ import api from "../../../API/API";
 import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 import Geocode from "react-geocode";
-import Search from "../Home/Search";
 Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
 Geocode.setLanguage("He");
 Geocode.setRegion("Il");
@@ -15,26 +14,21 @@ export default class GoogleMap extends Component {
     super(props);
     this.state = {
       products: [],
-      images: [],
       locations: [{}],
       center: {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
       },
-      zoom: 10,
+      zoom: 13,
     };
   }
 
   componentDidMount = async () => {
+    this.setState({ isLoading: true });
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
           products: product.data.data,
-        });
-      });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
         });
       });
     } catch (error) {
@@ -65,15 +59,10 @@ export default class GoogleMap extends Component {
         locations: rest,
       };
     });
-    this.props.setLoading(false);
   };
-  searchHandler = (products) => {
-    this.setState({
-      products,
-    });
-  };
+
   render() {
-    const { products, images, center, zoom, locations } = this.state;
+    const { products, center, zoom, locations } = this.state;
     function getMapOptions(maps) {
       return {
         streetViewControl: true,
@@ -92,8 +81,8 @@ export default class GoogleMap extends Component {
         ],
         gestureHandling: "greedy",
         disableDoubleClickZoom: true,
-        minZoom: 0,
-        maxZoom: 30,
+        minZoom: 11,
+        maxZoom: 18,
         layerTypes: ["TrafficLayer"],
         mapTypeControl: true,
         mapTypeId: maps.MapTypeId.ROADMAP,
@@ -110,36 +99,30 @@ export default class GoogleMap extends Component {
         clickableIcons: false,
       };
     }
-
     return (
-      <>
-        <Search searchHandler={this.searchHandler} />
-        <div style={{ height: "96vh", width: "100%" }}>
-          <GoogleMapReact
-            bootstrapURLKeys={{
-              key: "AIzaSyAiTqUoIPktHrM66nIC7fRevgXvj7BzN-A",
-              language: "he",
-              region: "il",
-            }}
-            defaultCenter={center}
-            defaultZoom={zoom}
-            options={getMapOptions}
-          >
-            {products.map((product, i) => {
-              return (
-                <Marker
-                  lat={locations[i] ? locations[i].lat : null}
-                  lng={locations[i] ? locations[i].lng : null}
-                  product={product}
-                  images={images}
-                  key={product["name"]}
-                />
-              );
-            })}
-          </GoogleMapReact>
-        </div>
-        )
-      </>
+      <div style={{ height: "96vh", width: "100%" }}>
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: "AIzaSyAiTqUoIPktHrM66nIC7fRevgXvj7BzN-A",
+            language: "he",
+            region: "il",
+          }}
+          defaultCenter={center}
+          defaultZoom={zoom}
+          options={getMapOptions}
+        >
+          {products.map((product, i) => {
+            return (
+              <Marker
+                lat={locations[i] ? locations[i].lat : null}
+                lng={locations[i] ? locations[i].lng : null}
+                product={product}
+                key={product["name"]}
+              />
+            );
+          })}
+        </GoogleMapReact>
+      </div>
     );
   }
 }

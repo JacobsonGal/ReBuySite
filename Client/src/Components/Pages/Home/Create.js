@@ -3,8 +3,6 @@ import api from "../../../API/API";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
-import firebase from "firebase/app";
-import "firebase/auth";
 
 const Title = styled.h1.attrs({
   className: "h1",
@@ -49,11 +47,10 @@ export default class ProductInsert extends Component {
       name: "",
       condition: "",
       description: "",
-      category: "",
       address: "",
       images: null,
       price: null,
-      // ownerId: null,
+      ownerId: null,
       redirect: false,
       alert: false,
     };
@@ -70,10 +67,6 @@ export default class ProductInsert extends Component {
   handleChangeInputDescription = async (event) => {
     const description = event.target.value;
     this.setState({ description });
-  };
-  handleChangeInputCategory = async (event) => {
-    const category = event.target.value;
-    this.setState({ category });
   };
   handleChangeInputAdrress = async (event) => {
     const address = event.target.value;
@@ -94,43 +87,31 @@ export default class ProductInsert extends Component {
     this.setState({ price });
   };
 
-  // handleChangeOwner = async (event) => {
-  //   // const ownerId = event.target.value;
-  //   const ownerId = firebase.auth().currentUser.email;
-  //   this.setState({ ownerId });
-  // };
+  handleChangeOwner = async (event) => {
+    const ownerId = event.target.value;
+    this.setState({ ownerId });
+  };
 
-  categoryArray = [
-    "Sport",
-    "Clothing",
-    "Electricity",
-    "Underwear",
-    "Swimwear",
-    "Homecare",
-    "Plants",
-    "Activewear",
-    "Jewlery",
-    "Other",
-  ];
   handleIncludeProduct = async () => {
     let data = new FormData();
+<<<<<<< HEAD
     let ownerID = firebase.auth().currentUser
       ? firebase.auth().currentUser.email
       : "jacobsongal@gmail.com";
     console.log(ownerID);
+=======
+>>>>>>> parent of 150183014 ()
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
     data.append("address", this.state.address);
-    if (this.state.images) {
-      for (let i = 0; i < this.state.images.length; i++) {
-        data.append("images", this.state.images[i]);
-      }
+    for (let i = 0; i < this.state.images.length; i++) {
+      data.append("images", this.state.images[i]);
     }
+
     data.append("price", this.state.price);
-    data.append("category", this.state.category);
-    data.append("ownerId", ownerID);
-    // console.log(this.state.images);
+    data.append("ownerId", this.state.ownerId);
+    console.log(this.state.images);
 
     if (
       Object.values(this.state).some((element) => {
@@ -139,7 +120,6 @@ export default class ProductInsert extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      data && console.log("sending data" + data.values());
       await api
         .insertProduct(data)
         .then((res) => {
@@ -148,11 +128,10 @@ export default class ProductInsert extends Component {
             name: "",
             condition: "",
             description: "",
-            category: "",
             address: "",
             images: null,
             price: null,
-            // ownerId: null,
+            ownerId: null,
             redirect: true,
           });
         })
@@ -170,9 +149,8 @@ export default class ProductInsert extends Component {
       description,
       address,
       images,
-      category,
       price,
-      // ownerId,
+      ownerId,
       redirect,
       alert,
     } = this.state;
@@ -199,21 +177,11 @@ export default class ProductInsert extends Component {
         <div style={{ textAlign: "center" }}>
           {" "}
           <Label>Condition: </Label>
-          <select
-            class="form-control"
-            style={{
-              margin: "0 auto",
-              width: "80%",
-              textAlignLast: "center",
-              direction: "ltr",
-            }}
+          <InputText
+            type="text"
             value={condition}
             onChange={this.handleChangeInputCondition}
-          >
-            <option></option>
-            <option>USED</option>
-            <option>NEW</option>
-          </select>
+          />
         </div>
         <div style={{ textAlign: "center" }}>
           <Label>Description: </Label>
@@ -222,28 +190,6 @@ export default class ProductInsert extends Component {
             value={description}
             onChange={this.handleChangeInputDescription}
           />
-        </div>{" "}
-        <div style={{ textAlign: "center" }}>
-          {" "}
-          <Label>Category: </Label>
-          <select
-            class="form-control"
-            style={{
-              margin: "0 auto",
-              width: "80%",
-              textAlignLast: "center",
-              direction: "ltr",
-            }}
-            value={category}
-            onChange={this.handleChangeInputCategory}
-          >
-            <option></option>
-            {this.categoryArray.map((category) => {
-              return (
-                <option style={{ textAlignLast: "center" }}>{category}</option>
-              );
-            })}
-          </select>
         </div>
         <div style={{ textAlign: "center" }}>
           {" "}
@@ -273,14 +219,14 @@ export default class ProductInsert extends Component {
             onChange={this.handleChangePrice}
           />
         </div>
-        {/* <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
           <Label>OwnerId: </Label>
           <InputText
             type="number"
             value={ownerId}
             onChange={this.handleChangeOwner}
           />
-        </div> */}
+        </div>
         <div>
           <div style={{ textAlign: "center" }}>
             <Button onClick={this.handleIncludeProduct}>Add Product</Button>

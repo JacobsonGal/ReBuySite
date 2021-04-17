@@ -3,8 +3,6 @@ import api from "../../../API/API";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import Alert from "react-bootstrap/Alert";
-import firebase from "firebase/app";
-import "firebase/auth";
 
 const Title = styled.h1.attrs({
   className: "h1",
@@ -49,7 +47,6 @@ export default class ProductUpdate extends Component {
       name: "",
       condition: "",
       description: "",
-      category: "",
       address: "",
       images: null,
       price: null,
@@ -81,43 +78,26 @@ export default class ProductUpdate extends Component {
       images,
     });
   };
-  handleChangeInputCategory = async (event) => {
-    const category = event.target.value;
-    this.setState({ category });
-  };
   handleChangeInputPrice = async (event) => {
     const price = event.target.value;
     this.setState({ price });
   };
-
-  categoryArray = [
-    "Sport",
-    "Clothing",
-    "Electricity",
-    "Underwear",
-    "Swimwear",
-    "Homecare",
-    "Plants",
-    "Activewear",
-    "Jewlery",
-    "Other",
-  ];
+  handleChangeInputOwner = async (event) => {
+    const ownerId = event.target.value;
+    this.setState({ ownerId });
+  };
   handleIncludeProduct = async () => {
     let data = new FormData();
-    let ownerID = firebase.auth().currentUser
-      ? firebase.auth().currentUser.email
-      : "jacobsongal@gmail.com";
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
-    data.append("category", this.state.category);
     data.append("address", this.state.address);
     for (let i = 0; i < this.state.images.length; i++) {
       data.append("images", this.state.images[i]);
     }
 
     data.append("price", this.state.price);
-    data.append("ownerId", ownerID);
+    data.append("ownerId", this.state.ownerId);
 
     if (
       Object.values(this.state).some((element) => {
@@ -132,7 +112,6 @@ export default class ProductUpdate extends Component {
           name: "",
           condition: "",
           description: "",
-          category: "",
           address: "",
           images: null,
           price: null,
@@ -146,12 +125,11 @@ export default class ProductUpdate extends Component {
   componentDidMount = async () => {
     const { id } = this.state;
     const product = await api.getProductById(id);
-    console.log(product);
+
     this.setState({
       name: product.data.data.name,
       condition: product.data.data.condition,
       description: product.data.data.description,
-      category: product.data.data.category,
       images: product.data.data.images,
       address: product.data.data.address,
       price: product.data.data.price,
@@ -167,7 +145,6 @@ export default class ProductUpdate extends Component {
       images,
       address,
       price,
-      category,
       ownerId,
       redirect,
       alert,
@@ -183,7 +160,7 @@ export default class ProductUpdate extends Component {
     }
     return (
       <Wrapper style={{ marginTop: "50px" }}>
-        <Title>Update Product</Title>
+        <Title>Create Product</Title>
         <div style={{ textAlign: "center" }}>
           <Label>Name: </Label>
           <InputText
@@ -195,16 +172,11 @@ export default class ProductUpdate extends Component {
         <div style={{ textAlign: "center" }}>
           {" "}
           <Label>Condition: </Label>
-          <select
-            class="form-control"
-            style={{ margin: "0 auto", width: "80%", textAlignLast: "center" }}
+          <InputText
+            type="text"
             value={condition}
             onChange={this.handleChangeInputCondition}
-          >
-            <option></option>
-            <option>USED</option>
-            <option>NEW</option>
-          </select>
+          />
         </div>
         <div style={{ textAlign: "center" }}>
           <Label>Description: </Label>
@@ -213,21 +185,6 @@ export default class ProductUpdate extends Component {
             value={description}
             onChange={this.handleChangeInputDescription}
           />
-        </div>{" "}
-        <div style={{ textAlign: "center" }}>
-          {" "}
-          <Label>Category: </Label>
-          <select
-            class="form-control"
-            style={{ margin: "0 auto", width: "80%", textAlignLast: "center" }}
-            value={category}
-            onChange={this.handleChangeInputCategory}
-          >
-            <option></option>
-            {this.categoryArray.map((category) => {
-              return <option>{category}</option>;
-            })}
-          </select>
         </div>
         <div style={{ textAlign: "center" }}>
           {" "}
@@ -255,6 +212,14 @@ export default class ProductUpdate extends Component {
             type="number"
             value={price}
             onChange={this.handleChangeInputPrice}
+          />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <Label>OwnerId: </Label>
+          <InputText
+            type="number"
+            value={ownerId}
+            onChange={this.handleChangeInputOwner}
           />
         </div>
         <div>

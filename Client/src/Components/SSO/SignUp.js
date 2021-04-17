@@ -1,73 +1,45 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
-import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
 
 export default function SignUp({ setRegistered }) {
-  const [signdUp, setsigndUp] = useState(false);
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, phone, email, password } = e.target.elements;
-
+    const { email, password } = e.target.elements;
     try {
-      console.log(name.value + phone.value + email.value);
-      let data = new FormData();
-      data.append("name", name.value);
-      data.append("phone", phone.value);
-      data.append("email", email.value);
-
-      await api
-        .insertUser(data)
-        .then((res) => {
-          window.alert(`User inserted successfully`);
-          firebaseConfig
-            .auth()
-            .createUserWithEmailAndPassword(email.value, password.value)
-            .then(function (result) {
-              return result.user.updateProfile({
-                displayName: name.value,
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-              alert(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
+      firebaseConfig
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value);
     } catch (error) {
       alert(error);
     }
   };
-
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
-    console.log(currentUser);
     return <Redirect to="/" />;
   }
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Label as="h1">Sign Up</Form.Label>
-      <Form.Group as={Row} controlId="formPlaintextEmail">
-        <Form.Label column sm="4">
-          Full Name
-        </Form.Label>
-        <Col sm="8">
-          <Form.Control type="text" name="name" placeholder="Name" />
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row} controlId="formPlaintextEmail">
-        <Form.Label column sm="4">
-          Phone
-        </Form.Label>
-        <Col sm="8">
-          <Form.Control type="number" name="phone" placeholder="Phone Number" />
-        </Col>
-      </Form.Group>
+      {/* <Form.Group as={Row} controlId="formPlaintextEmail">
+              <Form.Label column sm="4">
+                First Name
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control type="text" placeholder="First Name" />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formPlaintextEmail">
+              <Form.Label column sm="4">
+                Last Name
+              </Form.Label>
+              <Col sm="8">
+                <Form.Control type="text" placeholder="Last Name" />
+              </Col>
+            </Form.Group>
+            */}
       <Form.Group as={Row} controlId="formPlaintextEmail">
         <Form.Label column sm="4">
           Email
@@ -101,7 +73,7 @@ export default function SignUp({ setRegistered }) {
         Sign Up
       </Button>
       <div style={{ margin: "1rem" }}>
-        Already Registered?{" "}
+        Already registerd?{" "}
         <Button onClick={() => setRegistered(true)}>Login?</Button>
       </div>
     </Form>

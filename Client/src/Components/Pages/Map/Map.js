@@ -14,7 +14,7 @@ export default function Map({ title, setTitle, setActive }) {
       FAB="none"
       dots={false}
     >
-      <GoogleMap setLoading={setLoading} />
+      <GoogleMap />
       {setActive(false)}
     </Page>
   );

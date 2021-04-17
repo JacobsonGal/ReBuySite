@@ -127,7 +127,7 @@ export default class ProductUpdate extends Component {
       this.setState({ alert: true });
     } else {
       await api.updateProductById(this.state.id, data).then((res) => {
-        window.alert(`Product inserted successfully`);
+        window.alert(`Product updated successfully`);
         this.setState({
           name: "",
           condition: "",

@@ -47,7 +47,7 @@ const createUser = (req, res) => {
     .catch((error) => {
       console.log(error.message);
     });
-  console.log(image);
+  // console.log(image);
 
   const user = new User({ name, phone, email, image });
 
@@ -174,9 +174,6 @@ const getUsers = async (req, res) => {
     return res.status(200).json({ success: true, data: user });
   }).catch((err) => console.log(err));
 };
-
-
-
 
 module.exports = {
   createUser,

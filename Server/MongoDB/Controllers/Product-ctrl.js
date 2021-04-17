@@ -160,7 +160,7 @@ const updateProduct = async (req, res) => {
       }
     });
   }
-  console.log(images);
+  // console.log(images);
 
   Product.findOne({ _id: req.params.id }, (err, product) => {
     if (err) {

@@ -86,8 +86,7 @@ export class PieComponent implements OnInit {
 
   private data_ = [
     { address: 'Holon', amount: '1664' },
-    { address: 'Tel Aviv', amount: '10079' },
-    { address: 'Herzilia', amount: '2764' },
+    { address: 'Tel Aviv', amount: '1079' },
     { address: 'Rishon le Zion', amount: '2471' },
     { address: 'Haifa', amount: '1471' },
     { address: 'Ness Ziona', amount: '1000' },

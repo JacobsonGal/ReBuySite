@@ -8,7 +8,7 @@ import {
 import { AuthContext } from "./Auth";
 import firebaseConfig from "./Config.js";
 
-export default function LogIn() {
+export default function LogIn({ setRegistered }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target.elements;
@@ -72,15 +72,25 @@ export default function LogIn() {
       {/* <Form.Group as={Row}>
         <FacebookLoginButton />
       </Form.Group> */}
-      <Form.Group as={Row}>
+      {/* <Form.Group as={Row}>
         <GoogleLoginButton onClick={() => GoogleLogin} />
-      </Form.Group>
+      </Form.Group> */}
       <Form.Group controlId="formBasicCheckbox">
         {/* <Form.Check type="checkbox" label="Remember Me" /> */}
       </Form.Group>
       <Button variant="primary" type="submit" size="lg">
         Login
       </Button>
+      <div style={{ width: "100%" }}>
+        <Button
+          variant="secondary"
+          onClick={() => setRegistered(false)}
+          size="lg"
+          style={{ marginTop: "5px" }}
+        >
+          Sign Up
+        </Button>
+      </div>
     </Form>
   );
 }

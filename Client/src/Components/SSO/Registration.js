@@ -13,7 +13,11 @@ export default function Registration() {
         <img src={logo} alt="logo" className="loginLogo" />
       </div>
       <div className="Form">
-        {registered ? <LogIn /> : <SignUp setRegistered={setRegistered} />}
+        {registered ? (
+          <LogIn setRegistered={setRegistered} />
+        ) : (
+          <SignUp setRegistered={setRegistered} />
+        )}
       </div>
     </div>
   );

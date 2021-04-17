@@ -7,6 +7,8 @@ export const AuthContext = React.createContext();
 
 export function Admins(email) {
   switch (email) {
+    case "admin@gmail.com":
+      return true;
     case "jacobsongal@gmail.com":
       return true;
     case "jacobsongal@cs.colman.ac.il":

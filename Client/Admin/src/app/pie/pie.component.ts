@@ -14,6 +14,7 @@ export class PieComponent implements OnInit {
   ngOnInit(): void {
     const myObserver = {
       next: (x) => {
+        console.log(x.data, 'x');
         x.data.map((val) => this.data.push(val));
         console.log(x.data);
       },
@@ -21,7 +22,7 @@ export class PieComponent implements OnInit {
       complete: () => console.log('Observer got a complete notification'),
     };
     this.dataBaseService.getAllProductsCity().subscribe(myObserver);
-    console.log(this.data, 'data');
+    console.log(this, 'data');
 
     this.createSvg();
     this.createColors();

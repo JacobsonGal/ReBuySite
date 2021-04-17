@@ -107,7 +107,6 @@ export default function CardList({
   products,
   images,
   users,
-
   deleteHandler,
   from,
   to,

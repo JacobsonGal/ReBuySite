@@ -207,7 +207,6 @@ export default class GoogleMap extends Component {
             })}
           </GoogleMapReact>
         </div>
-        )
       </>
     );
   }

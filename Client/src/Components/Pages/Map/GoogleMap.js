@@ -39,6 +39,35 @@ export default class GoogleMap extends Component {
         this.setState({
           products: product.data.data,
         });
+        this.state.products.map(
+          (p, i) =>
+            p["address"] &&
+            Geocode.fromAddress(p["address"]).then(
+              // Geocode.fromAddress("RISHON-LE-ZION").then(
+              (response) => {
+                var { lat, lng } = response.results[0].geometry.location;
+                // lat = lat + i * 0.005;
+                // lng = lng + i * 0.005;
+                lat = lat;
+                lng = lng;
+                this.setState({
+                  locations: this.state.locations.concat([
+                    { id: p._id, lat: lat, lng: lng },
+                  ]),
+                });
+                // console.log(this.state.locations);
+              },
+              (error) => {
+                console.error(error);
+              }
+            )
+        );
+        this.setState((state) => {
+          const [first, ...rest] = state.locations;
+          return {
+            locations: rest,
+          };
+        });
       });
       await api.getAllImages().then((image) => {
         this.setState({
@@ -54,31 +83,6 @@ export default class GoogleMap extends Component {
     } catch (error) {
       console.log(error);
     }
-    this.state.products.map(
-      (p, i) =>
-        p["address"] &&
-        Geocode.fromAddress(p["address"]).then(
-          // Geocode.fromAddress("RISHON-LE-ZION").then(
-          (response) => {
-            var { lat, lng } = response.results[0].geometry.location;
-            lat = lat + i * 0.005;
-            lng = lng + i * 0.005;
-            this.setState({
-              locations: this.state.locations.concat([{ lat, lng }]),
-            });
-            // console.log(this.state.locations);
-          },
-          (error) => {
-            console.error(error);
-          }
-        )
-    );
-    this.setState((state) => {
-      const [first, ...rest] = state.locations;
-      return {
-        locations: rest,
-      };
-    });
   };
   searchHandler = (products) => {
     this.setState({
@@ -182,8 +186,16 @@ export default class GoogleMap extends Component {
             {products.map((product, i) => {
               return (
                 <Marker
-                  lat={locations[i] ? locations[i].lat : null}
-                  lng={locations[i] ? locations[i].lng : null}
+                  lat={
+                    locations.some((i) => i.id === product._id)
+                      ? locations.find((i) => i.id === product._id).lat
+                      : null
+                  }
+                  lng={
+                    locations.some((i) => i.id === product._id)
+                      ? locations.find((i) => i.id === product._id).lng
+                      : null
+                  }
                   product={product}
                   images={images}
                   users={users}

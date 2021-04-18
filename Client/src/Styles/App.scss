@@ -1,5 +1,8 @@
-$sidebar-bg-color: #2a86c3;
-$submenu-bg-color: #2a86c3;
+$side-bar-background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+$sidebar-bg-color: $side-bar-background;
+$submenu-bg-color: $side-bar-background;
+// $sidebar-bg-color: #2a86c3;
+// $submenu-bg-color: #2a86c3;
 $submenu-bg-color-collapsed: #2a86c3;
 $sidebar-color: #ffffff;
 $highlight-color: #bbafaf;

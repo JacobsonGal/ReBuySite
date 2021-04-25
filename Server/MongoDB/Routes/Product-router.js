@@ -1,22 +1,7 @@
-// Defines the way in which the client requests are handled by the application endpoints
 const express = require("express");
-const productCtrl = require('../Controllers/Product-ctrl');
+const ProductCtrl = require("../Controllers/Product-ctrl");
 const router = express.Router();
 const upload = require("../middlewares/upload");
-
-//create
-//router.post('/product', productCtrl.createProduct);
-router.post("/product", upload.array("images", 10), productCtrl.createProduct);
-module.exports = {
-  routes: router
-}
-
-
-/*const express = require("express");
-const upload = require("../middlewares/upload");
-const ProductCtrl = require("../controllers/Product-ctrl");
-
-const router = express.Router();
 
 router.post("/product", upload.array("images", 10), ProductCtrl.createProduct);
 router.put(
@@ -30,8 +15,5 @@ router.get("/products", ProductCtrl.getProducts);
 router.get("/products/search", ProductCtrl.search);
 router.get("/products/sort", ProductCtrl.sort);
 router.get("/products/groupBy", ProductCtrl.groupBy);
-
 router.get("/products/groupByCity", ProductCtrl.groupByCity);
-router.get("/products/mapreduce", ProductCtrl.mapAndReduce);
-router.get("/scrape", ProductCtrl.scrape);
-module.exports = router;*/
+module.exports = router;

@@ -1,4 +1,4 @@
-const Product = require("../models/Product");
+/*const Product = require("../models/Product");
 const Image = require("../models/Image");
 const User = require("../models/User");
 const fs = require("fs");
@@ -180,3 +180,4 @@ module.exports = {
   getUserById,
   getUsers,
 };
+*/

@@ -1,4 +1,4 @@
-const express = require("express");
+/*const express = require("express");
 const upload = require("../middlewares/upload");
 const UserCtrl = require("../controllers/User-ctrl");
 
@@ -10,4 +10,4 @@ router.delete("/user/:id", UserCtrl.deleteUser);
 router.get("/user/:id", UserCtrl.getUserById);
 router.get("/users", UserCtrl.getUsers);
 
-module.exports = router;
+module.exports = router;*/

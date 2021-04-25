@@ -1,20 +1,31 @@
-const mongoose = require("mongoose");
-const Image = require("./Image");
-const User = require("./User");
-const Schema = mongoose.Schema;
+class Product {
+  constructor(id, name, condition, description, category, address, price, owner, images) {
+    this.id = id;
+    this.name = name;
+    this.condition = condition;
+    this.description = description;
+    this.category = category;
+    this.address = address;
+    this.price = price;
+    this.owner = owner;
+    this.images = images;
+  }
+}
 
-const Product = new Schema(
-  {
-    name: { type: String, required: true },
-    condition: { type: String, required: true },
-    description: { type: String, required: true },
-    category: { type: String, required: false },
-    address: { type: String, required: true },
-    price: { type: Number, required: true },
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
-    images: [{ type: Schema.Types.ObjectId, ref: "Image" }],
-  },
-  { timestamps: true }
-);
+module.exports = Product;
 
-module.exports = mongoose.model("products", Product);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

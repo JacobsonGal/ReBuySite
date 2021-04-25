@@ -2,10 +2,11 @@
 const express = require("express");
 const productCtrl = require('../Controllers/Product-ctrl');
 const router = express.Router();
+const upload = require("../middlewares/upload");
 
 //create
-router.post('/product', productCtrl.createProduct);
-
+//router.post('/product', productCtrl.createProduct);
+router.post("/product", upload.array("images", 10), productCtrl.createProduct);
 module.exports = {
   routes: router
 }

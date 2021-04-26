@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const http = require("http");
-const productRouter = require("./MongoDB/routes/product-router");
+const productRouter = require("./MongoDB/routes/Product-router");
 const userRouter = require("./MongoDB/routes/Users-router");
 
 const app = express();
@@ -13,7 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/uploads", express.static("uploads"));
-app.use("/api", productRouter.routes);
+app.use("/api", productRouter);
+app.use("/api", userRouter);
 
 const server = http.createServer(app);
 const io = socketIo(server, {

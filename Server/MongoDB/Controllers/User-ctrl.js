@@ -1,47 +1,131 @@
-const userService = require("../services/userService");
+const Product = require("../models/Product");
+const User = require("../models/User");
+const fs = require("fs");
+const firebase = require("../DB/db");
+require("firebase/storage");
+const firestore = firebase.firestore();
 
-const createUser = (req, res) => { 
-   const user = await userService.createUser(req);
-  try {
-    res.send(product);
-  } catch (err) {
-    res.status(500).send(err);
-  }};
+const createUser = async (req, res) => {
+  console.log("Adding user : " + req.body.name);
+  const { name, phone, email, products } = req.body;
+  // const file = req.file;
+  // const filename = file.filename.toString();
+  // const storageRef = firebase.storage().ref();
+  // const fileRef = storageRef.child(filename);
+  // await fileRef
+  //   .put(file)
+  //   .then((snapshot) => {
+  //     console.log("Uploaded file", filename);
+  //     console.log(snapshot);
+  //   })
+  //   .catch((error) => {
+  //     return res.status(404).json({ success: false, error: error.message });
+  //   });
+  // const image = await fileRef.getDownloadURL();
+
+  firestore
+    .collection("users")
+    .doc()
+    .set({ name, phone, email, products })
+    .then(() => {
+      return res.status(200).json({
+        success: true,
+        data: "User has been added successfully",
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
+};
 
 const updateUser = async (req, res) => {
-   const user = await userService.updateUser(req);
-  try {
-    res.send(product);
-  } catch (err) {
-    res.status(500).send(err);
-  };
+  console.log("Updating user : " + req.params.id);
+  const userEmail = req.params.id;
+  const { name, phone, email, image, products } = req.body;
+
+  await firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        doc.ref.update({
+          name: name,
+          phone: phone,
+          email: email,
+          image: image,
+          products: products,
+        });
+        return res.status(200).json({
+          success: true,
+          message: "User has been updated successfully",
+        });
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const deleteUser = async (req, res) => {
-   const user = await userService.deleteUser(req);
-  try {
-    res.send(product);
-  } catch (err) {
-    res.status(500).send(err);
-  };
+  console.log("Deleting user : " + req.params.id);
+  const userEmail = req.params.id;
+  firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        doc.ref.delete();
+        return res.status(200).json({
+          success: true,
+          data: "User has been deleted successfully",
+        });
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const getUserById = async (req, res) => {
-   const user = await userService.getUserById(req);
-  try {
-    res.send(product);
-  } catch (err) {
-    res.status(500).send(err);
-  };
+  console.log("Getting user : " + req.params.id);
+  const userEmail = req.params.id;
+  firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        return res.status(200).json({ success: true, data: doc.data() });
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const getUsers = async (req, res) => {
-   const user = await userService.getUsers(req);
-  try {
-    res.send(product);
-  } catch (err) {
-    res.status(500).send(err);
-  };
+  console.log("Getting users");
+  firestore
+    .collection("users")
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "No Users" });
+      let response = [];
+      Snapshot.docs.map((doc) => response.push(doc.data()));
+      return res.status(200).json({ success: true, data: response });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 module.exports = {

@@ -45,7 +45,7 @@ export default function User({ handleToggleSidebar }) {
       return (
         <img
           src={photo}
-          alt="User"
+          alt='User'
           style={{
             alignContent: "center",
             width: "100%",
@@ -55,20 +55,17 @@ export default function User({ handleToggleSidebar }) {
         />
       );
     } else {
-      return <Person className="userPhoto" />;
+      return <Person className='userPhoto' />;
     }
   }
 
   return (
     <>
-      <Menu iconShape="circle">
+      <Menu iconShape='circle'>
         <SubMenu title={name} icon={<Userlog />}>
           {!Admin && (
             <MenuItem icon={<Star />}>
-              <NavLink
-                to="/settings/userSettings"
-                onClick={handleToggleSidebar}
-              >
+              <NavLink to='/admin' onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "profile" })}
               </NavLink>
             </MenuItem>
@@ -85,13 +82,10 @@ export default function User({ handleToggleSidebar }) {
         </SubMenu>
       </Menu>
       {Admin && (
-        <Menu iconShape="circle">
+        <Menu iconShape='circle'>
           <Menu title={intl.formatMessage({ id: "welcome" }) + name}>
             <MenuItem icon={<Star />}>
-              <NavLink
-                to="/settings/userSettings"
-                onClick={handleToggleSidebar}
-              >
+              <NavLink to='/admin' onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "Administrator" })}
               </NavLink>
             </MenuItem>

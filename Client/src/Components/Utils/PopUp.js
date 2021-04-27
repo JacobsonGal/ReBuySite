@@ -11,6 +11,8 @@ import reBuy from "../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
+import { Link } from "react-router-dom";
+
 
 export default function Marker({
   product,
@@ -112,7 +114,7 @@ export default function Marker({
                         <p>
                           {
                             users.find((user) => user._id === product["owner"])[
-                              "name"
+                            "name"
                             ]
                           }
                         </p>
@@ -120,7 +122,7 @@ export default function Marker({
                           Phone:{" "}
                           {
                             users.find((user) => user._id === product["owner"])[
-                              "phone"
+                            "phone"
                             ]
                           }
                         </p>
@@ -130,6 +132,7 @@ export default function Marker({
                     <p>Condition: {product["condition"]}</p>
                     <p>Category: {product["category"]}</p>
                     <p>Address: {product["address"]}</p>
+                    <Link to="/chat" style={{ color: "blue" }}>Contact Seller </Link>
                   </Typography>
                 </CardContent>
               </CardActionArea>

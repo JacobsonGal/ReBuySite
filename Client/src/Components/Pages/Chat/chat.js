@@ -17,11 +17,11 @@ export default function Chat() {
 
   return (
     <div className="app">
-      <header className="app__header">
-        Put here the name and price of the product
-      </header>
 
       <section className="app__section">
+        <header className="app__header">
+          Put here the name and price of the product
+      </header>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
 

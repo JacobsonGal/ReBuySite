@@ -5,28 +5,32 @@ const firebase = require("../DB/db");
 require("firebase/storage");
 const firestore = firebase.firestore();
 
+async function uploadImage(file) {
+  const ref = firebase.storage().ref();
+  const name = file.filename.toString();
+  const metadata = { contentType: file.mimetype };
+  const task = ref.child(name).put(file, metadata);
+
+  await task
+    .then((snapshot) => snapshot.ref.getDownloadURL())
+    .then((url) => {
+      console.log(url);
+      return url;
+    })
+    .catch(console.error);
+}
+
 const createUser = async (req, res) => {
   console.log("Adding user : " + req.body.name);
   const { name, phone, email, products } = req.body;
-  // const file = req.file;
-  // const filename = file.filename.toString();
-  // const storageRef = firebase.storage().ref();
-  // const fileRef = storageRef.child(filename);
-  // await fileRef
-  //   .put(file)
-  //   .then((snapshot) => {
-  //     console.log("Uploaded file", filename);
-  //     console.log(snapshot);
-  //   })
-  //   .catch((error) => {
-  //     return res.status(404).json({ success: false, error: error.message });
-  //   });
-  // const image = await fileRef.getDownloadURL();
+  // const file = await uploadImage(req.file);
+  const image = "";
+  console.log(req.body);
 
   firestore
     .collection("users")
     .doc()
-    .set({ name, phone, email, products })
+    .set({ name, phone, email, image, products })
     .then(() => {
       return res.status(200).json({
         success: true,

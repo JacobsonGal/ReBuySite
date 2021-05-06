@@ -19,6 +19,7 @@ export default function SignUp({ setRegistered }) {
       data.append("phone", phone.value);
       data.append("email", email.value);
       data.append("image", file);
+      data.append("isOnline", true);
 
       await api
         .insertUser(data)

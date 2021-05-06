@@ -8,6 +8,7 @@ import Icon from "./Assets/Images/ReBuyLogoTrans.png";
 import Home from "./Components/Pages/Home/Home";
 import Map from "./Components/Pages/Map/Map";
 import Favorites from "./Components/Pages/Favorites/Favorites";
+import Admin from "./Components/Pages/Admin/Admin"
 import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
@@ -130,8 +131,8 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setActive={setActive}
                     />
                   </Route>
-                  <Route exact path="/settings/userSettings">
-                    <UserSettings
+                  <Route exact path="/Admin">
+                    <Admin
                       title={intl.formatMessage({ id: "profile" })}
                       setTitle={setTitle}
                     />

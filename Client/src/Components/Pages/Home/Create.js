@@ -5,6 +5,9 @@ import { Redirect } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/storage";
+
+const storage = firebase.storage();
 
 const Title = styled.h1.attrs({
   className: "h1",
@@ -53,6 +56,7 @@ export default class ProductInsert extends Component {
       address: "",
       images: null,
       price: null,
+      photoUrl: "",
       // ownerId: null,
       redirect: false,
       alert: false,
@@ -81,11 +85,25 @@ export default class ProductInsert extends Component {
   };
   handleChangeInputImages = async (event) => {
     // const images = event.target.files;
-    let images = event.target.files;
-
+    let images = event.target.files[0];
+    console.log(images);
     this.setState({
       images,
     });
+    const uploadTask = storage.ref(`images/${images.name}`).put(images);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () =>
+        storage
+          .ref("images")
+          .child(images.name)
+          .getDownloadURL()
+          .then((url) => this.setState({ photoUrl: url }))
+    );
     // if (event.target.files && event.target.files[0]) {
   };
 
@@ -117,20 +135,16 @@ export default class ProductInsert extends Component {
     let ownerID = firebase.auth().currentUser
       ? firebase.auth().currentUser.email
       : "jacobsongal@gmail.com";
-    console.log(ownerID);
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
     data.append("address", this.state.address);
-    if (this.state.images) {
-      for (let i = 0; i < this.state.images.length; i++) {
-        data.append("images", this.state.images[i]);
-      }
-    }
+
     data.append("price", this.state.price);
     data.append("category", this.state.category);
     data.append("ownerId", ownerID);
     // console.log(this.state.images);
+    data.append("photo", this.state.photoUrl);
 
     if (
       Object.values(this.state).some((element) => {

@@ -4,6 +4,7 @@ const firestore = firebase.firestore();
 const createProduct = async (req, res) => {
   console.log("Adding product : " + req.body.name);
   const body = req.body;
+  console.log(req.body);
   firestore
     .collection("products")
     .doc()
@@ -173,40 +174,40 @@ const sort = async (req, res) => {
   });
   res.send(newProd);
 };
-const groupBy = async (req, res) => {
-  const data = await Product.aggregate([
-    {
-      $group: {
-        _id: "$category",
-        total: { $sum: 1 },
-      },
-    },
-  ]);
-  let products;
-  if (!req.query.category) {
-    products = await Product.find({}, (err, product) => {
-      if (err) console.log(err);
-    });
-  } else {
-    products = await Product.find(
-      { category: req.query.category },
-      (err, product) => {
-        if (err) {
-          console.log("there is an error", err);
-        }
-      }
-    );
-  }
-  const newProducts = products.sort((a, b) => {
-    let nameA = a.category.toLowerCase(),
-      nameB = b.category.toLowerCase();
-    if (nameA < nameB) return -1;
-    if (nameA > nameB) return 1;
-    return 0;
-  });
-  // console.log(data);
-  res.json({ products: newProducts, data: data });
-};
+// const groupBy = async (req, res) => {
+//   const data = await Product.aggregate([
+//     {
+//       $group: {
+//         _id: "$category",
+//         total: { $sum: 1 },
+//       },
+//     },
+//   ]);
+//   let products;
+//   if (!req.query.category) {
+//     products = await Product.find({}, (err, product) => {
+//       if (err) console.log(err);
+//     });
+//   } else {
+//     products = await Product.find(
+//       { category: req.query.category },
+//       (err, product) => {
+//         if (err) {
+//           console.log("there is an error", err);
+//         }
+//       }
+//     );
+//   }
+//   const newProducts = products.sort((a, b) => {
+//     let nameA = a.category.toLowerCase(),
+//       nameB = b.category.toLowerCase();
+//     if (nameA < nameB) return -1;
+//     if (nameA > nameB) return 1;
+//     return 0;
+//   });
+//   // console.log(data);
+//   res.json({ products: newProducts, data: data });
+// };
 
 const groupByCity = async (req, res) => {
   const data = await Product.aggregate([
@@ -265,7 +266,7 @@ module.exports = {
   getProductById,
   search,
   sort,
-  groupBy,
+  // groupBy,
   mapAndReduce,
   groupByCity,
 };

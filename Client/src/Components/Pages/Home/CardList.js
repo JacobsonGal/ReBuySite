@@ -161,27 +161,15 @@ export default function CardList({
                       borderRadius: "15px",
                     }}
                   >
-                    {product["images"] && images && (
-                      <Carousel>
-                        {images.map(
-                          (Image) =>
-                            product["images"].some(
-                              (id) => id === Image._id
-                            ) && (
-                              <Carousel.Item
-                                style={{ width: "100%", height: "10rem" }}
-                              >
-                                <img
-                                  className="d-block w-100"
-                                  style={{ width: "100%", height: "100%" }}
-                                  src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                                  alt={Image["fileName"]}
-                                />
-                              </Carousel.Item>
-                            )
-                        )}
-                      </Carousel>
-                    )}{" "}
+                    {console.log(products)}
+                    {
+                      <img
+                        className="d-block w-100"
+                        style={{ width: "100%", height: "100%" }}
+                        src={`${product["photo"]}`}
+                        alt={Image["fileName"]}
+                      />
+                    }{" "}
                     <CardActionArea
                       onClick={() => setData(product)}
                       style={{

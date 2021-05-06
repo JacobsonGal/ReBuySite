@@ -66,14 +66,23 @@ export default function Marker({
                 alignItems: "center",
               }}
             >
-              {
-                <img
-                  className="d-block w-100"
-                  style={{ width: "100%", height: "100%" }}
-                  src={`${product["photo"]}`}
-                  alt={Image["fileName"]}
-                />
-              }{" "}
+              {product["photo"] && (
+                <Carousel>
+                  {product["photo"]
+                    .toString()
+                    .split(",")
+                    .map((Image) => (
+                      <Carousel.Item style={{ width: "100%", height: "100%" }}>
+                        <img
+                          className="d-block w-100"
+                          style={{ width: "100%", height: "100%" }}
+                          src={Image}
+                          alt={Image}
+                        />
+                      </Carousel.Item>
+                    ))}
+                </Carousel>
+              )}{" "}
               <CardActionArea
                 // onClick={(e) => cardOnClickHandler(e, product["_id"])}
                 // onClick={() => setIsModelOpen(true)}

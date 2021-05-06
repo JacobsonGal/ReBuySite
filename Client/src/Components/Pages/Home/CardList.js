@@ -26,6 +26,10 @@ import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
 import { AuthContext, Admins } from "../../SSO/Auth";
+import Person from "@material-ui/icons/PersonRounded";
+import Phone from "@material-ui/icons/Phone";
+import WhatsApp from "@material-ui/icons/WhatsApp";
+import ReactWhatsapp from "react-whatsapp";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -79,17 +83,32 @@ class DeleteProduct extends Component {
   }
 }
 const useStyles = makeStyles((theme) => ({
+  // root: {
+  //   display: "flex",
+  //   flexWrap: "wrap",
+  //   justifyContent: "space-around",
+  //   overflow: "hidden",
+  //   width: "100%",
+  //   direction: "ltr",
+  // },
+  // gridList: {
+  //   flexWrap: "nowrap",
+  //   transform: "translateZ(0)",
+  // },
   root: {
     display: "flex",
+    padding: "2rem",
     flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
     width: "100%",
-    direction: "ltr",
+    justifyContent: " space-around",
+    textAlign: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    flexWrap: "nowrap",
-    transform: "translateZ(0)",
+    width: "100%",
+    height: "100%",
   },
   tile: {
     height: "100%",
@@ -144,17 +163,10 @@ export default function CardList({
                   style={{ height: "100%", width: "fit-content" }}
                   key={product["name"]}
                 >
-                  {/* <PopUp
-                product={product}
-                users={users}
-                images={images}
-                isModelOpen={isModelOpen}
-                setIsModelOpen={setIsModelOpen}
-              /> */}
                   <Card
                     style={{
-                      margin: "1rem",
-                      width: 250,
+                      margin: "2px",
+                      width: 330,
                       minHeight: 400,
                       maxHeight: "fit-content",
                       border: "1px solid #ececec",
@@ -214,23 +226,13 @@ export default function CardList({
                               style={{
                                 backgroundColor: "#ececec",
                                 borderRadius: "15px",
-                                font: "15px assistant bold",
                               }}
                             >
                               <p>
-                                {
-                                  users.find(
-                                    (user) => user._id === product["owner"]
-                                  )["name"]
-                                }
-                              </p>
-                              <p>
-                                Phone:{" "}
-                                {
-                                  users.find(
-                                    (user) => user._id === product["owner"]
-                                  )["phone"]
-                                }
+                                {users
+                                  .find((user) => user._id === product["owner"])
+                                  ["name"].toUpperCase()}
+                                <Person />
                               </p>
                             </div>
                           )}

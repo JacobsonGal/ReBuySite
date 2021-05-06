@@ -73,12 +73,12 @@ export default function SideBar({
                 {intl.formatMessage({ id: "Upload" })}
               </NavLink>
             </MenuItem>
-            {/* <MenuItem icon={<Star />}>
+            <MenuItem icon={<Star />}>
               <NavLink to="/Favorites" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "Favorites" })}
               </NavLink>
-            </MenuItem> */}
-            {/* <SubMenu
+            </MenuItem>
+            <SubMenu
               title={intl.formatMessage({ id: "Catagories" })}
               icon={<Category />}
             >
@@ -86,7 +86,7 @@ export default function SideBar({
               <MenuItem>Tech</MenuItem>
               <MenuItem>Music</MenuItem>
               <MenuItem>Gadgets</MenuItem>
-            </SubMenu> */}
+            </SubMenu>
           </Menu>
 
           <User handleToggleSidebar={handleToggleSidebar} />

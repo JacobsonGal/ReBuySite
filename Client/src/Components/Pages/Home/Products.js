@@ -160,16 +160,16 @@ export default class ProductsList extends Component {
           users={users}
           deleteHandler={this.deleteHandler}
           from={0}
-          to={products.length / 2}
+          to={products.length}
         />
-        <CardList
+        {/* <CardList
           products={products}
           images={images}
           users={users}
           deleteHandler={this.deleteHandler}
           from={products.length / 2}
           to={products.length}
-        />
+        /> */}
         {this.props.setLoading(false)}
       </Wrapper>
     );

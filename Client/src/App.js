@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AuthProvider } from "./Components/SSO/Auth";
 
 import io from "socket.io-client"
-const socket=io.connect("http://localhost:3000")
+const socket = io.connect("http://localhost:3000")
 
 
 export default function App() {
@@ -26,6 +26,7 @@ export default function App() {
                 isActive={isActive}
               />
             </Route>
+
           </Switch>
         </BrowserRouter>
       </IntlProvider>

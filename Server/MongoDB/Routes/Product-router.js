@@ -1,8 +1,7 @@
 const express = require("express");
-const upload = require("../middlewares/upload");
-const ProductCtrl = require("../controllers/Product-ctrl");
-
+const ProductCtrl = require("../Controllers/Product-ctrl");
 const router = express.Router();
+const upload = require("../middlewares/upload");
 
 router.post("/product", upload.array("images", 10), ProductCtrl.createProduct);
 router.put(
@@ -15,9 +14,6 @@ router.get("/product/:id", ProductCtrl.getProductById);
 router.get("/products", ProductCtrl.getProducts);
 router.get("/products/search", ProductCtrl.search);
 router.get("/products/sort", ProductCtrl.sort);
-router.get("/products/groupBy", ProductCtrl.groupBy);
-
+// router.get("/products/groupBy", ProductCtrl.groupBy);
 router.get("/products/groupByCity", ProductCtrl.groupByCity);
-router.get("/products/mapreduce", ProductCtrl.mapAndReduce);
-router.get("/scrape", ProductCtrl.scrape);
 module.exports = router;

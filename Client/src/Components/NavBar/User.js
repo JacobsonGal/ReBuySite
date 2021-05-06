@@ -65,10 +65,7 @@ export default function User({ handleToggleSidebar }) {
         <SubMenu title={name} icon={<Userlog />}>
           {!Admin && (
             <MenuItem icon={<Star />}>
-              <NavLink
-                to="/Admin"
-                onClick={handleToggleSidebar}
-              >
+              <NavLink to="/Admin" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "profile" })}
               </NavLink>
             </MenuItem>
@@ -88,10 +85,7 @@ export default function User({ handleToggleSidebar }) {
         <Menu iconShape="circle">
           <Menu title={intl.formatMessage({ id: "welcome" }) + name}>
             <MenuItem icon={<Star />}>
-              <NavLink
-                to="/Admin"
-                onClick={handleToggleSidebar}
-              >
+              <NavLink to="/Admin" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "Administrator" })}
               </NavLink>
             </MenuItem>

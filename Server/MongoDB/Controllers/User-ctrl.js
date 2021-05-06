@@ -1,176 +1,135 @@
 const Product = require("../models/Product");
-const Image = require("../models/Image");
 const User = require("../models/User");
 const fs = require("fs");
-const db = require("../DB/index");
+const firebase = require("../DB/db");
+require("firebase/storage");
+const firestore = firebase.firestore();
 
-const createUser = (req, res) => {
-  // const body = req.body;
-  const { name, phone, email } = req.body;
+async function uploadImage(file) {
+  const ref = firebase.storage().ref();
+  const name = file.filename.toString();
+  const metadata = { contentType: file.mimetype };
+  const task = ref.child(name).put(file, metadata);
+
+  await task
+    .then((snapshot) => snapshot.ref.getDownloadURL())
+    .then((url) => {
+      console.log(url);
+      return url;
+    })
+    .catch(console.error);
+}
+
+const createUser = async (req, res) => {
+  console.log("Adding user : " + req.body.name);
+  const { name, phone, email, products } = req.body;
+  // const file = await uploadImage(req.file);
+  const image = "";
   console.log(req.body);
-  console.log(name + phone + email);
-  const file = req.file;
-  console.log("files : " + req.file);
 
-  if (!file) {
-    return res
-      .status(401)
-      .json({ success: false, error: "You must provide images" });
-  }
-
-  if (!req.body) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a User",
-    });
-  }
-  const image64 = (encode_image = fs
-    .readFileSync(file.path)
-    .toString("base64"));
-
-  let finalImg = {
-    fileName: file.originalname,
-    contentType: file.mimetype,
-    imageBase64: image64,
-  };
-
-  let newImage = new Image(finalImg);
-  let id = newImage._id;
-
-  const image = newImage;
-  newImage
-    .save()
-    .then((result) => {
-      console.log(newImage.fileName + "Inserted to collection!");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-
-  const user = new User({ name, phone, email, image });
-
-  if (!user) {
-    return res
-      .status(400)
-      .json({ success: false, error: "You must provide a User" });
-  }
-
-  user
-    .save()
+  firestore
+    .collection("users")
+    .doc()
+    .set({ name, phone, email, image, products })
     .then(() => {
-      return res.status(201).json({
+      return res.status(200).json({
         success: true,
-        id: user._id,
-        message: "User created!",
+        data: "User has been added successfully",
       });
     })
     .catch((error) => {
-      console.log(error.message);
-      return res.status(400).json({
-        400: "400",
-        error,
-        message: error.message,
-      });
+      return res.status(404).json({ success: false, error: error.message });
     });
 };
 
 const updateUser = async (req, res) => {
-  const body = req.body;
-  const file = req.file;
+  console.log("Updating user : " + req.params.id);
+  const userEmail = req.params.id;
+  const { name, phone, email, image, products } = req.body;
 
-  if (!body) {
-    return res.status(400).json({
-      success: false,
-      error: "You must provide a body to update",
-    });
-  }
-
-  const images64 = (encode_image = fs
-    .readFileSync(file.path)
-    .toString("base64"));
-  let finalImg = {
-    fileName: images64.originalname,
-    contentType: images64.mimetype,
-    imageBase64: images64,
-  };
-  let newImage = new Image(finalImg);
-  newImage
-    .save()
-    .then(() => {
-      console.log(newImage.fileName + "Inserted to collection!");
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-
-  User.findOne({ _id: req.params.id }, (err, user) => {
-    if (err) {
-      return res.status(404).json({
-        err,
-        message: "User not found!",
-      });
-    }
-    user.email = body.email;
-    user.name = body.name;
-    user.phone = body.phone;
-    user.image = body.image;
-    user.image = newImage;
-
-    user
-      .save()
-      .then(() => {
+  await firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        doc.ref.update({
+          name: name,
+          phone: phone,
+          email: email,
+          image: image,
+          products: products,
+        });
         return res.status(200).json({
           success: true,
-          id: user._id,
-          message: "User updated!",
-        });
-      })
-      .catch((error) => {
-        return res.status(404).json({
-          error,
-          message: "User not updated!",
+          message: "User has been updated successfully",
         });
       });
-  });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const deleteUser = async (req, res) => {
-  await User.findOneAndDelete({ _id: req.params.id }, (err, user) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, error: `User not found` });
-    }
-
-    return res.status(200).json({ success: true, data: user });
-  }).catch((err) => console.log(err));
+  console.log("Deleting user : " + req.params.id);
+  const userEmail = req.params.id;
+  firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        doc.ref.delete();
+        return res.status(200).json({
+          success: true,
+          data: "User has been deleted successfully",
+        });
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const getUserById = async (req, res) => {
-  await User.findOne({ _id: req.params.id }, (err, user) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-
-    if (!user) {
-      return res.status(404).json({ success: false, error: `User not found` });
-    }
-    return res.status(200).json({ success: true, data: user });
-  }).catch((err) => console.log(err));
+  console.log("Getting user : " + req.params.id);
+  const userEmail = req.params.id;
+  firestore
+    .collection("users")
+    .where("email", "==", userEmail)
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "User not found" });
+      Snapshot.forEach((doc) => {
+        return res.status(200).json({ success: true, data: doc.data() });
+      });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 const getUsers = async (req, res) => {
-  await User.find({}, (err, user) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-    if (!user.length) {
-      return res.status(404).json({ success: false, error: `User not found` });
-    }
-    return res.status(200).json({ success: true, data: user });
-  }).catch((err) => console.log(err));
+  console.log("Getting users");
+  firestore
+    .collection("users")
+    .get()
+    .then((Snapshot) => {
+      if (Snapshot.docs.length == 0)
+        return res.status(401).json({ success: false, data: "No Users" });
+      let response = [];
+      Snapshot.docs.map((doc) => response.push(doc.data()));
+      return res.status(200).json({ success: true, data: response });
+    })
+    .catch((error) => {
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 module.exports = {

@@ -65,25 +65,14 @@ export default function Marker({
                 alignItems: "center",
               }}
             >
-              {product["images"] && images && (
-                <Carousel>
-                  {images.map(
-                    (Image) =>
-                      product["images"].some((id) => id === Image._id) && (
-                        <Carousel.Item
-                          style={{ width: "100%", height: "10rem" }}
-                        >
-                          <img
-                            className="d-block w-100"
-                            style={{ width: "100%", height: "100%" }}
-                            src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                            alt={Image["fileName"]}
-                          />
-                        </Carousel.Item>
-                      )
-                  )}
-                </Carousel>
-              )}{" "}
+              {
+                <img
+                  className="d-block w-100"
+                  style={{ width: "100%", height: "100%" }}
+                  src={`${product["photo"]}`}
+                  alt={Image["fileName"]}
+                />
+              }{" "}
               <CardActionArea
                 // onClick={(e) => cardOnClickHandler(e, product["_id"])}
                 // onClick={() => setIsModelOpen(true)}
@@ -154,6 +143,9 @@ export default function Marker({
                     <p>Condition: {product["condition"]}</p>
                     <p>Category: {product["category"]}</p>
                     <p>Address: {product["address"]}</p>
+                    <Link to="/chat" style={{ color: "blue" }}>
+                      Contact Seller{" "}
+                    </Link>
                   </Typography>
                 </CardContent>
               </CardActionArea>

@@ -7,14 +7,16 @@ import LoadingOverlay from "react-loading-overlay";
 import Icon from "./Assets/Images/ReBuyLogoTrans.png";
 import Home from "./Components/Pages/Home/Home";
 import Map from "./Components/Pages/Map/Map";
+import Admin from "./Components/Pages/Admin/Admin";
 import Favorites from "./Components/Pages/Favorites/Favorites";
-import Admin from "./Components/Pages/Admin/Admin"
+import Admin from "./Components/Pages/Admin/Admin";
 import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
+import Chat from "./Components/Pages/Chat/chat";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -109,6 +111,9 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                       setActive={setActive}
                     />
+                  </Route>
+                  <Route exact path="/admin">
+                    <Admin />
                   </Route>
                   <Route exact path="/Upload">
                     <ProductInsert

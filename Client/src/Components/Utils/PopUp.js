@@ -15,6 +15,7 @@ import Person from "@material-ui/icons/PersonRounded";
 import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
+import { Link } from "react-router-dom";
 
 export default function Marker({
   product,

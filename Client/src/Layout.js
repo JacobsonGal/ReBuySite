@@ -9,7 +9,6 @@ import Home from "./Components/Pages/Home/Home";
 import Map from "./Components/Pages/Map/Map";
 import Admin from "./Components/Pages/Admin/Admin";
 import Favorites from "./Components/Pages/Favorites/Favorites";
-import Admin from "./Components/Pages/Admin/Admin";
 import MainSettings from "./Components/Pages/Settings/MainSettings";
 import UserSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";

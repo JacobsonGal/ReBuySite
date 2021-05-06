@@ -147,6 +147,9 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
+                  <Route exact path='/chat'>
+                    <Chat />
+                  </Route>
                   {/* </>
                 )} */}
                 </div>

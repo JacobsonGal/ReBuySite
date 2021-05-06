@@ -170,6 +170,25 @@ export default function CardList({
                         alt={Image["fileName"]}
                       />
                     }{" "}
+                    {product["photo"] && (
+                      <Carousel>
+                        {product["photo"]
+                          .toString()
+                          .split(",")
+                          .map((Image) => (
+                            <Carousel.Item
+                              style={{ width: "100%", height: "10rem" }}
+                            >
+                              <img
+                                className="d-block w-100"
+                                style={{ width: "100%", height: "100%" }}
+                                src={Image}
+                                alt={Image}
+                              />
+                            </Carousel.Item>
+                          ))}
+                      </Carousel>
+                    )}{" "}
                     <CardActionArea
                       onClick={() => setData(product)}
                       style={{

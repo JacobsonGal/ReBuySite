@@ -161,15 +161,6 @@ export default function CardList({
                       borderRadius: "15px",
                     }}
                   >
-                    {console.log(products)}
-                    {
-                      <img
-                        className="d-block w-100"
-                        style={{ width: "100%", height: "100%" }}
-                        src={`${product["photo"]}`}
-                        alt={Image["fileName"]}
-                      />
-                    }{" "}
                     {product["photo"] && (
                       <Carousel>
                         {product["photo"]
@@ -248,24 +239,26 @@ export default function CardList({
                         </Typography>
                       </CardContent>
                     </CardActionArea>
-                    {user && user["products"].some((id) => id === product._id) && (
-                      <CardActions
-                        style={{ justifyContent: "center", height: 50 }}
-                      >
-                        <Button size="small" color="primary">
-                          <DeleteProduct
-                            id={product["_id"]}
-                            deleteHandler={deleteHandler}
-                          />
-                        </Button>
-                        {/* <Button size="small" color="primary">
+                    {user &&
+                      user["products"] &&
+                      user["products"].some((id) => id === product._id) && (
+                        <CardActions
+                          style={{ justifyContent: "center", height: 50 }}
+                        >
+                          <Button size="small" color="primary">
+                            <DeleteProduct
+                              id={product["_id"]}
+                              deleteHandler={deleteHandler}
+                            />
+                          </Button>
+                          {/* <Button size="small" color="primary">
                     <StarBorderIcon />
                   </Button> */}
-                        <Button size="small" color="primary">
-                          <UpdateProduct id={product["_id"]} />
-                        </Button>
-                      </CardActions>
-                    )}
+                          <Button size="small" color="primary">
+                            <UpdateProduct id={product["_id"]} />
+                          </Button>
+                        </CardActions>
+                      )}
                   </Card>
                 </GridListTile>
               )

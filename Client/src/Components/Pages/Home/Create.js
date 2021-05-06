@@ -54,9 +54,8 @@ export default class ProductInsert extends Component {
       description: "",
       category: "",
       address: "",
-      images: null,
       price: null,
-      photoUrl: "",
+      images: [],
       // ownerId: null,
       redirect: false,
       alert: false,
@@ -85,26 +84,52 @@ export default class ProductInsert extends Component {
   };
   handleChangeInputImages = async (event) => {
     // const images = event.target.files;
-    let images = event.target.files[0];
-    console.log(images);
-    this.setState({
-      images,
-    });
-    const uploadTask = storage.ref(`images/${images.name}`).put(images);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {},
-      (error) => {
-        console.log(error);
-      },
-      () =>
+    // let images = event.target.files[0];
+    // console.log(images);
+    // this.setState({
+    //   images,
+    // });
+    // const uploadTask = storage.ref(`images/${images.name}`).put(images);
+    // uploadTask.on(
+    //   "state_changed",
+    //   (snapshot) => {},
+    //   (error) => {
+    //     console.log(error);
+    //   },
+    //   () =>
+    //     storage
+    //       .ref("images")
+    //       .child(images.name)
+    //       .getDownloadURL()
+    //       .then((url) => this.setState({ photoUrl: url }))
+    // );
+    // // if (event.target.files && event.target.files[0]) {
+
+    return Promise.all(
+      [...event.target.files].map((image) => {
+        console.log(image);
         storage
-          .ref("images")
-          .child(images.name)
-          .getDownloadURL()
-          .then((url) => this.setState({ photoUrl: url }))
+          .ref(`images/${image.name}`)
+          .put(image)
+          .on(
+            "state_changed",
+            () => {},
+            (error) => {
+              console.log(error);
+            },
+            () =>
+              storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then((url) =>
+                  this.setState({
+                    images: [...this.state.images, url],
+                  })
+                )
+          );
+      })
     );
-    // if (event.target.files && event.target.files[0]) {
   };
 
   handleChangePrice = async (event) => {
@@ -139,12 +164,11 @@ export default class ProductInsert extends Component {
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);
     data.append("address", this.state.address);
-
     data.append("price", this.state.price);
     data.append("category", this.state.category);
     data.append("ownerId", ownerID);
-    // console.log(this.state.images);
-    data.append("photo", this.state.photoUrl);
+    data.append("photo", this.state.images);
+    console.log(this.state);
 
     if (
       Object.values(this.state).some((element) => {

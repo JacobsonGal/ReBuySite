@@ -21,16 +21,33 @@ async function uploadImage(file) {
 }
 
 const createUser = async (req, res) => {
-  console.log("Adding user : " + req.body.name);
-  const { name, phone, email, products } = req.body;
-  // const file = await uploadImage(req.file);
-  const image = "";
-  console.log(req.body);
+  // console.log("Adding user : " + req.body.name);
+  // const { name, phone, email, products } = req.body;
+  // // const file = await uploadImage(req.file);
+  // const image = "";
+  // console.log(req.body);
 
+  // firestore
+  //   .collection("users")
+  //   .doc()
+  //   .set({ name, phone, email, image, products })
+  //   .then(() => {
+  //     return res.status(200).json({
+  //       success: true,
+  //       data: "User has been added successfully",
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     return res.status(404).json({ success: false, error: error.message });
+  //   });
+
+  console.log("Adding user : " + req.body.name);
+  const body = req.body;
+  console.log(req.body);
   firestore
     .collection("users")
     .doc()
-    .set({ name, phone, email, image, products })
+    .set(body)
     .then(() => {
       return res.status(200).json({
         success: true,

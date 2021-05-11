@@ -9,8 +9,7 @@ import Home from "./Components/Pages/Home/Home";
 import Map from "./Components/Pages/Map/Map";
 import Admin from "./Components/Pages/Admin/Admin";
 import Favorites from "./Components/Pages/Favorites/Favorites";
-import MainSettings from "./Components/Pages/Settings/MainSettings";
-import UserSettings from "./Components/Pages/Settings/ProfileSettings";
+import ProfileSettings from "./Components/Pages/Settings/ProfileSettings";
 import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
@@ -141,9 +140,9 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path="/settings/mainSettings">
-                    <MainSettings
-                      title={intl.formatMessage({ id: "settings" })}
+                  <Route exact path="/settings">
+                    <ProfileSettings
+                      title={intl.formatMessage({ id: "profile" })}
                       setTitle={setTitle}
                     />
                   </Route>

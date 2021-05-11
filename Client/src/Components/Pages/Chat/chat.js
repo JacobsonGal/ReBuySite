@@ -1,7 +1,13 @@
 import React from 'react';
 import './chat.css';
+import { useDispatch } from 'react-redux'
+import { getRealTimeUsers } from './auth.actions';
 
 const Chat = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getRealTimeUsers)
+  }, []);
   return (
     <section className="contain">
       <div className="chatArea">

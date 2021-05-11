@@ -183,10 +183,7 @@ export default function CardList({
                       </Carousel>
                     )}{" "}
                     <CardActionArea
-                      onClick={() => setData(product)}
-                      style={{
-                        height: 400,
-                      }}
+
                     >
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
@@ -210,30 +207,30 @@ export default function CardList({
                           {users.some(
                             (user) => user._id === product["owner"]
                           ) && (
-                            <div
-                              style={{
-                                backgroundColor: "#ececec",
-                                borderRadius: "15px",
-                                font: "15px assistant bold",
-                              }}
-                            >
-                              <p>
-                                {
-                                  users.find(
-                                    (user) => user._id === product["owner"]
-                                  )["name"]
-                                }
-                              </p>
-                              <p>
-                                Phone:{" "}
-                                {
-                                  users.find(
-                                    (user) => user._id === product["owner"]
-                                  )["phone"]
-                                }
-                              </p>
-                            </div>
-                          )}
+                              <div
+                                style={{
+                                  backgroundColor: "#ececec",
+                                  borderRadius: "15px",
+                                  font: "15px assistant bold",
+                                }}
+                              >
+                                <p>
+                                  {
+                                    users.find(
+                                      (user) => user._id === product["owner"]
+                                    )["name"]
+                                  }
+                                </p>
+                                <p>
+                                  Phone:{" "}
+                                  {
+                                    users.find(
+                                      (user) => user._id === product["owner"]
+                                    )["phone"]
+                                  }
+                                </p>
+                              </div>
+                            )}
                           <p>Description: {product["description"]}</p>
                           <p>Condition: {product["condition"]}</p>
                           <p>Category: {product["category"]}</p>

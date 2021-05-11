@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
 import Person from "@material-ui/icons/PersonRounded";
+import Pin from "@material-ui/icons/PinDropRounded";
 import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
@@ -23,6 +24,7 @@ export default function Marker({
   users,
   setIsModelOpen,
   isModelOpen,
+  navigate,
 }) {
   let img =
     product && product["image"]
@@ -157,6 +159,17 @@ export default function Marker({
                       Contact Seller{" "}
                     </Link>
                   </Typography>
+                  {navigate && (
+                    <Button
+                      onClick={() => {
+                        navigate(product["address"], product["photo"]);
+                        setIsModelOpen(false);
+                      }}
+                    >
+                      Navigate to the Seller
+                      <Pin />
+                    </Button>
+                  )}
                 </CardContent>
               </CardActionArea>
             </Card>

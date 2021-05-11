@@ -87,7 +87,7 @@ export default class ProductInsert extends Component {
       [...event.target.files].map((image) => {
         console.log(image);
         storage
-          .ref(`images/${image.name}`)
+          .ref(`products/${image.name}`)
           .put(image)
           .on(
             "state_changed",
@@ -97,7 +97,7 @@ export default class ProductInsert extends Component {
             },
             () =>
               storage
-                .ref("images")
+                .ref("products")
                 .child(image.name)
                 .getDownloadURL()
                 .then((url) =>

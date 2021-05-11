@@ -29,21 +29,21 @@ export default function Marker({
   return (
     <div>
       <Button size="small" onClick={() => setProduct(product)}>
-        {product["images"] && images ? (
-          <Carousel>
-            {images.map(
-              (Image) =>
-                product["images"].some((id) => id === Image._id) && (
-                  <Carousel.Item>
-                    <img
-                      className={"circleImg"}
-                      style={{ width: "3rem", height: "3rem" }}
-                      src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                      alt={Image["fileName"]}
-                    />
-                  </Carousel.Item>
-                )
-            )}
+        {product["photo"] && images ? (
+          <Carousel style={{ width: "3rem", height: "3rem" }}>
+            {product["photo"]
+              .toString()
+              .split(",")
+              .map((Image) => (
+                <Carousel.Item style={{ width: "3rem", height: "3rem" }}>
+                  <img
+                    className="d-block w-100"
+                    style={{ width: "100%", height: "100%" }}
+                    src={Image}
+                    alt={Image}
+                  />
+                </Carousel.Item>
+              ))}
           </Carousel>
         ) : (
           <img src={reBuy} alt="marker" className={"circleImg"} />

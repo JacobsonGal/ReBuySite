@@ -27,7 +27,8 @@ const io = socketIo(server, {
 let count = 0;
 io.on("connection", (socket) => {
   // console.log("connect socket io");
-  if (socket.handshake.headers.origin === "http://localhost:3001") {
+  if (socket.handshake.headers.origin.includes("3001")) {
+    
     count++;
     socket.broadcast.emit("count", count);
     console.log(count + " Connected Users");

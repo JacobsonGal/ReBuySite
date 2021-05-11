@@ -15,7 +15,7 @@ import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
-import Chat from "./Components/Pages/Chat/chat"
+import Chat from "./Components/Pages/Chat/chat";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -74,8 +74,8 @@ export default function Layout({ setLocale, setActive, isActive }) {
             <div
               className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}
             >
-              <div className='main-container'>
-                <div className='sideBar'>
+              <div className="main-container">
+                <div className="sideBar">
                   <SideBar
                     image={image}
                     collapsed={collapsed}
@@ -97,51 +97,51 @@ export default function Layout({ setLocale, setActive, isActive }) {
                   setNotificationCount={setNotificationCount}
                 />
                 <div className={`mainPage ${toggled ? "toggled" : ""}`}>
-                  <Route exact path='/'>
+                  <Route exact path="/">
                     <Home
                       title={intl.formatMessage({ id: "Home" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />
                   </Route>
-                  <Route exact path='/Map'>
+                  <Route exact path="/Map">
                     <Map
                       title={intl.formatMessage({ id: "Map" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />
                   </Route>
-                  <Route exact path='/admin'>
+                  <Route exact path="/admin">
                     <Admin />
                   </Route>
-                  <Route exact path='/Upload'>
+                  <Route exact path="/Upload">
                     <ProductInsert
                       title={intl.formatMessage({ id: "Upload" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />
                   </Route>
-                  <Route path='/Update/:id'>
+                  <Route path="/Update/:id">
                     <ProductUpload
                       title={intl.formatMessage({ id: "Update" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />
                   </Route>
-                  <Route exact path='/Favorites'>
+                  <Route exact path="/Favorites">
                     <Favorites
                       title={intl.formatMessage({ id: "Favorites" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />
                   </Route>
-                  <Route exact path='/settings/userSettings'>
-                    <UserSettings
+                  <Route exact path="/Admin">
+                    <Admin
                       title={intl.formatMessage({ id: "profile" })}
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/settings/mainSettings'>
+                  <Route exact path="/settings/mainSettings">
                     <MainSettings
                       title={intl.formatMessage({ id: "settings" })}
                       setTitle={setTitle}
@@ -159,7 +159,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
         </BrowserRouter>
       ) : (
         <div className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}>
-          <div className='main-container'>
+          <div className="main-container">
             <div className={`mainPage ${toggled ? "toggled" : ""}`}>
               <Registration />
             </div>

@@ -6,12 +6,6 @@ import Geocode from "react-geocode";
 import Search from "../Home/Search";
 import PopUp from "../../Utils/PopUp";
 
-Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
-Geocode.setLanguage("He");
-Geocode.setRegion("Il");
-Geocode.setLocationType("ROOFTOP");
-Geocode.enableDebug();
-
 export default class GoogleMap extends Component {
   constructor(props) {
     super(props);
@@ -21,6 +15,7 @@ export default class GoogleMap extends Component {
       users: [],
       product: null,
       locations: [{}],
+      selected: "tel-aviv",
       center: {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
@@ -34,6 +29,13 @@ export default class GoogleMap extends Component {
 
   componentDidMount = async () => {
     this.state.setLoading(false);
+
+    Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
+    Geocode.setLanguage("He");
+    Geocode.setRegion("Il");
+    Geocode.setLocationType("ROOFTOP");
+    Geocode.enableDebug();
+
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -92,6 +94,7 @@ export default class GoogleMap extends Component {
   productHandler = (product) => {
     this.setState({
       product,
+      selected: product["address"],
     });
   };
   modalHandler = (isModelOpen) => {
@@ -109,7 +112,83 @@ export default class GoogleMap extends Component {
       isModelOpen,
       product,
       locations,
+      selected,
     } = this.state;
+
+    const apiIsLoaded = (map, maps) => {
+      if (map) {
+        const directionsService = new maps.DirectionsService();
+        const directionsDisplay = new maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+
+        let infoWindow = new maps.InfoWindow();
+        const locationButton = document.createElement("button");
+        locationButton.textContent = "Pan to Current Location";
+        locationButton.classList.add("custom-map-control-button");
+        map.controls[maps.ControlPosition.TOP_CENTER].push(locationButton);
+        locationButton.addEventListener("click", () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+                };
+                directionsService.route(
+                  {
+                    origin: pos,
+                    destination: product ? product["address"] : "Tel-Aviv",
+                    travelMode: maps.TravelMode.DRIVING,
+                  },
+                  (response, status) => {
+                    if (status === "OK") {
+                      directionsDisplay.setDirections(response);
+
+                      console.log(response.routes[0]);
+                    } else {
+                      console.log(status);
+                      // window.alert("Directions request failed due to " + status);
+                    }
+                  }
+                );
+                infoWindow.setPosition(pos);
+                var marker = new maps.Marker({
+                  position: pos,
+                  map: map,
+                  title: "",
+                  icon:
+                    "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png",
+                });
+
+                infoWindow.setContent(
+                  <img
+                    src="https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
+                    alt="place"
+                  />
+                );
+                infoWindow.open(map);
+                map.setCenter(pos);
+              },
+              () => {
+                handleLocationError(true, infoWindow, map.getCenter());
+              }
+            );
+          } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+          }
+        });
+      }
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(
+          browserHasGeolocation
+            ? "Error: The Geolocation service failed."
+            : "Error: Your browser doesn't support geolocation."
+        );
+        infoWindow.open(map);
+      }
+    };
 
     function getMapOptions(maps) {
       return {
@@ -145,6 +224,7 @@ export default class GoogleMap extends Component {
         },
         zoomControl: true,
         clickableIcons: false,
+        getCurrentPosition: true,
       };
     }
 
@@ -165,7 +245,7 @@ export default class GoogleMap extends Component {
             style={{ position: "absolute" }}
           />
         </div>
-        <div style={{ height: "96vh", width: "100%" }}>
+        <div style={{ height: "97.2vh", width: "100%" }}>
           <GoogleMapReact
             bootstrapURLKeys={{
               key: "AIzaSyAiTqUoIPktHrM66nIC7fRevgXvj7BzN-A",
@@ -175,6 +255,8 @@ export default class GoogleMap extends Component {
             defaultCenter={center}
             defaultZoom={zoom}
             options={getMapOptions}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => apiIsLoaded(map, maps)}
           >
             <PopUp
               product={product}
@@ -199,7 +281,7 @@ export default class GoogleMap extends Component {
                   product={product}
                   images={images}
                   users={users}
-                  key={product["name"]}
+                  key={product._id}
                   setIsModelOpen={this.modalHandler}
                   setData={this.productHandler}
                 />

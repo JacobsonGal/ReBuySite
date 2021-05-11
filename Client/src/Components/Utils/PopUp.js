@@ -11,8 +11,11 @@ import reBuy from "../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
+import Person from "@material-ui/icons/PersonRounded";
+import Phone from "@material-ui/icons/Phone";
+import WhatsApp from "@material-ui/icons/WhatsApp";
+import ReactWhatsapp from "react-whatsapp";
 import { Link } from "react-router-dom";
-
 
 export default function Marker({
   product,
@@ -55,6 +58,7 @@ export default function Marker({
                 margin: "1rem",
                 maxWidth: 300,
                 minWidth: 100,
+                width: "20rem",
                 height: "fit-content",
                 border: "1px solid #ececec",
                 borderRadius: "15px",
@@ -62,40 +66,41 @@ export default function Marker({
                 alignItems: "center",
               }}
             >
-              {product["images"] && images && (
+              {product["photo"] && (
                 <Carousel>
-                  {images.map(
-                    (Image) =>
-                      product["images"].some((id) => id === Image._id) && (
-                        <Carousel.Item
-                          style={{ width: "100%", height: "10rem" }}
-                        >
-                          <img
-                            className="d-block w-100"
-                            style={{ width: "100%", height: "100%" }}
-                            src={`data:${Image["contentType"]};base64,${Image["imageBase64"]}`}
-                            alt={Image["fileName"]}
-                          />
-                        </Carousel.Item>
-                      )
-                  )}
+                  {product["photo"]
+                    .toString()
+                    .split(",")
+                    .map((Image) => (
+                      <Carousel.Item style={{ width: "100%", height: "100%" }}>
+                        <img
+                          className="d-block w-100"
+                          style={{ width: "100%", height: "100%" }}
+                          src={Image}
+                          alt={Image}
+                        />
+                      </Carousel.Item>
+                    ))}
                 </Carousel>
               )}{" "}
               <CardActionArea
                 // onClick={(e) => cardOnClickHandler(e, product["_id"])}
-                onClick={() => setIsModelOpen(true)}
+                // onClick={() => setIsModelOpen(true)}
+                disableTouchRipple={true}
+                disableRipple={true}
+                // disabled={true}
               >
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
                     {/* <p>{product["name"]}</p>    */}
                     <p
                       style={{
-                        height: "6rem",
+                        height: "3rem",
                         overflow: "scroll",
                         justifyContent: "center",
                       }}
                     >
-                      {product["name"]}
+                      {product["name"].toUpperCase()}
                     </p>
                     <p>{product["price"]}₪</p>
                   </Typography>
@@ -112,19 +117,35 @@ export default function Marker({
                         }}
                       >
                         <p>
-                          {
-                            users.find((user) => user._id === product["owner"])[
-                            "name"
-                            ]
-                          }
+                          {users
+                            .find((user) => user._id === product["owner"])
+                            ["name"].toUpperCase()}
+                          <Person />
                         </p>
+
                         <p>
-                          Phone:{" "}
-                          {
-                            users.find((user) => user._id === product["owner"])[
-                            "phone"
-                            ]
-                          }
+                          <ReactWhatsapp
+                            number={
+                              "+972" +
+                              users.find(
+                                (user) => user._id === product["owner"]
+                              )["phone"]
+                            }
+                            message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
+                            element={Button}
+                          >
+                            <WhatsApp style={{ color: "#128c7e" }} />
+                          </ReactWhatsapp>
+                          {/* <WhatsApp /> */}
+                          <Button
+                            href={`tel:${
+                              users.find(
+                                (user) => user._id === product["owner"]
+                              )["phone"]
+                            }`}
+                          >
+                            <Phone style={{ color: "#496c9e" }} />
+                          </Button>
                         </p>
                       </div>
                     )}
@@ -132,7 +153,9 @@ export default function Marker({
                     <p>Condition: {product["condition"]}</p>
                     <p>Category: {product["category"]}</p>
                     <p>Address: {product["address"]}</p>
-                    <Link to="/chat" style={{ color: "blue" }}>Contact Seller </Link>
+                    <Link to="/chat" style={{ color: "blue" }}>
+                      Contact Seller{" "}
+                    </Link>
                   </Typography>
                 </CardContent>
               </CardActionArea>

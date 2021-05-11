@@ -1,5 +1,15 @@
 class Product {
-  constructor(id, name, condition, description, category, address, price, owner, images) {
+  constructor(
+    id,
+    name,
+    condition,
+    description,
+    category,
+    address,
+    price,
+    owner,
+    photo
+  ) {
     this.id = id;
     this.name = name;
     this.condition = condition;
@@ -8,24 +18,8 @@ class Product {
     this.address = address;
     this.price = price;
     this.owner = owner;
-    this.images = images;
+    this.photo = photo;
   }
 }
 
 module.exports = Product;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

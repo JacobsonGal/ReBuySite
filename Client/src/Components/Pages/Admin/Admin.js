@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import Grid from "./Grid";
+
+//import Card from "./Card";
 class Admin extends Component {
   state = {};
   render() {
     return (
-    
-        <h1>Admin Works!!@!@</h1>
-     
+      <>
+        <h1> Welcome Admin</h1>
+        <Grid />
+      </>
     );
   }
 }

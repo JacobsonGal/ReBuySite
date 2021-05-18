@@ -17,6 +17,7 @@ import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
 
+
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
   const [rtl, setRtl] = useState(true);
@@ -44,6 +45,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const handleToggleSidebar = () => {
     setToggled(!toggled);
   };
+
   return (
     <LoadingOverlay
       active={isActive}
@@ -147,7 +149,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/chat'>
+                  <Route exact path='/:hostid'>
                     <Chat />
                   </Route>
                   {/* </>

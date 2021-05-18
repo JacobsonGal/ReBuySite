@@ -5,7 +5,6 @@ import messages from "./Styles/MessagesMain";
 import "./Styles/App.scss";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AuthProvider } from "./Components/SSO/Auth";
-
 import io from "socket.io-client"
 const socket = io.connect("http://localhost:3000")
 

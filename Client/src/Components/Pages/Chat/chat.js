@@ -1,47 +1,120 @@
-import React from 'react';
 import './chat.css';
-import { useDispatch } from 'react-redux'
-import { getRealTimeUsers } from './auth.actions';
+import React, { useRef, useState } from 'react';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/analytics';
 
-const Chat = (props) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getRealTimeUsers)
-  }, []);
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useParams } from 'react-router-dom';
+
+
+
+const auth = firebase.auth();
+const firestore = firebase.firestore();
+const analytics = firebase.analytics();
+
+
+
+const Chat = () => {
+  const [user] = useAuthState(auth);
+  const { hostid } = useParams();
   return (
-    <section className="contain">
-      <div className="chatArea">
-        <div className="chatHeader"> Rizwan Khan </div>
-        <div className="messageSections">
+    <div className="App">
+      <header className="header">
+        <h1 style={{ color: 'white' }}>the name of the fucking product</h1>
+        <SignOut />
+      </header>
 
-          <div style={{ textAlign: 'left' }}>
-            <p className="messageStyle" >Hello User</p>
-          </div>
+      <section className="section">
+        {user ? <ChatRoom hostid={hostid} guestid={user.uid} /> : <SignIn />}
+      </section>
 
-        </div>
-        <div className="chatControls">
-          <textarea />
-          <button>Send</button>
-        </div>
-      </div>
-      <div className="listUsers">
-
-        <div className="displayName">
-
-          <div style={{ display: 'flex', flex: 0.5, justifyContent: 'space-between', margin: '0 10px' }}>
-            <span>online</span>
-            <span style={{ fontWeight: 500 }}>Rizwan Khan</span>
-          </div>
-          <div className="displayPic">
-            <img src="https://i.pinimg.com/originals/be/ac/96/beac96b8e13d2198fd4bb1d5ef56cdcf.jpg" alt="" />
-          </div>
-        </div>
-
-      </div>
-
-    </section>
+    </div>
   );
 }
 
 export default Chat
 
+function SignIn() {
+
+  const signInWithGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider);
+  }
+
+  return (
+    <>
+      <button className="sign-in" onClick={signInWithGoogle}>Sign in with Google</button>
+      <p>Do not violate the community guidelines or you will be banned for life!</p>
+    </>
+  )
+
+}
+
+function SignOut() {
+  return auth.currentUser && (
+    <button className="sign-out" onClick={() => auth.signOut()}>Sign Out</button>
+  )
+}
+
+
+function ChatRoom({ guestid, hostid }) {
+  const dummy = useRef();
+  const messagesRef = firestore.collection('messages');
+  const query = messagesRef.orderBy('createdAt').limit(25);
+
+  const [messages] = useCollectionData(query, { idField: 'id' });
+
+  const [formValue, setFormValue] = useState('');
+
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    const { uid, photoURL } = auth.currentUser;
+
+    await messagesRef.add({
+      text: formValue,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      uid,
+      photoURL
+    })
+
+    setFormValue('');
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  return (<>
+    <main className="main">
+
+      {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+
+      <span ref={dummy}></span>
+
+    </main>
+
+    <form className="form" onSubmit={sendMessage}>
+
+      <input className="input" value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
+
+      <button type="submit" disabled={!formValue}>🕊️</button>
+
+    </form>
+  </>)
+}
+
+
+function ChatMessage(props) {
+  const { text, uid, photoURL } = props.message;
+
+  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
+
+  return (<>
+    <div className={`message ${messageClass}`}>
+      <img className="img" src={photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} />
+      <p>{text}</p>
+    </div>
+  </>)
+}

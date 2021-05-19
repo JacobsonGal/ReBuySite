@@ -23,12 +23,12 @@ const Chat = () => {
   return (
     <div className="App">
       <header className="header">
-        <h1 style={{ color: 'white' }}>the name of the fucking product</h1>
+        <h1 style={{ color: 'white' }}>{hostid}</h1>
         <SignOut />
       </header>
 
       <section className="section">
-        {user ? <ChatRoom hostid={hostid} guestid={user.uid} /> : <SignIn />}
+        {user ? <ChatRoom sellerid={sellerid} currentid={user.uid} /> : <SignIn />}
       </section>
 
     </div>
@@ -60,7 +60,7 @@ function SignOut() {
 }
 
 
-function ChatRoom({ guestid, hostid }) {
+function ChatRoom({ currentid, sellerid }) {
   const dummy = useRef();
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);

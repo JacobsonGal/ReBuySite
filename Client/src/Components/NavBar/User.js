@@ -11,14 +11,10 @@ import api from "../../API/API";
 
 export default function User({ handleToggleSidebar }) {
   const [users, setUsers] = useState([]);
-  const [images, setImages] = useState([]);
   useEffect(() => {
     return async () => {
       await api.getAllUsers().then((user) => {
         setUsers(user.data.data);
-      });
-      await api.getAllImages().then((img) => {
-        setImages(img.data.data);
       });
     };
   }, []);
@@ -26,14 +22,13 @@ export default function User({ handleToggleSidebar }) {
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
   const user = users.find(
-    (usr) => usr["email"] === currentUser.email.toUpperCase() && usr["image"]
+    (usr) =>
+      usr["email"] === currentUser.email.toUpperCase() ||
+      (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
   );
   console.log(user);
-  const img = images.find((img) => img._id === user["image"]);
+  const img = user && user["image"];
   console.log(img);
-  const photo = img
-    ? `data:${img["contentType"]};base64,${img["imageBase64"]}`
-    : "";
 
   const name = currentUser
     ? currentUser.displayName
@@ -41,10 +36,10 @@ export default function User({ handleToggleSidebar }) {
 
   // console.log(currentUser);
   function Userlog() {
-    if (photo !== "" && photo !== null) {
+    if (img !== "" && img !== null) {
       return (
         <img
-          src={photo}
+          src={img}
           alt="User"
           style={{
             alignContent: "center",
@@ -65,7 +60,7 @@ export default function User({ handleToggleSidebar }) {
         <SubMenu title={name} icon={<Userlog />}>
           {!Admin && (
             <MenuItem icon={<Star />}>
-              <NavLink to="/Admin" onClick={handleToggleSidebar}>
+              <NavLink to="/settings" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "profile" })}
               </NavLink>
             </MenuItem>

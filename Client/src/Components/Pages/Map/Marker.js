@@ -19,6 +19,7 @@ export default function Marker({
   users,
   setIsModelOpen,
   setData,
+  navigate,
   $hover,
 }) {
   function setProduct(product) {
@@ -35,10 +36,20 @@ export default function Marker({
               .toString()
               .split(",")
               .map((Image) => (
-                <Carousel.Item style={{ width: "3rem", height: "3rem" }}>
+                <Carousel.Item
+                  style={{
+                    width: "3rem",
+                    height: "3rem",
+                    borderRadius: "30px",
+                  }}
+                >
                   <img
                     className="d-block w-100"
-                    style={{ width: "100%", height: "100%" }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      borderRadius: "15px",
+                    }}
                     src={Image}
                     alt={Image}
                   />

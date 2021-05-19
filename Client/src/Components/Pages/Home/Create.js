@@ -83,43 +83,21 @@ export default class ProductInsert extends Component {
     this.setState({ address });
   };
   handleChangeInputImages = async (event) => {
-    // const images = event.target.files;
-    // let images = event.target.files[0];
-    // console.log(images);
-    // this.setState({
-    //   images,
-    // });
-    // const uploadTask = storage.ref(`images/${images.name}`).put(images);
-    // uploadTask.on(
-    //   "state_changed",
-    //   (snapshot) => {},
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    //   () =>
-    //     storage
-    //       .ref("images")
-    //       .child(images.name)
-    //       .getDownloadURL()
-    //       .then((url) => this.setState({ photoUrl: url }))
-    // );
-    // // if (event.target.files && event.target.files[0]) {
-
     return Promise.all(
       [...event.target.files].map((image) => {
         console.log(image);
         storage
-          .ref(`images/${image.name}`)
+          .ref(`products/${image.name}`)
           .put(image)
           .on(
             "state_changed",
-            () => {},
+            () => { },
             (error) => {
               console.log(error);
             },
             () =>
               storage
-                .ref("images")
+                .ref("products")
                 .child(image.name)
                 .getDownloadURL()
                 .then((url) =>

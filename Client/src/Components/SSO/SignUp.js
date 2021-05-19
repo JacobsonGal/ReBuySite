@@ -4,25 +4,24 @@ import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
 import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
+const storage = firebase.storage();
 
 export default function SignUp({ setRegistered }) {
-  const [signdUp, setsigndUp] = useState(false);
+  const [image, setImage] = useState(null);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = e.target.elements;
-    console.log(e.target[4].files[0]);
-    const file = e.target[4].files[0];
     try {
-      console.log(name.value + phone.value + email.value + file);
+      console.log(name.value + phone.value + email.value + image);
       let data = new FormData();
       data.append("name", name.value);
       data.append("phone", phone.value);
       data.append("email", email.value);
-      data.append("image", "blabla");
-      data.append("isOnline", true);
-      data.append("products", []);
-
-
+      data.append("image", image);
 
       await api
         .insertUser(data)
@@ -49,6 +48,33 @@ export default function SignUp({ setRegistered }) {
       alert(error);
     }
   };
+
+  async function handleChangeInputImages(event) {
+    return Promise.all(
+      [...event.target.files].map((image) => {
+        console.log(image);
+        storage
+          .ref(`users/${image.name}`)
+          .put(image)
+          .on(
+            "state_changed",
+            () => { },
+            (error) => {
+              console.log(error);
+            },
+            () =>
+              storage
+                .ref("users")
+                .child(image.name)
+                .getDownloadURL()
+                .then((url) => {
+                  console.log(url);
+                  setImage(url);
+                })
+          );
+      })
+    );
+  }
 
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
@@ -99,7 +125,12 @@ export default function SignUp({ setRegistered }) {
           Profile Photo
         </Form.Label>
         <Col sm="8">
-          <Form.Control type="file" name="image" id="image" />
+          <Form.Control
+            type="file"
+            name="image"
+            id="image"
+            onChange={handleChangeInputImages}
+          />
         </Col>
       </Form.Group>
       {/* <Form.Group as={Row} controlId="formPlaintextPassword">

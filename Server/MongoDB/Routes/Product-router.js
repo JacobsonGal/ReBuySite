@@ -14,6 +14,5 @@ router.get("/product/:id", ProductCtrl.getProductById);
 router.get("/products", ProductCtrl.getProducts);
 router.get("/products/search", ProductCtrl.search);
 router.get("/products/sort", ProductCtrl.sort);
-// router.get("/products/groupBy", ProductCtrl.groupBy);
 router.get("/products/groupByCity", ProductCtrl.groupByCity);
 module.exports = router;

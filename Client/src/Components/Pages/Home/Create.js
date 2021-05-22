@@ -135,9 +135,7 @@ export default class ProductInsert extends Component {
   ];
   handleIncludeProduct = async () => {
     let data = new FormData();
-    let ownerID = firebase.auth().currentUser
-      ? firebase.auth().currentUser.email
-      : "jacobsongal@gmail.com";
+    let ownerID = firebase.auth().currentUser.uid
     data.append("name", this.state.name);
     data.append("condition", this.state.condition);
     data.append("description", this.state.description);

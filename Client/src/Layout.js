@@ -148,7 +148,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/:hostid'>
+                  <Route exact path='/:sellerId/:description'>
                     <Chat />
                   </Route>
                   {/* </>

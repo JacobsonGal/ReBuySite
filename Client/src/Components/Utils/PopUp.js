@@ -154,9 +154,6 @@ export default function Marker({
                     <p>Condition: {product["condition"]}</p>
                     <p>Category: {product["category"]}</p>
                     <p>Address: {product["address"]}</p>
-                    <Link to={`/${product["ownerId"]}`} style={{ color: "blue" }}>
-                      Contact Seller{" "}
-                    </Link>
                   </Typography>
                   {navigate && (
                     <Button

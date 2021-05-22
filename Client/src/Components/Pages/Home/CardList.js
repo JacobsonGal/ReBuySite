@@ -235,7 +235,9 @@ export default function CardList({
                           <p>Condition: {product["condition"]}</p>
                           <p>Category: {product["category"]}</p>
                           <p>Address: {product["address"]}</p>
-
+                          <Link to={`/${product["ownerId"]}/${product["description"]}`} style={{ color: "blue" }}>
+                            Contact Seller{" "}
+                          </Link>
                         </Typography>
                       </CardContent>
                     </CardActionArea>

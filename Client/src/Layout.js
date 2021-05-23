@@ -30,8 +30,6 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(null);
 
-  console.log(currentUser, "hara");
-
   useEffect(async () => {
     api.getUserById(currentUser?.email).then((res) => setUser(res.data.data));
   }, [currentUser]);

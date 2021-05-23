@@ -10,6 +10,7 @@ import Groupby from "./Groupby";
 import Sort from "./Sort";
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Star from "@material-ui/icons/Star";
 import {
   Card,
   CardContent,
@@ -222,27 +223,34 @@ export default function CardList({
                 </Typography>
               </CardContent>
             </CardActionArea>
-            {user &&
-              user["products"] &&
-              user["products"].some((id) => id === product._id) && (
-                <CardActions style={{ justifyContent: "center", height: 50 }}>
-                  <Button size="small" color="primary">
-                    <DeleteProduct
-                      id={product["_id"]}
-                      deleteHandler={deleteHandler}
-                    />
-                  </Button>
-
-                  <Button size="small" color="primary">
-                    <UpdateProduct id={product["_id"]} />
-                  </Button>
-                </CardActions>
-              )}
-            <Button size="small" color="primary">
-              <StarBorderIcon
-                onClick={() => api.addToFavorites(user, product)}
-              />
-            </Button>
+            {user && user.uid === product.ownerId ? (
+              <CardActions style={{ justifyContent: "center", height: 50 }}>
+                <Button size="small" color="primary">
+                  <DeleteProduct
+                    id={product["_id"]}
+                    deleteHandler={deleteHandler}
+                  />
+                </Button>
+                <Button size="small" color="primary">
+                  <UpdateProduct id={product["_id"]} />
+                </Button>
+              </CardActions>
+            ) : user &&
+              user.favorites &&
+              user.favorites.some((p) => {
+                return product.name === p.name;
+              }) ? (
+              <Button size="small" color="primary">
+                <Star onClick={() => api.removeFromFavorites(user, product)} />
+              </Button>
+            ) : (
+              <Button size="small" color="primary">
+                <StarBorderIcon
+                  onClick={() => api.addToFavorites(user, product)}
+                />
+              </Button>
+            )}
+            {console.log(user)}
           </Card>
           // </GridListTile>
         ))}

@@ -238,7 +238,7 @@ const addToFavorites = async (req, res) => {
     .then((res) => {
       if (res.data().favorites && res.data().favorites != 0)
         favor = res.data().favorites;
-      favor.push(product);
+      if (!res.data.favorites.includes(product)) favor.push(product);
       firestore.collection("users").doc(userId).update({ favorites: favor });
     })
     .catch((error) => {

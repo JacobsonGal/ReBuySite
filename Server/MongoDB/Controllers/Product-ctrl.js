@@ -247,6 +247,32 @@ const addToFavorites = async (req, res) => {
     });
 };
 
+const removeFromFavorites = async (req, res) => {
+  console.log("stam");
+  const userId = req.body.user.uid;
+  const product = req.body.product;
+  let favorites = [];
+  firestore
+    .collection("users")
+    .doc(userId)
+    .get()
+    .then((res) => {
+      if (res.data().favorites && res.data().favorites != 0)
+        favorites = res.data().favorites;
+      if (favorites.some((prod) => prod.name === product.name)) {
+        favorites = favorites.filter((prod) => prod.name !== product.name);
+        firestore
+          .collection("users")
+          .doc(userId)
+          .update({ favorites: favorites });
+      }
+    })
+    .catch((error) => {
+      console.log("error", error);
+      return res.status(404).json({ success: false, error: error.message });
+    });
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -257,4 +283,5 @@ module.exports = {
   sort,
   groupByCity,
   addToFavorites,
+  removeFromFavorites,
 };

@@ -63,7 +63,7 @@ export default function Marker({
                 // maxWidth: 300,
                 // minWidth: 100,
                 width: "100%",
-                height: "fit-content",
+                height: "100%",
                 border: "1px solid #ececec",
                 borderRadius: "15px",
                 textAlign: "center",

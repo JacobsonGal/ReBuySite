@@ -133,7 +133,7 @@ const getUserById = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  console.log("Getting users");
+  // console.log("Getting users");
   firestore
     .collection("users")
     .get()

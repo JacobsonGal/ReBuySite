@@ -22,19 +22,6 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
-import {
-  MDBBtn,
-  MDBCard,
-  MDBCardBody,
-  MDBCardImage,
-  MDBCardTitle,
-  MDBCardText,
-  MDBRow,
-  MDBCol,
-  MDBView,
-  MDBIcon,
-} from "mdbreact";
-
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
@@ -163,35 +150,36 @@ export default function CardList({
           //   style={{ height: "100%", width: "fit-content" }}
           //   key={product["name"]}
           // >
-          <CardEx
-            product={product}
-            users={users}
-            user={user}
-            setData={setData}
-            deleteHandler={deleteHandler}
-          />
-        ))}
-    </div>
-  );
-}
-
-function CardEx({ product, users, user, setData, deleteHandler }) {
-  return (
-    <MDBRow>
-      <MDBCol md="4">
-        <MDBCard wide cascade>
-          <MDBView wide cascade onClick={() => setData(product)}>
+          // <CardEx
+          //   product={product}
+          //   users={users}
+          //   user={user}
+          //   setData={setData}
+          //   deleteHandler={deleteHandler}
+          // />
+          <Card
+            style={{
+              margin: "2px",
+              width: 300,
+              height: 500,
+              border: "1px solid #ececec",
+              borderRadius: "15px",
+            }}
+          >
             {product["photo"] && (
               <Carousel>
                 {product["photo"]
                   .toString()
                   .split(",")
                   .map((Image) => (
-                    <Carousel.Item>
-                      <MDBCardImage
-                        hover
-                        overlay="white-slight"
-                        className="card-img-top"
+                    <Carousel.Item
+                      style={{
+                        width: "100%",
+                        height: 200,
+                      }}
+                    >
+                      <img
+                        style={{ width: "100%", height: "100%" }}
                         src={Image}
                         alt={Image}
                       />
@@ -199,65 +187,152 @@ function CardEx({ product, users, user, setData, deleteHandler }) {
                   ))}
               </Carousel>
             )}{" "}
-          </MDBView>
-          <MDBCardBody cascade className="text-center">
-            <MDBCardTitle className="card-title">
-              <strong>{product["name"]}</strong>
-            </MDBCardTitle>
-
-            <p className="font-weight-bold blue-text">{product["price"]}₪</p>
-
-            <MDBCardText>
-              {product["description"]}
-              <p>
-                {product["address"]} <IoPinOutline />
-              </p>
-            </MDBCardText>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {users.some((user) => user._id === product["owner"]) && (
-                <div
-                  style={{
-                    backgroundColor: "#ececec",
-                    borderRadius: "15px",
-                  }}
-                >
+            <CardActionArea
+              onClick={() => setData(product)}
+              // style={{
+              //   height: 400,
+              // }}
+            >
+              <CardContent>
+                <Typography>
+                  <p>{product["name"]}</p>
+                  <p>{product["price"]}₪</p>
+                  <p>{product["description"]}</p>
                   <p>
-                    {users
-                      .find((user) => user.uid === product.ownerId)
-                      ["name"].toUpperCase()}
-                    <Person />
+                    {product["address"]} <IoPinOutline />
                   </p>
-                </div>
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {users.some((user) => user._id === product["owner"]) && (
+                    <div
+                      style={{
+                        backgroundColor: "#ececec",
+                        borderRadius: "15px",
+                      }}
+                    >
+                      <p>
+                        {users.some((user) => user.uid === product.ownerId) &&
+                          users
+                            .find((user) => user.uid === product.ownerId)
+                            ["name"].toUpperCase()}
+                        <Person />
+                      </p>
+                    </div>
+                  )}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            {user &&
+              user["products"] &&
+              user["products"].some((id) => id === product._id) && (
+                <CardActions style={{ justifyContent: "center", height: 50 }}>
+                  <Button size="small" color="primary">
+                    <DeleteProduct
+                      id={product["_id"]}
+                      deleteHandler={deleteHandler}
+                    />
+                  </Button>
+
+                  <Button size="small" color="primary">
+                    <UpdateProduct id={product["_id"]} />
+                  </Button>
+                </CardActions>
               )}
-            </Typography>
-
-            {user && user.uid === product.ownerId ? (
-              <MDBCol md="12" className="d-flex justify-content-center">
-                <Button size="small" color="primary">
-                  <DeleteProduct
-                    id={product["name"]}
-                    deleteHandler={deleteHandler}
-                  />
-                </Button>
-
-                {/* <Button size="small" color="primary">
-                  <StarBorderIcon onClick={() => console.log(user)} />
-                </Button> */}
-
-                <Button size="small" color="primary">
-                  <UpdateProduct id={product["_id"]} />
-                </Button>
-              </MDBCol>
-            ) : (
-              <Button size="small" color="primary">
-                <StarBorderIcon
-                  onClick={() => api.addToFavorites(user, product)}
-                />
-              </Button>
-            )}
-          </MDBCardBody>
-        </MDBCard>
-      </MDBCol>
-    </MDBRow>
+            <Button size="small" color="primary">
+              <StarBorderIcon
+                onClick={() => api.addToFavorites(user, product)}
+              />
+            </Button>
+          </Card>
+          // </GridListTile>
+        ))}
+    </div>
   );
 }
+
+// function CardEx({ product, users, user, setData, deleteHandler }) {
+//   return (
+//     <MDBRow>
+//       <MDBCol md="4">
+//         <MDBCard wide cascade>
+//           <MDBView wide cascade onClick={() => setData(product)}>
+//             {product["photo"] && (
+//               <Carousel>
+//                 {product["photo"]
+//                   .toString()
+//                   .split(",")
+//                   .map((Image) => (
+//                     <Carousel.Item>
+//                       <MDBCardImage
+//                         hover
+//                         overlay="white-slight"
+//                         className="card-img-top"
+//                         src={Image}
+//                         alt={Image}
+//                       />
+//                     </Carousel.Item>
+//                   ))}
+//               </Carousel>
+//             )}{" "}
+//           </MDBView>
+//           <MDBCardBody cascade className="text-center">
+//             <MDBCardTitle className="card-title">
+//               <strong>{product["name"]}</strong>
+//             </MDBCardTitle>
+
+//             <p className="font-weight-bold blue-text">{product["price"]}₪</p>
+
+//             <MDBCardText>
+//               {product["description"]}
+//               <p>
+//                 {product["address"]} <IoPinOutline />
+//               </p>
+//             </MDBCardText>
+//             <Typography variant="body2" color="textSecondary" component="p">
+//               {users.some((user) => user._id === product["owner"]) && (
+//                 <div
+//                   style={{
+//                     backgroundColor: "#ececec",
+//                     borderRadius: "15px",
+//                   }}
+//                 >
+//                   <p>
+//                     {users
+//                       .find((user) => user.uid === product.ownerId)
+//                       ["name"].toUpperCase()}
+//                     <Person />
+//                   </p>
+//                 </div>
+//               )}
+//             </Typography>
+
+//             {user && user.uid === product.ownerId ? (
+//               <MDBCol md="12" className="d-flex justify-content-center">
+//                 <Button size="small" color="primary">
+//                   <DeleteProduct
+//                     id={product["name"]}
+//                     deleteHandler={deleteHandler}
+//                   />
+//                 </Button>
+
+//                 {/* <Button size="small" color="primary">
+//                   <StarBorderIcon onClick={() => console.log(user)} />
+//                 </Button> */}
+
+//                 <Button size="small" color="primary">
+//                   <UpdateProduct id={product["_id"]} />
+//                 </Button>
+//               </MDBCol>
+//             ) : (
+//               <Button size="small" color="primary">
+//                 <StarBorderIcon
+//                   onClick={() => api.addToFavorites(user, product)}
+//                 />
+//               </Button>
+//             )}
+//           </MDBCardBody>
+//         </MDBCard>
+//       </MDBCol>
+//     </MDBRow>
+//   );
+// }

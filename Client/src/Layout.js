@@ -34,7 +34,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
 
   useEffect(async () => {
     api.getUserById(currentUser?.email).then((res) => setUser(res.data.data));
-  }, []);
+  }, [currentUser]);
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);

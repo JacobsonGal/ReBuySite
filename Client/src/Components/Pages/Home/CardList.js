@@ -240,9 +240,9 @@ function CardEx({ product, users, user, setData, deleteHandler }) {
                   />
                 </Button>
 
-                <Button size="small" color="primary">
+                {/* <Button size="small" color="primary">
                   <StarBorderIcon onClick={() => console.log(user)} />
-                </Button>
+                </Button> */}
 
                 <Button size="small" color="primary">
                   <UpdateProduct id={product["_id"]} />

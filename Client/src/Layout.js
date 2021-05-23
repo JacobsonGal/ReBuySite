@@ -28,11 +28,6 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
   const { currentUser } = useContext(AuthContext);
-  const [user, setUser] = useState(null);
-
-  useEffect(async () => {
-    api.getUserById(currentUser?.email).then((res) => setUser(res.data.data));
-  }, [currentUser]);
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);
@@ -138,7 +133,6 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "Favorites" })}
                       setTitle={setTitle}
                       setActive={setActive}
-                      products={user?.favorites}
                     />
                   </Route>
                   <Route exact path="/Admin">

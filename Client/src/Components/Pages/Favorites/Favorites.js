@@ -1,10 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Page from "../../Utils/Page";
 import Card from "react-bootstrap/Card";
-export default function Favorites({ title, setTitle, setActive, products }) {
+import { AuthContext } from "../../SSO/Auth";
+import api from "../../../API/API";
+
+export default function Favorites({ title, setTitle, setActive }) {
   const [loading, setLoading] = useState(false);
 
-  console.log(products);
+  const { currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+  const [products, setProducts] = useState(null);
+
+  useEffect(async () => {
+    if (!user) {
+      const response = await api.getUserById(currentUser?.email);
+      setUser(response.data.data);
+    } else {
+      setProducts(user.favorites);
+      console.log(user);
+    }
+  }, [user, products]);
+
   return (
     <Page
       loading={loading}

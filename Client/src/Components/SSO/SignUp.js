@@ -4,7 +4,7 @@ import firebaseConfig from "./Config";
 import { AuthContext } from "./Auth";
 import api from "../../API/API";
 import { Form, Col, Row, Button } from "react-bootstrap";
-import firebase from "firebase/app";
+import firebase, { auth } from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
 const storage = firebase.storage();
@@ -22,6 +22,7 @@ export default function SignUp({ setRegistered }) {
       data.append("phone", phone.value);
       data.append("email", email.value);
       data.append("image", image);
+      data.append("uid", auth().currentUser.uid);
 
       await api
         .insertUser(data)

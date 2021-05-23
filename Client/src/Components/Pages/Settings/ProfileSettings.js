@@ -103,14 +103,12 @@ export function Profile({ users, images, products, title, setTitle }) {
 
   function getUserProducts() {
     let arr = [];
+
     user &&
       user["products"] &&
-      user["products"].map((id) =>
-        // setUserProducts((oldArray) => [
-        //   ...oldArray,
-        //   products.find((prod) => prod._id === id),
-        // ])
-        arr.push(products.find((prod) => prod._id === id))
+      console.log(user["products"], "stam") &&
+      user["products"].map((product) =>
+        arr.push(products.find((prod) => product.email === prod.ownerId))
       );
     return arr;
   }
@@ -181,7 +179,11 @@ export function Profile({ users, images, products, title, setTitle }) {
             <h1>My Products</h1>
             {products && (
               <CardList
-                products={getUserProducts()}
+                products={
+                  user
+                    ? products.filter((prod) => prod.ownerId === user.email)
+                    : null
+                }
                 images={images}
                 users={users}
                 from={0}

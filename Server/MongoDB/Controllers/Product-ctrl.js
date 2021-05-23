@@ -122,18 +122,18 @@ const getProducts = async (req, res) => {
 const search = async (req, res) => {
   const { condition, price, category } = req.query;
   console.log("searching");
+  let products = [];
   firestore
     .collection("products")
     .get()
     .then((Snapshot) => {
       if (Snapshot.docs.length == 0)
         return res.status(401).json({ success: false, data: "No Products" });
-      let products = Snapshot.docs.find({}, (err, product) => {
-        console.log(product);
-        if (err) {
-          console.log(err);
-        }
+      Snapshot.forEach((doc) => {
+        products.push(doc.data());
       });
+
+      console.log(condition);
       if (condition) {
         products = products.filter((product) => {
           return product.condition === condition;
@@ -160,6 +160,7 @@ const search = async (req, res) => {
       return res.status(200).json({ success: true, data: products });
     })
     .catch((error) => {
+      console.log(error);
       return res.status(404).json({ success: false, error: error.message });
     });
 };
@@ -189,40 +190,6 @@ const sort = async (req, res) => {
       return res.status(404).json({ success: false, error: error.message });
     });
 };
-// const groupBy = async (req, res) => {
-//   const data = await Product.aggregate([
-//     {
-//       $group: {
-//         _id: "$category",
-//         total: { $sum: 1 },
-//       },
-//     },
-//   ]);
-//   let products;
-//   if (!req.query.category) {
-//     products = await Product.find({}, (err, product) => {
-//       if (err) console.log(err);
-//     });
-//   } else {
-//     products = await Product.find(
-//       { category: req.query.category },
-//       (err, product) => {
-//         if (err) {
-//           console.log("there is an error", err);
-//         }
-//       }
-//     );
-//   }
-//   const newProducts = products.sort((a, b) => {
-//     let nameA = a.category.toLowerCase(),
-//       nameB = b.category.toLowerCase();
-//     if (nameA < nameB) return -1;
-//     if (nameA > nameB) return 1;
-//     return 0;
-//   });
-//   // console.log(data);
-//   res.json({ products: newProducts, data: data });
-// };
 
 const groupByCity = async (req, res) => {
   const data = await Product.aggregate([
@@ -259,6 +226,16 @@ const groupByCity = async (req, res) => {
   res.json({ products: newProducts, data: data });
 };
 
+const addToFavorites = async (req, res) => {
+  const productOwnerEmail = req.body.product.ownerId;
+  //TODO: get all users
+  const userId = req.body.user;
+  firestore
+    .collection("users")
+    .doc({ name: "osher" })
+    .update({ favorites: ["1", "2", "3"] });
+};
+
 module.exports = {
   createProduct,
   updateProduct,
@@ -268,4 +245,5 @@ module.exports = {
   search,
   sort,
   groupByCity,
+  addToFavorites,
 };

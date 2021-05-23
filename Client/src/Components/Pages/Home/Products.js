@@ -104,14 +104,14 @@ export default class ProductsList extends Component {
   };
   searchHandler = (products) => {
     this.setState({
-      products,
+      products: products.data,
     });
   };
   deleteHandler = (productId) => {
     console.log(productId);
     this.setState({
       products: this.state.products.filter((product) => {
-        return product._id !== productId.data._id;
+        return product.name !== productId;
       }),
     });
   };

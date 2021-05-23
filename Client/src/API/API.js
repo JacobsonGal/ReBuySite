@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
 });
@@ -33,13 +32,16 @@ export const groupByCategory = (category) =>
   api.get(`products/groupby?category=${category}`);
 export const mapAndReduce = () => api.get(`/products/mapreduce`);
 
+export const addToFavorites = (user, product) =>
+  api.post(`/products/addtofavorites`, { user, product });
+
 const apis = {
   insertUser,
   getAllUsers,
   updateUserById,
   deleteUserById,
   getUserById,
-
+  addToFavorites,
   insertImage,
   getAllImages,
   updateImageById,

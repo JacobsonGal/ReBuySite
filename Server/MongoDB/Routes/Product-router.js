@@ -15,4 +15,5 @@ router.get("/products", ProductCtrl.getProducts);
 router.get("/products/search", ProductCtrl.search);
 router.get("/products/sort", ProductCtrl.sort);
 router.get("/products/groupByCity", ProductCtrl.groupByCity);
+router.post("/products/addtofavorites", ProductCtrl.addToFavorites);
 module.exports = router;

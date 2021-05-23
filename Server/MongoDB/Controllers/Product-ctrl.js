@@ -230,10 +230,11 @@ const addToFavorites = async (req, res) => {
   const productOwnerEmail = req.body.product.ownerId;
   //TODO: get all users
   const userId = req.body.user;
-  firestore
-    .collection("users")
-    .doc({ name: "osher" })
-    .update({ favorites: ["1", "2", "3"] });
+  console.log(user.uid);
+  // firestore
+  //   .collection("users")
+  //   .doc()
+  //   .update({ favorites: ["1", "2", "3"] });
 };
 
 module.exports = {

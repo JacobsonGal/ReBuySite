@@ -46,7 +46,7 @@ const createUser = async (req, res) => {
   console.log(req.body);
   firestore
     .collection("users")
-    .doc()
+    .doc(req.body.uid)
     .set(body)
     .then(() => {
       return res.status(200).json({

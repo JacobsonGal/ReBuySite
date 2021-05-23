@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { useIntl } from "react-intl";
 import SideBar from "./Components/NavBar/SideBar";
@@ -15,6 +15,7 @@ import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
+import api from "./API/API";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -27,6 +28,13 @@ export default function Layout({ setLocale, setActive, isActive }) {
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
   const { currentUser } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+
+  console.log(currentUser, "hara");
+
+  useEffect(async () => {
+    api.getUserById(currentUser?.email).then((res) => setUser(res.data.data));
+  }, []);
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);
@@ -132,6 +140,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "Favorites" })}
                       setTitle={setTitle}
                       setActive={setActive}
+                      products={user?.favorites}
                     />
                   </Route>
                   <Route exact path="/Admin">

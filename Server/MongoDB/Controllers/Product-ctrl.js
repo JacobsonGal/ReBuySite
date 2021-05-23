@@ -227,14 +227,24 @@ const groupByCity = async (req, res) => {
 };
 
 const addToFavorites = async (req, res) => {
-  const productOwnerEmail = req.body.product.ownerId;
-  //TODO: get all users
-  const userId = req.body.user;
-  console.log(user.uid);
-  // firestore
-  //   .collection("users")
-  //   .doc()
-  //   .update({ favorites: ["1", "2", "3"] });
+  const userId = req.body.user.uid;
+  const product = req.body.product;
+  let favor = [];
+
+  firestore
+    .collection("users")
+    .doc(userId)
+    .get()
+    .then((res) => {
+      if (res.data().favorites && res.data().favorites != 0)
+        favor = res.data().favorites;
+      favor.push(product);
+      firestore.collection("users").doc(userId).update({ favorites: favor });
+    })
+    .catch((error) => {
+      console.log("error", error);
+      return res.status(404).json({ success: false, error: error.message });
+    });
 };
 
 module.exports = {

@@ -181,7 +181,7 @@ export function Profile({ users, images, products, title, setTitle }) {
               <CardList
                 products={
                   user
-                    ? products.filter((prod) => prod.ownerId === user.email)
+                    ? products.filter((prod) => prod.ownerId === user.uid)
                     : null
                 }
                 images={images}

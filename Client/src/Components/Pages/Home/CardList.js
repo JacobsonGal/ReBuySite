@@ -223,7 +223,7 @@ function CardEx({ product, users, user, setData, deleteHandler }) {
                 >
                   <p>
                     {users
-                      .find((user) => user.email === product.ownerId)
+                      .find((user) => user.uid === product.ownerId)
                       ["name"].toUpperCase()}
                     <Person />
                   </p>
@@ -231,7 +231,7 @@ function CardEx({ product, users, user, setData, deleteHandler }) {
               )}
             </Typography>
 
-            {user && user.email === product.ownerId ? (
+            {user && user.uid === product.ownerId ? (
               <MDBCol md="12" className="d-flex justify-content-center">
                 <Button size="small" color="primary">
                   <DeleteProduct

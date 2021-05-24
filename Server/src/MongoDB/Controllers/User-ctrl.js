@@ -1,5 +1,5 @@
-const Product = require("../models/Product");
-const User = require("../models/User");
+const Product = require("../Models/Product");
+const User = require("../Models/User");
 const fs = require("fs");
 const firebase = require("../DB/db");
 require("firebase/storage");

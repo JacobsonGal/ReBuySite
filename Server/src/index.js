@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 });
 app.use("/api", productRouter);
 app.use("/api", userRouter);
-app.use("/.netlify/functions", router);
+// app.use("/", router);
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
     });
   }
 });
-app.get("/.netlify/functions/api", (req, res) => {
+app.get("/", (req, res) => {
   res.send("ReBuy Server is Alive!");
 });
 

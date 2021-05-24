@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
     });
   }
 });
-app.get("/", (req, res) => {
+app.get("/.netlify/functions/api", (req, res) => {
   res.send("ReBuy Server is Alive!");
 });
 server.listen(apiPort, () => {

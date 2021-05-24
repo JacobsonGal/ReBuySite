@@ -13,8 +13,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-app.use("/.netlify/functions/api", productRouter);
-app.use("/.netlify/functions/api", userRouter);
+router.get("/", (req, res) => {
+  res.json({ Server: "ReBuy Server is Alive!" });
+});
+app.use("/api", productRouter);
+app.use("/api", userRouter);
+app.use("/.netlify/functions", router);
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
@@ -40,9 +44,7 @@ io.on("connection", (socket) => {
 app.get("/.netlify/functions/api", (req, res) => {
   res.send("ReBuy Server is Alive!");
 });
-router.get("/.netlify/functions/api/server", (req, res) => {
-  res.send("ReBuy Server is Alive!");
-});
+
 server.listen(apiPort, () => {
   console.log(`ReBuy Server running on port ${apiPort}`);
 });

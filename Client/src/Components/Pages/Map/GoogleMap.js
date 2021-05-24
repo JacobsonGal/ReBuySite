@@ -30,7 +30,6 @@ export default class GoogleMap extends Component {
     };
     this.state.setLoading(true);
   }
-
   componentDidMount = async () => {
     this.state.setLoading(false);
 
@@ -376,30 +375,31 @@ export default class GoogleMap extends Component {
               setIsModelOpen={this.modalHandler}
               navigate={navigate}
             />
-            {products.map((product, i) => {
-              // console.log(locations.find((x) => x.id === product._id));
+            {products &&
+              products.map((product, i) => {
+                // console.log(locations.find((x) => x.id === product._id));
 
-              return (
-                <Marker
-                  lat={
-                    locations.some((x) => x.id === product.name)
-                      ? locations.find((x) => x.id === product.name).lat
-                      : null
-                  }
-                  lng={
-                    locations.some((x) => x.id === product.name)
-                      ? locations.find((x) => x.id === product.name).lng
-                      : null
-                  }
-                  product={product}
-                  images={images}
-                  users={users}
-                  key={i}
-                  setIsModelOpen={this.modalHandler}
-                  setData={this.productHandler}
-                />
-              );
-            })}
+                return (
+                  <Marker
+                    lat={
+                      locations.some((x) => x.id === product.name)
+                        ? locations.find((x) => x.id === product.name).lat
+                        : null
+                    }
+                    lng={
+                      locations.some((x) => x.id === product.name)
+                        ? locations.find((x) => x.id === product.name).lng
+                        : null
+                    }
+                    product={product}
+                    images={images}
+                    users={users}
+                    key={i}
+                    setIsModelOpen={this.modalHandler}
+                    setData={this.productHandler}
+                  />
+                );
+              })}
           </GoogleMapReact>
         </div>
       </>

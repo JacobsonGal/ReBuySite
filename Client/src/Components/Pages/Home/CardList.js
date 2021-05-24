@@ -196,8 +196,10 @@ export default function CardList({
             >
               <CardContent>
                 <Typography>
-                  <p>{product["name"]}</p>
-                  <p>{product["price"]}₪</p>
+                  <h4 style={{ font: "bold" }}>
+                    {product["name"].toUpperCase()}
+                  </h4>
+                  <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>
                   <p>{product["description"]}</p>
                   <p>
                     {product["address"]} <IoPinOutline />

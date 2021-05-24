@@ -19,7 +19,7 @@ app.use("/api", userRouter);
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origins: ["http://localhost:3001","https://rebuy.netlify.app/"],
+    origins: ["http://localhost:3001", "https://rebuy.netlify.app/"],
     methods: ["GET", "POST"],
     credentials: false,
   },
@@ -27,7 +27,10 @@ const io = socketIo(server, {
 let count = 0;
 io.on("connection", (socket) => {
   // console.log("connect socket io");
-  if (socket.handshake.headers.origin.includes("3001") ||socket.handshake.headers.origin.includes("rebuy.netlify.app") ) {
+  if (
+    socket.handshake.headers.origin.includes("3001") ||
+    socket.handshake.headers.origin.includes("rebuy.netlify.app")
+  ) {
     count++;
     socket.broadcast.emit("count", count);
     console.log(count + " Connected Users");

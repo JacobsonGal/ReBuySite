@@ -4,16 +4,16 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const http = require("http");
-const productRouter = require("../MongoDB/routes/Product-router");
-const userRouter = require("../MongoDB/routes/Users-router");
+const productRouter = require("./MongoDB/routes/Product-router");
+const userRouter = require("./MongoDB/routes/Users-router");
 const app = express();
 const apiPort = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-app.use("../netlify.toml/functions/api", productRouter);
-app.use("../netlify.toml/functions/api", userRouter);
+app.use("./netlify/functions/api", productRouter);
+app.use("./netlif/functions/api", userRouter);
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {

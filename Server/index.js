@@ -1,5 +1,5 @@
 const express = require("express");
-const serverless = require("serverless-http");
+// const serverless = require("serverless-http");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
@@ -13,16 +13,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-router.get("/", (req, res) => {
-  res.json({ Server: "ReBuy Server is Alive!" });
-});
 app.use("/api", productRouter);
 app.use("/api", userRouter);
 // app.use("/", router);
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origins: ["http://localhost:4200", "http://localhost:3001"],
+    origins: ["http://localhost:3001","https://rebuy.netlify.app/"],
     methods: ["GET", "POST"],
     credentials: false,
   },
@@ -30,7 +27,7 @@ const io = socketIo(server, {
 let count = 0;
 io.on("connection", (socket) => {
   // console.log("connect socket io");
-  if (socket.handshake.headers.origin.includes("3001")) {
+  if (socket.handshake.headers.origin.includes("3001") ||socket.handshake.headers.origin.includes("rebuy.netlify.app") ) {
     count++;
     socket.broadcast.emit("count", count);
     console.log(count + " Connected Users");
@@ -49,4 +46,4 @@ server.listen(apiPort, () => {
   console.log(`ReBuy Server running on port ${apiPort}`);
 });
 
-module.exports.handler = serverless(app);
+// module.exports.handler = serverless(app);

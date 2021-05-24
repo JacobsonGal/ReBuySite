@@ -103,7 +103,7 @@ const getProductById = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
-  // console.log("Getting products");
+  console.log("Getting products");
   firestore
     .collection("products")
     .get()

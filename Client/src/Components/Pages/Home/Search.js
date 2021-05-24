@@ -21,16 +21,7 @@ function Search(props) {
         console.log(err);
       });
   };
-  // const clickHandler = async () => {
-  //   await api
-  //     .search(query)
-  //     .then((res) => {
-  //       props.searchHandler(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+
   const clickHandler = async () => {
     await api
       .search(category, condition, price)

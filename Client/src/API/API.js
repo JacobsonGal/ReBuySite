@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
 });
@@ -10,13 +9,6 @@ export const getAllUsers = () => api.get(`/users`);
 export const updateUserById = (id, payload) => api.put(`/user/${id}`, payload);
 export const deleteUserById = (id) => api.delete(`/user/${id}`);
 export const getUserById = (id) => api.get(`/user/${id}`);
-
-export const insertImage = (payload) => api.post(`/image`, payload);
-export const getAllImages = () => api.get(`/images`);
-export const updateImageById = (id, payload) =>
-  api.put(`/image/${id}`, payload);
-export const deleteImageById = (id) => api.delete(`/image/${id}`);
-export const getImageById = (id) => api.get(`/image/${id}`);
 
 export const insertProduct = (payload) => api.post(`/product`, payload);
 export const getAllProducts = () => api.get(`/products`);
@@ -32,6 +24,10 @@ export const sort = () => api.get(`/products/sort`);
 export const groupByCategory = (category) =>
   api.get(`products/groupby?category=${category}`);
 export const mapAndReduce = () => api.get(`/products/mapreduce`);
+export const addToFavorites = (user, product) =>
+  api.post(`/products/addtofavorites`, { user, product });
+export const removeFromFavorites = (user, product) =>
+  api.post(`/products/removeFromFavorites`, { user, product });
 
 const apis = {
   insertUser,
@@ -39,12 +35,6 @@ const apis = {
   updateUserById,
   deleteUserById,
   getUserById,
-
-  insertImage,
-  getAllImages,
-  updateImageById,
-  deleteImageById,
-  getImageById,
 
   insertProduct,
   getAllProducts,
@@ -55,6 +45,8 @@ const apis = {
   sort,
   groupByCategory,
   mapAndReduce,
+  addToFavorites,
+  removeFromFavorites,
 };
 
 export default apis;

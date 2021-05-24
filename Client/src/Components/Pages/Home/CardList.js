@@ -10,6 +10,7 @@ import Groupby from "./Groupby";
 import Sort from "./Sort";
 import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Star from "@material-ui/icons/Star";
 import {
   Card,
   CardContent,
@@ -30,6 +31,7 @@ import Person from "@material-ui/icons/PersonRounded";
 import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
+import { IoPinOutline } from "react-icons/io5";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -70,7 +72,7 @@ class DeleteProduct extends Component {
       api
         .deleteProductById(this.props.id)
         .then((res) => {
-          this.props.deleteHandler(res.data);
+          this.props.deleteHandler(this.props.id);
         })
         .catch((err) => console.log(err));
       console.log("after res");
@@ -83,18 +85,6 @@ class DeleteProduct extends Component {
   }
 }
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   display: "flex",
-  //   flexWrap: "wrap",
-  //   justifyContent: "space-around",
-  //   overflow: "hidden",
-  //   width: "100%",
-  //   direction: "ltr",
-  // },
-  // gridList: {
-  //   flexWrap: "nowrap",
-  //   transform: "translateZ(0)",
-  // },
   root: {
     display: "flex",
     padding: "2rem",
@@ -154,118 +144,205 @@ export default function CardList({
         isModelOpen={isModelOpen}
         setIsModelOpen={setIsModelOpen}
       />
-      <GridList className={classes.gridList} cols={3}>
-        {products &&
-          products.slice(from, to).map(
-            (product, i) =>
-              product && (
-                <GridListTile
-                  style={{ height: "100%", width: "fit-content" }}
-                  key={product["name"]}
-                >
-                  <Card
-                    style={{
-                      margin: "2px",
-                      width: 330,
-                      minHeight: 400,
-                      maxHeight: "fit-content",
-                      border: "1px solid #ececec",
-                      borderRadius: "15px",
-                    }}
-                  >
-                    {product["photo"] && (
-                      <Carousel>
-                        {product["photo"]
-                          .toString()
-                          .split(",")
-                          .map((Image) => (
-                            <Carousel.Item
-                              style={{ width: "100%", height: "10rem" }}
-                            >
-                              <img
-                                className="d-block w-100"
-                                style={{ width: "100%", height: "100%" }}
-                                src={Image}
-                                alt={Image}
-                              />
-                            </Carousel.Item>
-                          ))}
-                      </Carousel>
-                    )}{" "}
-                    <CardActionArea
-                      onClick={() => setData(product)}
+      {/* <GridList className={classes.gridList} cols={3}> */}
+      {products &&
+        products.map((product, i) => (
+          // <GridListTile
+          //   style={{ height: "100%", width: "fit-content" }}
+          //   key={product["name"]}
+          // >
+          // <CardEx
+          //   product={product}
+          //   users={users}
+          //   user={user}
+          //   setData={setData}
+          //   deleteHandler={deleteHandler}
+          // />
+          <Card
+            style={{
+              margin: "2px",
+              width: 300,
+              height: 500,
+              border: "1px solid #ececec",
+              borderRadius: "15px",
+            }}
+          >
+            {product["photo"] && (
+              <Carousel>
+                {product["photo"]
+                  .toString()
+                  .split(",")
+                  .map((Image) => (
+                    <Carousel.Item
                       style={{
-                        height: 400,
+                        width: "100%",
+                        height: 200,
                       }}
                     >
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {/* <p>{product["name"]}</p>    */}
-                          <p
-                            style={{
-                              height: "3rem",
-                              overflow: "scroll",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {product["name"]}
-                          </p>
-                          <p>{product["price"]}₪</p>
-                        </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          component="p"
-                        >
-                          {users.some(
-                            (user) => user._id === product["owner"]
-                          ) && (
-                            <div
-                              style={{
-                                backgroundColor: "#ececec",
-                                borderRadius: "15px",
-                              }}
-                            >
-                              <p>
-                                {users
-                                  .find((user) => user._id === product["owner"])
-                                  ["name"].toUpperCase()}
-                                <Person />
-                              </p>
-                            </div>
-                          )}
-                          <p>Description: {product["description"]}</p>
-                          <p>Condition: {product["condition"]}</p>
-                          <p>Category: {product["category"]}</p>
-                          <p>Address: {product["address"]}</p>
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                    {user &&
-                      user["products"] &&
-                      user["products"].some((id) => id === product._id) && (
-                        <CardActions
-                          style={{ justifyContent: "center", height: 50 }}
-                        >
-                          <Button size="small" color="primary">
-                            <DeleteProduct
-                              id={product["_id"]}
-                              deleteHandler={deleteHandler}
-                            />
-                          </Button>
-                          {/* <Button size="small" color="primary">
-                    <StarBorderIcon />
-                  </Button> */}
-                          <Button size="small" color="primary">
-                            <UpdateProduct id={product["_id"]} />
-                          </Button>
-                        </CardActions>
-                      )}
-                  </Card>
-                </GridListTile>
-              )
-          )}
-      </GridList>
+                      <img
+                        style={{ width: "100%", height: "100%" }}
+                        src={Image}
+                        alt={Image}
+                      />
+                    </Carousel.Item>
+                  ))}
+              </Carousel>
+            )}{" "}
+            <CardActionArea
+              onClick={() => setData(product)}
+              // style={{
+              //   height: 400,
+              // }}
+            >
+              <CardContent>
+                <Typography>
+                  <h4 style={{ font: "bold" }}>
+                    {product["name"].toUpperCase()}
+                  </h4>
+                  <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>
+                  <p>{product["description"]}</p>
+                  <p>
+                    {product["address"]} <IoPinOutline />
+                  </p>
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {users.some((user) => user._id === product["owner"]) && (
+                    <div
+                      style={{
+                        backgroundColor: "#ececec",
+                        borderRadius: "15px",
+                      }}
+                    >
+                      <p>
+                        {users.some((user) => user.uid === product.ownerId) &&
+                          users
+                            .find((user) => user.uid === product.ownerId)
+                            ["name"].toUpperCase()}
+                        <Person />
+                      </p>
+                    </div>
+                  )}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            {user && user.uid === product.ownerId ? (
+              <CardActions style={{ justifyContent: "center", height: 50 }}>
+                <Button size="small" color="primary">
+                  <DeleteProduct
+                    id={product["_id"]}
+                    deleteHandler={deleteHandler}
+                  />
+                </Button>
+                <Button size="small" color="primary">
+                  <UpdateProduct id={product["_id"]} />
+                </Button>
+              </CardActions>
+            ) : user &&
+              user.favorites &&
+              user.favorites.some((p) => {
+                return product.name === p.name;
+              }) ? (
+              <Button size="small" color="primary">
+                <Star onClick={() => api.removeFromFavorites(user, product)} />
+              </Button>
+            ) : (
+              <Button size="small" color="primary">
+                <StarBorderIcon
+                  onClick={() => api.addToFavorites(user, product)}
+                />
+              </Button>
+            )}
+            {console.log(user)}
+          </Card>
+          // </GridListTile>
+        ))}
     </div>
   );
 }
+
+// function CardEx({ product, users, user, setData, deleteHandler }) {
+//   return (
+//     <MDBRow>
+//       <MDBCol md="4">
+//         <MDBCard wide cascade>
+//           <MDBView wide cascade onClick={() => setData(product)}>
+//             {product["photo"] && (
+//               <Carousel>
+//                 {product["photo"]
+//                   .toString()
+//                   .split(",")
+//                   .map((Image) => (
+//                     <Carousel.Item>
+//                       <MDBCardImage
+//                         hover
+//                         overlay="white-slight"
+//                         className="card-img-top"
+//                         src={Image}
+//                         alt={Image}
+//                       />
+//                     </Carousel.Item>
+//                   ))}
+//               </Carousel>
+//             )}{" "}
+//           </MDBView>
+//           <MDBCardBody cascade className="text-center">
+//             <MDBCardTitle className="card-title">
+//               <strong>{product["name"]}</strong>
+//             </MDBCardTitle>
+
+//             <p className="font-weight-bold blue-text">{product["price"]}₪</p>
+
+//             <MDBCardText>
+//               {product["description"]}
+//               <p>
+//                 {product["address"]} <IoPinOutline />
+//               </p>
+//             </MDBCardText>
+//             <Typography variant="body2" color="textSecondary" component="p">
+//               {users.some((user) => user._id === product["owner"]) && (
+//                 <div
+//                   style={{
+//                     backgroundColor: "#ececec",
+//                     borderRadius: "15px",
+//                   }}
+//                 >
+//                   <p>
+//                     {users
+//                       .find((user) => user.uid === product.ownerId)
+//                       ["name"].toUpperCase()}
+//                     <Person />
+//                   </p>
+//                 </div>
+//               )}
+//             </Typography>
+
+//             {user && user.uid === product.ownerId ? (
+//               <MDBCol md="12" className="d-flex justify-content-center">
+//                 <Button size="small" color="primary">
+//                   <DeleteProduct
+//                     id={product["name"]}
+//                     deleteHandler={deleteHandler}
+//                   />
+//                 </Button>
+
+//                 {/* <Button size="small" color="primary">
+//                   <StarBorderIcon onClick={() => console.log(user)} />
+//                 </Button> */}
+
+//                 <Button size="small" color="primary">
+//                   <UpdateProduct id={product["_id"]} />
+//                 </Button>
+//               </MDBCol>
+//             ) : (
+//               <Button size="small" color="primary">
+//                 <StarBorderIcon
+//                   onClick={() => api.addToFavorites(user, product)}
+//                 />
+//               </Button>
+//             )}
+//           </MDBCardBody>
+//         </MDBCard>
+//       </MDBCol>
+//     </MDBRow>
+//   );
+// }

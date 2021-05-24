@@ -14,13 +14,14 @@ import Carousel from "react-bootstrap/Carousel";
 import Person from "@material-ui/icons/PersonRounded";
 import Pin from "@material-ui/icons/PinDropRounded";
 import Phone from "@material-ui/icons/Phone";
+import Chat from "@material-ui/icons/Chat";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
 import { Link } from "react-router-dom";
+import PayPal from "./PayPal";
 
 export default function Marker({
   product,
-  images,
   users,
   setIsModelOpen,
   isModelOpen,
@@ -42,11 +43,12 @@ export default function Marker({
             },
             content: {
               inset: "0px",
-              height: "fit-content",
-              width: "fit-content",
+              height: "90%",
+              width: "60%",
               direction: "rtl",
               // padding: "10px",
               margin: "auto",
+              padding: "1rem",
               borderRadius: "15px",
               boxShadow: "1px 1px 5px 1px #e5eefa",
             },
@@ -57,11 +59,11 @@ export default function Marker({
           {product && (
             <Card
               style={{
-                margin: "1rem",
-                maxWidth: 300,
-                minWidth: 100,
-                width: "20rem",
-                height: "fit-content",
+                // margin: "1rem",
+                // maxWidth: 300,
+                // minWidth: 100,
+                width: "100%",
+                height: "100%",
                 border: "1px solid #ececec",
                 borderRadius: "15px",
                 textAlign: "center",
@@ -69,15 +71,26 @@ export default function Marker({
               }}
             >
               {product["photo"] && (
-                <Carousel>
+                <Carousel
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   {product["photo"]
                     .toString()
                     .split(",")
                     .map((Image) => (
-                      <Carousel.Item style={{ width: "100%", height: "100%" }}>
+                      <Carousel.Item
+                        style={{
+                          width: "100%",
+                          height: "20rem",
+                        }}
+                      >
                         <img
                           className="d-block w-100"
-                          style={{ width: "100%", height: "100%" }}
+                          // style={{ width: "100%", height: "100%" }}
                           src={Image}
                           alt={Image}
                         />
@@ -126,6 +139,11 @@ export default function Marker({
                         </p>
 
                         <p>
+                          <Button>
+                            <Link to="/chat" style={{ color: "blue" }}>
+                              <Chat style={{ color: "#496c9e" }} />
+                            </Link>
+                          </Button>
                           <ReactWhatsapp
                             number={
                               "+972" +
@@ -151,13 +169,13 @@ export default function Marker({
                         </p>
                       </div>
                     )}
+                    <p>
+                      <PayPal />
+                    </p>
                     <p>Description: {product["description"]}</p>
                     <p>Condition: {product["condition"]}</p>
                     <p>Category: {product["category"]}</p>
                     <p>Address: {product["address"]}</p>
-                    <Link to="/chat" style={{ color: "blue" }}>
-                      Contact Seller{" "}
-                    </Link>
                   </Typography>
                   {navigate && (
                     <Button

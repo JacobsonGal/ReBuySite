@@ -11,13 +11,7 @@ import api from "../../API/API";
 
 export default function User({ handleToggleSidebar }) {
   const [users, setUsers] = useState([]);
-  useEffect(() => {
-    return async () => {
-      await api.getAllUsers().then((user) => {
-        setUsers(user.data.data);
-      });
-    };
-  }, []);
+  const [img, setimg] = useState(null);
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
@@ -27,15 +21,24 @@ export default function User({ handleToggleSidebar }) {
       (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
   );
   console.log(user);
-  const img = user && user["image"];
+  // const img = user && user["image"];
   console.log(img);
 
   const name = currentUser
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });
 
+  useEffect(() => {
+    return async () => {
+      await api.getAllUsers().then((user) => {
+        setUsers(user.data.data);
+      });
+    };
+  }, []);
+
   // console.log(currentUser);
   function Userlog() {
+    user && setimg(user["image"]);
     if (img !== "" && img !== null) {
       return (
         <img
@@ -71,6 +74,11 @@ export default function User({ handleToggleSidebar }) {
             </NavLink>
           </MenuItem> */}
           {/* <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem> */}
+          <MenuItem icon={<Star />}>
+            <NavLink to="/Favorites" onClick={handleToggleSidebar}>
+              {intl.formatMessage({ id: "Favorites" })}
+            </NavLink>
+          </MenuItem>
           <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
             {intl.formatMessage({ id: "disconnect" })}
           </MenuItem>

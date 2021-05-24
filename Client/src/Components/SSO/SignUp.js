@@ -17,29 +17,31 @@ export default function SignUp({ setRegistered }) {
     const { name, phone, email, password } = e.target.elements;
     try {
       console.log(name.value + phone.value + email.value + image);
+
+      await firebaseConfig
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value)
+        .then(function (result) {
+          window.alert(`User inserted successfully`);
+          return result.user.updateProfile({
+            displayName: name.value,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(error);
+        });
+
       let data = new FormData();
       data.append("name", name.value);
       data.append("phone", phone.value);
       data.append("email", email.value);
       data.append("image", image);
+      data.append("uid", firebase.auth().currentUser.uid);
 
       await api
         .insertUser(data)
-        .then((res) => {
-          window.alert(`User inserted successfully`);
-          firebaseConfig
-            .auth()
-            .createUserWithEmailAndPassword(email.value, password.value)
-            .then(function (result) {
-              return result.user.updateProfile({
-                displayName: name.value,
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-              alert(error);
-            });
-        })
+        .then((res) => {})
         .catch((error) => {
           console.log(error);
           alert(error);

@@ -1,14 +1,10 @@
 import React, { Component } from "react";
-import Grid from "./Grid";
-import BarChart from "./BarChart";
 import api from "../../../API/API.js";
-import socketIOClient from "socket.io-client";
+import _ from "lodash";
+import { Bar } from "react-chartjs-2";
 
-const ENDPOINT = "http://localhost:3001";
-const socket = socketIOClient(ENDPOINT);
-//import Card from "./Card";
 class Admin extends Component {
-  state = { products: [], users: [], liveUsers: 0, socket: "" };
+  state = { products: [], users: [], prodByAdress: [], prodByCategory: [] };
 
   componentDidMount = async () => {
     try {
@@ -16,6 +12,10 @@ class Admin extends Component {
         this.setState({
           products: product.data.data,
         });
+      });
+      this.setState({
+        prodByAdress: _.countBy(this.state.products, "address"),
+        prodByCategory: _.countBy(this.state.products, "category"),
       });
       await api.getAllUsers().then((user) => {
         this.setState({
@@ -26,20 +26,112 @@ class Admin extends Component {
       console.log(error);
     }
   };
-  componentDidUpdate() {
-    socket.on("count", (data) => {
-      console.log(data, "socket data");
-      this.setState({ liveUsers: data });
-    });
-  }
+
   render() {
-    const { products, users, liveUsers } = this.state;
+    const { products, users, prodByAdress, prodByCategory } = this.state;
+    let address = [];
+    let count = [];
+    let category = [];
+    let countCategory = [];
+    _.forEach(prodByAdress, (val, key) => {
+      address.push(key);
+      count.push(val);
+    });
+    console.log(prodByCategory, "category");
+    _.forEach(prodByCategory, (val, key) => {
+      category.push(key);
+      countCategory.push(val);
+    });
 
     return (
       <>
-        <h1> Welcome Admin</h1>
-        <BarChart />
-        <Grid products={products} users={users} liveUsers={liveUsers} />
+        <div className='container'>
+          <div className='row'>
+            <div className='col-sm'>
+              number of registered users {users.length}
+            </div>
+            <div className='col-sm'>number of products {products.length}</div>
+            <div className='col-sm'>{console.log(prodByAdress)}</div>
+
+            <Bar
+              data={{
+                labels: address,
+                datasets: [
+                  {
+                    label: "Products per address",
+                    data: count,
+                    backgroundColor: [
+                      "rgba(255, 99, 132,0.4)",
+                      "rgba(54, 162, 235, 0.4)",
+                      "rgba(255, 206, 86, 0.4)",
+                      "rgba(75, 192, 192, 0.4)",
+                      "rgba(153, 102, 255, 0.4)",
+                      "rgba(255, 159, 64, 0.4)",
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132,0.4)",
+                      "rgba(54, 162, 235, 0.4)",
+                      "rgba(255, 206, 86, 0.4)",
+                      "rgba(75, 192, 192, 0.4)",
+                      "rgba(153, 102, 255, 0.4)",
+                      "rgba(255, 159, 64, 0.4)",
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              }}
+              height={100}
+              width={200}
+              oprions={{
+                maintainAspectRatio: false,
+                scales: {
+                  yAxes: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+            />
+            <div></div>
+            <Bar
+              data={{
+                labels: category,
+                datasets: [
+                  {
+                    label: "Products per Category",
+                    data: countCategory,
+                    backgroundColor: [
+                      "rgba(255, 99, 132,0.4)",
+                      "rgba(54, 162, 235, 0.4)",
+                      "rgba(255, 206, 86, 0.4)",
+                      "rgba(75, 192, 192, 0.4)",
+                      "rgba(153, 102, 255, 0.4)",
+                      "rgba(255, 159, 64, 0.4)",
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132,0.4)",
+                      "rgba(54, 162, 235, 0.4)",
+                      "rgba(255, 206, 86, 0.4)",
+                      "rgba(75, 192, 192, 0.4)",
+                      "rgba(153, 102, 255, 0.4)",
+                      "rgba(255, 159, 64, 0.4)",
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              }}
+              height={50}
+              width={100}
+              oprions={{
+                maintainAspectRatio: false,
+                scales: {
+                  yAxes: {
+                    beginAtZero: true,
+                  },
+                },
+              }}
+            />
+          </div>
+        </div>
       </>
     );
   }

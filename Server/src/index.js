@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const socketIo = require("socket.io");
 const http = require("http");
+const router = express.Router();
 const productRouter = require("./MongoDB/Routes/Product-router");
 const userRouter = require("./MongoDB/Routes/Users-router");
 const app = express();
@@ -37,6 +38,9 @@ io.on("connection", (socket) => {
   }
 });
 app.get("/.netlify/functions/api", (req, res) => {
+  res.send("ReBuy Server is Alive!");
+});
+router.get("/.netlify/functions/api/server", (req, res) => {
   res.send("ReBuy Server is Alive!");
 });
 server.listen(apiPort, () => {

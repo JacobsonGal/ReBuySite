@@ -38,7 +38,7 @@ export default function Marker({
 
   return (
     <div>
-      {product && (
+      {product && ( 
         <Modal
           style={{
             overlay: {
@@ -48,9 +48,8 @@ export default function Marker({
             content: {
               inset: "0px",
               height: "90%",
-              width: "50%",
+              width: "90%",
               direction: "rtl",
-              // padding: "10px",
               margin: "auto",
               padding: "1rem",
               borderRadius: "15px",
@@ -63,9 +62,6 @@ export default function Marker({
           {product && (
             <Card
               style={{
-                // margin: "1rem",
-                // maxWidth: 300,
-                // minWidth: 100,
                 width: "100%",
                 height: "100%",
                 border: "1px solid #ececec",
@@ -76,14 +72,7 @@ export default function Marker({
               }}
             >
               {product["photo"] ? (
-                <Carousel
-                // style={{
-                //   display: "flex",
-                //   justifyContent: "center",
-                //   alignItems: "center",
-                //   textAlign: "center",
-                // }}
-                >
+                <Carousel>
                   {product["photo"]
                     .toString()
                     .split(",")
@@ -110,7 +99,6 @@ export default function Marker({
                   alt={"rebuyProduct"}
                 />
               )}{" "}
-              {/* <CardActionArea disableTouchRipple={true} disableRipple={true}> */}
               <CardContent>
                 <Typography>
                   <h4 style={{ font: "bold" }}>
@@ -123,7 +111,7 @@ export default function Marker({
                   </p>
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                  {users.some((user) => user._id === product["owner"]) && (
+                  {users.some((user) => user.uid === product.ownerId) && (
                     <div
                       style={{
                         backgroundColor: "#ececec",
@@ -200,7 +188,6 @@ export default function Marker({
                   </div>
                 )}
               </CardContent>
-              {/* </CardActionArea> */}
             </Card>
           )}
         </Modal>

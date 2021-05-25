@@ -256,7 +256,6 @@ export default function CardList({
                 <Button size="small" color="primary">
                   <StarBorderIcon
                     onClick={() => api.addToFavorites(user, product)}
-                    // onClick={() => Alert("test")}
                   />
                 </Button>
               )}

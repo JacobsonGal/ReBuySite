@@ -249,7 +249,7 @@ export default class GoogleMap extends Component {
                 travelMode: maps.TravelMode.DRIVING,
               },
               (response, status) => {
-                if (status === "OK") {
+                if (status === "OK") {  
                   directionsDisplay.setDirections(response);
                   console.log(response.routes[0]);
                   // infoWindow.setPosition(pos);
@@ -297,6 +297,19 @@ export default class GoogleMap extends Component {
         );
         infoWindow.open(map);
       }
+    }
+    function wazeNavigate(address, image) {
+      Geocode.fromAddress(address).then(
+        (response) => {
+          var { lat, lng } = response.results[0].geometry.location;
+          let url = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+          window.open(url, "_blank").focus();
+          //  window.location.href = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
 
     function getMapOptions(maps) {
@@ -374,11 +387,11 @@ export default class GoogleMap extends Component {
               isModelOpen={isModelOpen}
               setIsModelOpen={this.modalHandler}
               navigate={navigate}
+              wazeNavigate={wazeNavigate}
             />
             {products &&
               products.map((product, i) => {
                 // console.log(locations.find((x) => x.id === product._id));
-
                 return (
                   <Marker
                     lat={

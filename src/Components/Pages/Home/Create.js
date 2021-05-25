@@ -105,6 +105,9 @@ export default class ProductInsert extends Component {
                     images: [...this.state.images, url],
                   })
                 )
+                .catch((error) => {
+                  alert(error);
+                })
           );
       })
     );

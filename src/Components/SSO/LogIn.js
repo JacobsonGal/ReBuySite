@@ -7,15 +7,20 @@ import {
 } from "react-social-login-buttons";
 import { AuthContext } from "./Auth";
 import firebase from "firebase";
+import Alert from "../Utils/Alert";
 
 export default function LogIn({ setRegistered }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = e.target.elements;
     try {
-      firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email.value, password.value)
+        .then()
+        .catch((error) => Alert(error));
     } catch (error) {
-      alert(error);
+      Alert(error);
     }
   };
   function GoogleLogin() {
@@ -36,7 +41,7 @@ export default function LogIn({ setRegistered }) {
         var email = error.email;
         var credential = error.credential;
         console.log(errorCode, errorMessage, email, credential);
-        alert(errorCode, errorMessage, email, credential);
+        Alert(errorCode + errorMessage + email + credential);
       });
   }
   function FacebookLogin() {

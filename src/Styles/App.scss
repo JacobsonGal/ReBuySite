@@ -15,8 +15,10 @@ $base-font-size: 1em;
 $base-font-family: "Assistant", sans-serif;
 $breakpoint-md: 800px;
 $background: #f5f7fb;
+// $background1: rgba(245, 247, 251);
 $highlight-color: #bbafaf;
 $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000000000003, 0.5)";
+
 @import url("https://fonts.googleapis.com/css2?family=Assistant:wght@600&display=swap");
 @keyframes spin {
   0% {
@@ -26,7 +28,33 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
     transform: rotate(360deg);
   }
 }
-
+.swal-modal {
+  // background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
+  border-radius: 15px;
+  box-shadow: $shadow;
+  border: 1px solid #ececec;
+  border-radius: "15px";
+}
+.swal-title {
+  font-size: 25px;
+  height: "10%";
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.21);
+  // margin-bottom: 5px;
+}
+.swal-overlay {
+  background-color: rgba($color: $background, $alpha: 0.7);
+  opacity: "0.5";
+  height: "100%";
+  position: "fixed";
+}
+.swal-button {
+  display: "none";
+  border-radius: 15px;
+  background-color: #4962b3;
+  font-size: 12px;
+  border: 1px solid #3e549a;
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+}
 //************************************SmallScreen*******************************//
 @media (max-width: $breakpoint-md) {
   .app {

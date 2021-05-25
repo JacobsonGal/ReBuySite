@@ -15,6 +15,7 @@ import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
+import SellerChatRoom from "./Components/Pages/Chat/chat";
 
 
 export default function Layout({ setLocale, setActive, isActive }) {
@@ -150,6 +151,9 @@ export default function Layout({ setLocale, setActive, isActive }) {
                   </Route>
                   <Route exact path='/:sellerId/:description'>
                     <Chat />
+                  </Route>
+                  <Route exact path='/chat/:sellerId/:currentId'>
+                    <SellerChatRoom />
                   </Route>
                   {/* </>
                 )} */}

@@ -10,8 +10,10 @@ import 'mdbreact/dist/css/mdb.css';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { MDBJumbotron, MDBContainer, MDBBtn, MDBRow, MDBCol } from 'mdbreact';
+import { NavItem } from 'react-bootstrap';
+import { func } from 'prop-types';
 
 
 
@@ -37,7 +39,7 @@ const Chat = () => {
       </div>
 
       <section className="section">
-        {ifSeller ? <SellerArea sellerId={sellerId} /> : <ChatRoom sellerId={sellerId} currentId={user.uid} currentName={user.name} />}
+        {ifSeller ? <SellerArea sellerId={sellerId} /> : <ChatRoom sellerId={sellerId} currentId={user.uid} currentName={user.displayName} />}
       </section>
 
     </MDBContainer >
@@ -47,26 +49,33 @@ const Chat = () => {
 
 export default Chat
 
-function SellerArea({ sellerId }) {
 
-  let recivers = firestore.collection(`users/${sellerId}/recivers`).get().then((querySnapshot) => {
+function SellerArea({ sellerId }) {
+  let tmp = [{ name: "loading" }];
+  const [recivers, setRecivers] = useState(tmp);
+  const [id, setId] = useState();
+  firestore.collection(`users/${sellerId}/recivers`).get().then((querySnapshot) => {
     let temp = [];
     querySnapshot.docs.map((doc) => temp.push(doc.data()));
-    // doc.data() is never undefined for query doc snapshots
-    alert(temp[1].id);
+    setRecivers(temp);
 
   }).catch((error) => {
     console.log("Error getting documents: ", error);
   });
 
 
-  //<ChatRoom sellerId="lkqzFWSlDwbI4vTccRpYoHaF3Cv1" currentId={user.uid}
-
   return (
     <>
       <main className="main">
         <h1>user list </h1>
         <hr></hr>
+        {
+          recivers.map((item, index) => (
+            <Link to={`/chat/${item.id}/${sellerId}`} key={index}>{item.name}</Link>
+          ))
+        }
+
+
 
       </main>
     </>
@@ -74,10 +83,21 @@ function SellerArea({ sellerId }) {
 
 }
 
+const SellerChatRoom = () => {
+  const { sellerId } = useParams();
+  const { currentId } = useParams()
+  alert("here")
+  return (
+    <>
 
+      < ChatRoom sellerId={sellerId} currentId={currentId} currentName={"flag"} />
+    </>
+  );
+}
 
 function ChatRoom({ sellerId, currentId, currentName }) {
   const dummy = useRef();
+  const reciverRef = firestore.collection('users').doc(sellerId).collection("recivers").doc(currentId);
   const messagesRefCurrent = firestore.collection('users').doc(currentId).collection("recivers").doc(sellerId).collection("messages");
   const messagesRefSeller = firestore.collection('users').doc(sellerId).collection("recivers").doc(currentId).collection("messages");
   const queryCurrent = messagesRefCurrent.orderBy('createdAt').limit(25);
@@ -96,19 +116,22 @@ function ChatRoom({ sellerId, currentId, currentName }) {
       uid,
       photoURL,
     })
+
     await messagesRefSeller.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
     })
-
-    /*firestore.collection('users').doc(sellerId).collection("recivers").doc(currentId).add({
-      id: currentId,
-      name: currentName
-    })*/
     setFormValue('');
     dummy.current.scrollIntoView({ behavior: 'smooth' });
+    if (currentName != "flag") {
+      await reciverRef.set({
+        id: currentId,
+        name: currentName
+      })
+    }
+
   }
 
   return (<>

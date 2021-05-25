@@ -66,7 +66,7 @@ function Search(props) {
     //     <Button onClick={clickHandler}>Search</Button>
     //   </Form.Group>
     // </Form>
-    <Form style={{ padding: "1rem" }}>
+    <Form style={{ padding: "1rem"}}>
       <Form.Row style={{ direction: "ltr" }}>
         <Form.Group as={Col} controlId="formGridPassword">
           <Form.Label>Price</Form.Label>

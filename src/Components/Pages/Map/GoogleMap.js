@@ -5,6 +5,7 @@ import Marker from "./Marker";
 import Geocode from "react-geocode";
 import Search from "../Home/Search";
 import PopUp from "../../Utils/PopUp";
+import OpenApp from "react-open-app";
 
 export default class GoogleMap extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ export default class GoogleMap extends Component {
         lat: 31.96996095111596,
         lng: 34.77278720495645,
       },
+      lat: 31.96996095111596,
+      lng: 34.77278720495645,
       zoom: 10,
       isModelOpen: false,
       setLoading: this.props.setLoading,
@@ -96,9 +99,21 @@ export default class GoogleMap extends Component {
     });
   };
   productHandler = (product) => {
+       let plat = this.state.locations.some((x) => x.id === product.name)
+         ? this.state.locations.find((x) => x.id === product.name).lat
+         : null;
+                    
+        let plng = this.state.locations.some((x) => x.id === product.name
+                    )
+                      ? this.state.locations.find((x) => x.id === product.name)
+                          .lng
+                      : null;
+                    
     this.setState({
       product,
       selected: product["address"],
+     lat:plat,
+     lng:plng,
     });
   };
   modalHandler = (isModelOpen) => {
@@ -119,6 +134,8 @@ export default class GoogleMap extends Component {
       selected,
       map,
       maps,
+      lat,
+      lng
     } = this.state;
 
     const apiIsLoaded = (map, maps) => {
@@ -132,109 +149,22 @@ export default class GoogleMap extends Component {
         this.setState({
           maps,
         });
-      // if (map) {
-      //   this.setState(map);
-      //   const directionsService = new maps.DirectionsService();
-      //   const directionsDisplay = new maps.DirectionsRenderer();
-      //   directionsDisplay.setMap(map);
-
-      //   let infoWindow = new maps.InfoWindow();
-      //   const locationButton = document.createElement("button");
-      //   locationButton.textContent = "Pan to Current Location";
-      //   locationButton.classList.add("custom-map-control-button");
-      //   map.controls[maps.ControlPosition.TOP_CENTER].push(locationButton);
-      //   locationButton.addEventListener("click", () => {
-      //     if (navigator.geolocation) {
-      //       navigator.geolocation.getCurrentPosition(
-      //         (position) => {
-      //           const pos = {
-      //             lat: position.coords.latitude,
-      //             lng: position.coords.longitude,
-      //           };
-      //           directionsService.route(
-      //             {
-      //               origin: pos,
-      //               destination: product ? product["address"] : "Tel-Aviv",
-      //               travelMode: maps.TravelMode.DRIVING,
-      //             },
-      //             (response, status) => {
-      //               if (status === "OK") {
-      //                 directionsDisplay.setDirections(response);
-
-      //                 console.log(response.routes[0]);
-      //               } else {
-      //                 console.log(status);
-      //                 // window.alert("Directions request failed due to " + status);
-      //               }
-      //             }
-      //           );
-      //           infoWindow.setPosition(pos);
-      //           var marker = new maps.Marker({
-      //             position: pos,
-      //             map: map,
-      //             title: "",
-      //             icon: "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png",
-      //           });
-
-      //           infoWindow.setContent(
-      //             <img
-      //               src="https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
-      //               alt="place"
-      //             />
-      //           );
-      //           infoWindow.open(map);
-      //           map.setCenter(pos);
-      //         },
-      //         () => {
-      //           handleLocationError(true, infoWindow, map.getCenter());
-      //         }
-      //       );
-      //     } else {
-      //       // Browser doesn't support Geolocation
-      //       handleLocationError(false, infoWindow, map.getCenter());
-      //     }
-      //   });
-      // }
-      // function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      //   infoWindow.setPosition(pos);
-      //   infoWindow.setContent(
-      //     browserHasGeolocation
-      //       ? "Error: The Geolocation service failed."
-      //       : "Error: Your browser doesn't support geolocation."
-      //   );
-      //   infoWindow.open(map);
-      // }
     };
 
     function navigate(address, image) {
-      console.log("address : " + address);
-      console.log("image : " + image);
       let Gaddress;
       Geocode.fromAddress(address).then(
-        // Geocode.fromAddress("RISHON-LE-ZION").then(
         (response) => {
-          // var { lat, lng } = response.results[0].geometry.location;
-          // lat = lat;
-          // lng = lng;
           Gaddress = response.results[0].geometry.location;
         },
         (error) => {
           console.error(error);
         }
       );
-      console.log("Gaddress" + Gaddress);
-      console.log(map);
       const directionsService = new maps.DirectionsService();
       const directionsDisplay = new maps.DirectionsRenderer();
       directionsDisplay.setMap(map);
       let infoWindow = new maps.InfoWindow();
-      // const locationButton = document.createElement("button");
-      // locationButton.textContent = "Pan to Current Location";
-      // locationButton.classList.add("custom-map-control-button");
-      // map.controls[maps.ControlPosition.TOP_CENTER].push(locationButton);
-      console.log(map);
-      console.log(directionsService);
-      console.log(directionsDisplay);
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -252,25 +182,6 @@ export default class GoogleMap extends Component {
                 if (status === "OK") {  
                   directionsDisplay.setDirections(response);
                   console.log(response.routes[0]);
-                  // infoWindow.setPosition(pos);
-                  // var marker = new maps.Marker({
-                  //   position: pos,
-                  //   map: map,
-                  //   title: "",
-                  //   icon: "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png",
-                  // });
-
-                  // infoWindow.setContent(
-                  //   <img
-                  //     src={
-                  //       image
-                  //         ? image
-                  //         : "https://maps.google.com/mapfiles/kml/shapes/info-i_maps.png"
-                  //     }
-                  //     alt="place"
-                  //   />
-                  // );
-                  // infoWindow.open(map);
                   map.setCenter(pos);
                 } else {
                   console.log(status);
@@ -304,7 +215,6 @@ export default class GoogleMap extends Component {
           var { lat, lng } = response.results[0].geometry.location;
           let url = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
           window.open(url, "_blank").focus();
-          //  window.location.href = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
         },
         (error) => {
           console.error(error);
@@ -388,6 +298,8 @@ export default class GoogleMap extends Component {
               setIsModelOpen={this.modalHandler}
               navigate={navigate}
               wazeNavigate={wazeNavigate}
+              lat={lat}
+              lng={lng}
             />
             {products &&
               products.map((product, i) => {

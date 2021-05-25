@@ -119,10 +119,10 @@ export default class ProductsList extends Component {
     const { products, users } = this.state;
 
     return (
-      <Wrapper>
+      <Wrapper style={{textAlign:"center" ,alignItems:"center",justifyContent:"center" }}>
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
-        <Sort searchHandler={this.searchHandler} />
+        {/* <Sort searchHandler={this.searchHandler} /> */}
         <CardList
           products={products}
           users={users}

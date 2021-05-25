@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 import PayPal from "./PayPal";
 import rebuyProduct from "../../Assets/Images/ReBuy.png";
 import { SiGooglestreetview, SiWaze } from "react-icons/si";
-
+import OpenApp from "react-open-app";
 
 export default function Marker({
   product,
@@ -30,6 +30,7 @@ export default function Marker({
   isModelOpen,
   navigate,
   wazeNavigate,
+  lat,lng
 }) {
   let img =
     product && product["image"]
@@ -38,7 +39,7 @@ export default function Marker({
 
   return (
     <div>
-      {product && ( 
+      {product && (
         <Modal
           style={{
             overlay: {
@@ -174,7 +175,7 @@ export default function Marker({
                         style={{ width: "50px", height: "50px" }}
                       />
                     </Button>
-                    <Button
+                    {/* <Button
                       onClick={() => {
                         wazeNavigate(product["address"], product["photo"]);
                         setIsModelOpen(false);
@@ -184,7 +185,17 @@ export default function Marker({
                         style={{ width: "50px", height: "50px" }}
                         color="dodgerblue"
                       />
-                    </Button>
+                    </Button> */}
+                    <OpenApp
+                      href={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
+                      android={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
+                      ios={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
+                    >
+                      <SiWaze
+                        style={{ width: "50px", height: "50px" }}
+                        color="dodgerblue"
+                      />
+                    </OpenApp>
                   </div>
                 )}
               </CardContent>

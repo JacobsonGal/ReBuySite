@@ -16,7 +16,6 @@ import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
 import api from "./API/API";
-import MessengerCustomerChat from "react-messenger-customer-chat";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -76,13 +75,6 @@ export default function Layout({ setLocale, setActive, isActive }) {
               className={`app ${rtl ? "rtl" : ""} ${toggled ? "toggled" : ""}`}
             >
               <div className="main-container">
-                <MessengerCustomerChat
-                  pageId="107019158133881"
-                  appId="844309599629836"
-                  shouldShowDialog={true}
-                  greetingDialogDisplay="show"
-                />
-
                 <div className="sideBar">
                   <SideBar
                     image={image}

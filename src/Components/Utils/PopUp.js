@@ -19,6 +19,7 @@ import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
 import { Link } from "react-router-dom";
 import PayPal from "./PayPal";
+import rebuyProduct from "../../Assets/Images/ReBuy.png";
 
 export default function Marker({
   product,
@@ -44,7 +45,7 @@ export default function Marker({
             content: {
               inset: "0px",
               height: "90%",
-              width: "60%",
+              width: "50%",
               direction: "rtl",
               // padding: "10px",
               margin: "auto",
@@ -68,15 +69,17 @@ export default function Marker({
                 borderRadius: "15px",
                 textAlign: "center",
                 alignItems: "center",
+                overflow: "scroll",
               }}
             >
-              {product["photo"] && (
+              {product["photo"] ? (
                 <Carousel
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                // style={{
+                //   display: "flex",
+                //   justifyContent: "center",
+                //   alignItems: "center",
+                //   textAlign: "center",
+                // }}
                 >
                   {product["photo"]
                     .toString()
@@ -90,13 +93,19 @@ export default function Marker({
                       >
                         <img
                           className="d-block w-100"
-                          // style={{ width: "100%", height: "100%" }}
+                          style={{ width: "100%", height: "100%" }}
                           src={Image}
                           alt={Image}
                         />
                       </Carousel.Item>
                     ))}
                 </Carousel>
+              ) : (
+                <img
+                  style={{ width: "100%", height: 200 }}
+                  src={rebuyProduct}
+                  alt={"rebuyProduct"}
+                />
               )}{" "}
               <CardActionArea
                 // onClick={(e) => cardOnClickHandler(e, product["_id"])}

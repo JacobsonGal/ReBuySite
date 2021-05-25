@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import api from "../../../API/API";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
-import Alert from "react-bootstrap/Alert";
+import Alert from "../../Utils/Alert";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
@@ -106,7 +106,7 @@ export default class ProductInsert extends Component {
                   })
                 )
                 .catch((error) => {
-                  alert(error);
+                 Alert(error);
                 })
           );
       })

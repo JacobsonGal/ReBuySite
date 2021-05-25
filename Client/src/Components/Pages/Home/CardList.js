@@ -252,7 +252,6 @@ export default function CardList({
                 />
               </Button>
             )}
-            {console.log(user)}
           </Card>
           // </GridListTile>
         ))}

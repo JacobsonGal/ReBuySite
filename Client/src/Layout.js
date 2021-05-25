@@ -14,9 +14,11 @@ import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
-import Chat from "./Components/Pages/Chat/chat";
 import api from "./API/API";
 import MessengerCustomerChat from "react-messenger-customer-chat";
+import Chat from "./Components/Pages/Chat/chat";
+import SellerChatRoom from "./Components/Pages/Chat/chat";
+
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -154,6 +156,12 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "profile" })}
                       setTitle={setTitle}
                     />
+                  </Route>
+                  <Route exact path='/:sellerId/:description'>
+                    <Chat />
+                  </Route>
+                  <Route exact path='/chat/:sellerId/:currentId'>
+                    <SellerChatRoom />
                   </Route>
                   {/* </>
                 )} */}

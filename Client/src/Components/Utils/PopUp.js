@@ -103,7 +103,7 @@ export default function Marker({
                 // onClick={() => setIsModelOpen(true)}
                 disableTouchRipple={true}
                 disableRipple={true}
-                // disabled={true}
+              // disabled={true}
               >
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -134,13 +134,13 @@ export default function Marker({
                         <p>
                           {users
                             .find((user) => user._id === product["owner"])
-                            ["name"].toUpperCase()}
+                          ["name"].toUpperCase()}
                           <Person />
                         </p>
 
                         <p>
                           <Button>
-                            <Link to="/chat" style={{ color: "blue" }}>
+                            <Link to={`/${product["ownerId"]}/${product["description"]}`} style={{ color: "blue" }}>
                               <Chat style={{ color: "#496c9e" }} />
                             </Link>
                           </Button>
@@ -158,11 +158,10 @@ export default function Marker({
                           </ReactWhatsapp>
                           {/* <WhatsApp /> */}
                           <Button
-                            href={`tel:${
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }`}
+                            href={`tel:${users.find(
+                              (user) => user._id === product["owner"]
+                            )["phone"]
+                              }`}
                           >
                             <Phone style={{ color: "#496c9e" }} />
                           </Button>

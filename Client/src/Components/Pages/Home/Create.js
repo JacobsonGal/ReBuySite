@@ -91,7 +91,7 @@ export default class ProductInsert extends Component {
           .put(image)
           .on(
             "state_changed",
-            () => {},
+            () => { },
             (error) => {
               console.log(error);
             },
@@ -145,6 +145,7 @@ export default class ProductInsert extends Component {
     data.append("price", this.state.price);
     data.append("category", this.state.category);
     data.append("ownerId", ownerID);
+    data.append("seconderyId", this.state.description + ownerID);
     data.append("photo", this.state.images);
     console.log(this.state);
 

@@ -19,6 +19,8 @@ import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
 import { Link } from "react-router-dom";
 import PayPal from "./PayPal";
+import { get } from "lodash";
+
 
 export default function Marker({
   product,
@@ -140,7 +142,7 @@ export default function Marker({
 
                         <p>
                           <Button>
-                            <Link to={`/${product["ownerId"]}/${product["description"]}`} style={{ color: "blue" }}>
+                            <Link to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}["seconderyId"]}`} style={{ color: "blue" }}>
                               <Chat style={{ color: "#496c9e" }} />
                             </Link>
                           </Button>

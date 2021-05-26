@@ -17,7 +17,7 @@ import Registration from "./Components/SSO/Registration";
 import api from "./API/API";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import Chat from "./Components/Pages/Chat/chat";
-import SellerChatRoom from "./Components/Pages/Chat/chat";
+import SellerRoom from "./Components/Pages/Chat/SellerRoom";
 
 
 export default function Layout({ setLocale, setActive, isActive }) {
@@ -157,11 +157,11 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/:sellerId/:description'>
+                  <Route exact path='/:sellerId/:description/:secondaryId'>
                     <Chat />
                   </Route>
-                  <Route exact path='/chat/:sellerId/:currentId'>
-                    <SellerChatRoom />
+                  <Route exact path='/chat/:sellerId/:product/:currentId'>
+                    <SellerRoom />
                   </Route>
                   {/* </>
                 )} */}

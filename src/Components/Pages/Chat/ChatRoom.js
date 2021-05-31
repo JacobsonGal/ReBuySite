@@ -58,6 +58,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName }) {
 
   return (<>
     <main className="main">
+
       {messagesCurrent && messagesCurrent.map(msg => <ChatMessage key={msg.id} message={msg} />)}
       <span ref={dummy}></span>
     </main>

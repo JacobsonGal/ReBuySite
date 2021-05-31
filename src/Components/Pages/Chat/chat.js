@@ -56,8 +56,6 @@ export default Chat
 function SellerArea({ sellerId, prodId }) {
   let tmp = [{ name: "loading" }];
   const [recivers, setRecivers] = useState(tmp);
-  const [id, setId] = useState();
-
   firestore.collection(`users/${sellerId}/prod/${prodId}/recivers`).get().then((querySnapshot) => {
     let temp = [];
     querySnapshot.docs.map((doc) => temp.push(doc.data()));

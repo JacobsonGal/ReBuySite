@@ -209,7 +209,7 @@ export default function CardList({
                     {product["address"]} <IoPinOutline />
                   </p>
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant='body2' color='textSecondary' component='p'>
                   {users.some((user) => user._id === product["owner"]) && (
                     <div
                       style={{
@@ -230,15 +230,16 @@ export default function CardList({
               </CardContent>
             </CardActionArea>
             <CardActions style={{ justifyContent: "center", height: "2rem" }}>
-              {user && user.uid === product.ownerId ? (
+              {(user && user.uid === product.ownerId) ||
+              Admins(currentUser.email) ? (
                 <>
-                  <Button size="small" color="primary">
+                  <Button size='small' color='primary'>
                     <DeleteProduct
                       id={product["_id"]}
                       deleteHandler={deleteHandler}
                     />
                   </Button>
-                  <Button size="small" color="primary">
+                  <Button size='small' color='primary'>
                     <UpdateProduct id={product["_id"]} />
                   </Button>
                 </>
@@ -247,13 +248,13 @@ export default function CardList({
                 user.favorites.some((p) => {
                   return product.name === p.name;
                 }) ? (
-                <Button size="small" color="primary">
+                <Button size='small' color='primary'>
                   <Star
                     onClick={() => api.removeFromFavorites(user, product)}
                   />
                 </Button>
               ) : (
-                <Button size="small" color="primary">
+                <Button size='small' color='primary'>
                   <StarBorderIcon
                     onClick={() => api.addToFavorites(user, product)}
                   />

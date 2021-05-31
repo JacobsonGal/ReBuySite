@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
 import "react-table/index";
-
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
@@ -226,7 +225,7 @@ export default function CardList({
                 </Typography>
               </CardContent>
             </CardActionArea>
-            {(user && user.uid === product.ownerId) || Admins(user.email) ? (
+            {user && user.uid === product.ownerId ? (
               <CardActions style={{ justifyContent: "center", height: 50 }}>
                 <Button size="small" color="primary">
                   <DeleteProduct

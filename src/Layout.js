@@ -16,6 +16,8 @@ import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
 import api from "./API/API";
+import MessengerCustomerChat from "react-messenger-customer-chat";
+import Categories from "./Components/Pages/Categories/Categories";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -124,6 +126,13 @@ export default function Layout({ setLocale, setActive, isActive }) {
                   <Route path="/Update/:id">
                     <ProductUpload
                       title={intl.formatMessage({ id: "Update" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route path="/Categories/:id">
+                    <Categories
+                      title={"Categories"}
                       setTitle={setTitle}
                       setActive={setActive}
                     />

@@ -1,6 +1,6 @@
 import React from "react";
 import { useIntl } from "react-intl";
-import { NavLink } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import {
   ProSidebar,
   Menu,
@@ -36,6 +36,19 @@ export default function SideBar({
   setNotificationCount,
   setLoading,
 }) {
+  const history = useHistory();
+  const categoryArray = [
+    "Sport",
+    "Clothing",
+    "Electricity",
+    "Underwear",
+    "Swimwear",
+    "Homecare",
+    "Plants",
+    "Activewear",
+    "Jewlery",
+    "Other",
+  ];
   const intl = useIntl();
   return (
     <div className="sideBar">
@@ -78,10 +91,11 @@ export default function SideBar({
               title={intl.formatMessage({ id: "Catagories" })}
               icon={<Category />}
             >
-              <MenuItem>Clothes</MenuItem>
-              <MenuItem>Tech</MenuItem>
-              <MenuItem>Music</MenuItem>
-              <MenuItem>Gadgets</MenuItem>
+              {categoryArray.map((cat) => (
+                <MenuItem onClick={() => history.push(`/categories/${cat}`)}>
+                  {cat}
+                </MenuItem>
+              ))}
             </SubMenu>
           </Menu>
 

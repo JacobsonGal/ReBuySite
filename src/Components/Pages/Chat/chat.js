@@ -29,7 +29,7 @@ const Chat = () => {
   const { description } = useParams()
   const { secondaryId } = useParams()
   let ifSeller;
-  if (user.uid == sellerId) {
+  if (user && user.uid == sellerId) {
     ifSeller = true;
   }
   return (

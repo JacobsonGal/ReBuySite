@@ -65,7 +65,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName }) {
     </main>
     <form className="form-inline form" onSubmit={sendMessage}>
       <input type="text" className="form-control form-control-sm w-75 text-center " value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="say something nice" />
-      <MDBBtn className="aqua-gradient" color="blue-grey" size="sm" type="submit" disabled={!formValue} outline >🕊️</MDBBtn>
+
     </form>
   </>)
 }

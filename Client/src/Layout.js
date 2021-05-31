@@ -18,6 +18,7 @@ import api from "./API/API";
 import MessengerCustomerChat from "react-messenger-customer-chat";
 import Chat from "./Components/Pages/Chat/chat";
 import SellerRoom from "./Components/Pages/Chat/SellerRoom";
+import Categories from "./Components/Pages/Categories/Categories";
 
 
 export default function Layout({ setLocale, setActive, isActive }) {

@@ -47,6 +47,7 @@ class Admin extends Component {
       <>
         <div className='container'>
           <div className='row'>
+            <h1></h1>
             <Bar
               data={{
                 labels: address,

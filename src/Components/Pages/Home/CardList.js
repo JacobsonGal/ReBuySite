@@ -230,7 +230,7 @@ export default function CardList({
               </CardContent>
             </CardActionArea>
             <CardActions style={{ justifyContent: "center", height: "2rem" }}>
-              {user && user.uid === product.ownerId ? (
+              {(user && user.uid === product.ownerId ) || Admins(currentUser.email)? (
                 <>
                   <Button size="small" color="primary">
                     <DeleteProduct

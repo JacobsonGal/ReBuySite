@@ -258,22 +258,9 @@ export default function CardList({
                     onClick={() => api.addToFavorites(user, product)}
                   />
                 </Button>
-              </CardActions>
-            ) : user &&
-              user.favorites &&
-              user.favorites.some((p) => {
-                return product.name === p.name;
-              }) ? (
-              <Button size="small" color="primary">
-                <Star onClick={() => api.removeFromFavorites(user, product)} />
-              </Button>
-            ) : (
-              <Button size="small" color="primary">
-                <StarBorderIcon
-                  onClick={() => api.addToFavorites(user, product)}
-                />
-              </Button>
-            )}
+              )}
+            </CardActions>
+            {console.log(user)}
           </Card>
         ))}
       {/* </GridList> */}

@@ -47,6 +47,12 @@ class Admin extends Component {
       <>
         <div className='container'>
           <div className='row'>
+            <div className='col-sm'>
+              number of registered users {users.length}
+            </div>
+            <div className='col-sm'>number of products {products.length}</div>
+            <div className='col-sm'>{console.log(prodByAdress)}</div>
+
             <Bar
               data={{
                 labels: address,
@@ -74,8 +80,8 @@ class Admin extends Component {
                   },
                 ],
               }}
-              height={50}
-              width={100}
+              height={100}
+              width={200}
               oprions={{
                 maintainAspectRatio: false,
                 scales: {

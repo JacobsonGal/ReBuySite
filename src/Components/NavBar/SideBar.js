@@ -40,16 +40,16 @@ export default function SideBar({
   const intl = useIntl();
 
   const categoryArray = [
-    "Sport",
-    "Clothing",
-    "Electricity",
-    "Underwear",
-    "Swimwear",
-    "Homecare",
-    "Plants",
-    "Activewear",
-    "Jewlery",
-    "Other",
+    intl.formatMessage({ id: "Sport" }),
+    intl.formatMessage({ id: "Clothing" }),
+    intl.formatMessage({ id: "Electricity" }),
+    intl.formatMessage({ id: "Underwear" }),
+    intl.formatMessage({ id: "Swimwear" }),
+    intl.formatMessage({ id: "Homecare" }),
+    intl.formatMessage({ id: "Plants" }),
+    intl.formatMessage({ id: "Activewear" }),
+    intl.formatMessage({ id: "Jewlery" }),
+    intl.formatMessage({ id: "Other" }),
   ];
 
   return (

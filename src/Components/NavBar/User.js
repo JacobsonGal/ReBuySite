@@ -55,17 +55,19 @@ export default function User({ handleToggleSidebar }) {
           icon={<Userlog />}
         >
           {!Admin && (
-            <MenuItem icon={<Star />}>
-              <NavLink to="/settings" onClick={handleToggleSidebar}>
-                {intl.formatMessage({ id: "profile" })}
-              </NavLink>
-            </MenuItem>
+            <>
+              <MenuItem icon={<Star />}>
+                <NavLink to="/settings" onClick={handleToggleSidebar}>
+                  {intl.formatMessage({ id: "profile" })}
+                </NavLink>
+              </MenuItem>
+              <MenuItem icon={<Star />}>
+                <NavLink to="/Favorites" onClick={handleToggleSidebar}>
+                  {intl.formatMessage({ id: "Favorites" })}
+                </NavLink>
+              </MenuItem>
+            </>
           )}
-          <MenuItem icon={<Star />}>
-            <NavLink to="/Favorites" onClick={handleToggleSidebar}>
-              {intl.formatMessage({ id: "Favorites" })}
-            </NavLink>
-          </MenuItem>
           <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
             {intl.formatMessage({ id: "disconnect" })}
           </MenuItem>

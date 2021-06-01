@@ -51,9 +51,10 @@ class Admin extends Component {
             <div className='col-sm'>
               number of registered users {users.length}
             </div>
+            <a className='btn btn-primary' href={FireBaseAuth}>
+              Users List
+            </a>
             <div className='col-sm'>number of products {products.length}</div>
-            <div className='col-sm'>{console.log(prodByAdress)}</div>
-            <a href={FireBaseAuth}>Users List</a>
           </div>
         </div>
         <Bar

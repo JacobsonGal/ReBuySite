@@ -25,7 +25,6 @@ export default class ProfileSetting extends Component {
   }
 
   componentDidMount = async () => {
-    // this.state.setLoading(false);
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -37,13 +36,6 @@ export default class ProfileSetting extends Component {
           users: user.data.data,
         });
       });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
-        });
-      });
-
-      // this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -73,37 +65,19 @@ export function Profile({ users, images, products, title, setTitle }) {
   // const [user, setuser] = useState(null);
   const [photo, setphoto] = useState(null);
 
-  console.log(images, users);
   const user = users.find(
     (usr) =>
       usr["email"] === currentUser.email.toUpperCase() ||
       (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
   );
-  // const img =
-  //   images &&
-  //   images["image"] &&
-  //   images.find((img) => img._id === user["image"]);
-
   const name = currentUser
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });
   const email = currentUser ? currentUser.email : "Email";
-
-  // user && user["products"] && setUserProducts(user["products"].find((prodId) => prodId === products["image"] user["products"]);
-
-  async function getUserPhoto() {
-    const image = user ? await apis.getImageById(user["image"]) : "";
-    console.log(image);
-    const photo = image
-      ? `data:${image.data.data["contentType"]};base64,${image.data.data["imageBase64"]}`
-      : "";
-    // console.log(photo);
-    return photo;
-  }
+  const image = currentUser ? currentUser.photoURL : user && user["image"];
 
   function getUserProducts() {
     let arr = [];
-
     user &&
       user["products"] &&
       console.log(user["products"], "stam") &&
@@ -112,11 +86,6 @@ export function Profile({ users, images, products, title, setTitle }) {
       );
     return arr;
   }
-
-  console.log(products);
-  console.log(user);
-  // console.log(photo);
-  // console.log(userProducts);
   const deleteHandler = (productId) => {
     // setProducts(
     //   products.filter((product) => {
@@ -126,74 +95,54 @@ export function Profile({ users, images, products, title, setTitle }) {
   };
 
   return (
-    <>
-      {Admin ? (
-        <iframe
-          src="http://localhost:4200"
-          title="Admin"
+    <Card className="userSettings">
+      <Card.Header className="userHeader">
+        {currentUser ? (
+          <Card.Img
+            style={{
+              alignSelf: window.screen.width <= 800 ? "right" : "center",
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+            }}
+            variant="top"
+            src={image}
+          />
+        ) : (
+          <Avatar
+            style={{
+              alignSelf: window.screen.width <= 800 ? "right" : "center",
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+            }}
+          />
+        )}
+        {/* <Person className="userPhoto" /> */}
+        <Card.Title
           style={{
-            width: "102%",
-            height: "102%",
-            margin: "-5px",
-            marginRight: "-1.5rem",
+            margin: "1rem",
+            width: "80%",
+            color: "#147764",
+            alignSelf: "center",
           }}
-        />
-      ) : (
-        <Card className="userSettings">
-          <Card.Header className="userHeader">
-            {user && user["image"] && photo ? (
-              <Card.Img
-                style={{
-                  alignSelf: window.screen.width <= 800 ? "right" : "center",
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                }}
-                variant="top"
-                src={photo}
-              />
-            ) : (
-              <Avatar
-                style={{
-                  alignSelf: window.screen.width <= 800 ? "right" : "center",
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                }}
-              />
-            )}
-            {/* <Person className="userPhoto" /> */}
-            <Card.Title
-              style={{
-                margin: "1rem",
-                width: "80%",
-                color: "#147764",
-                alignSelf: "center",
-              }}
-            >
-              {name}
-            </Card.Title>
-            <Card.Subtitle>{email}</Card.Subtitle>
-          </Card.Header>
-          <Card.Body style={{ alignItems: "center" }}>
-            <h1>My Products</h1>
-            {products && (
-              <CardList
-                products={
-                  user
-                    ? products.filter((prod) => prod.ownerId === user.uid)
-                    : null
-                }
-                images={images}
-                users={users}
-                from={0}
-                to={getUserProducts().length}
-                deleteHandler={deleteHandler}
-              />
-            )}
-          </Card.Body>
-        </Card>
-      )}
-    </>
+        >
+          {name}
+        </Card.Title>
+        <Card.Subtitle>{email}</Card.Subtitle>
+      </Card.Header>
+      <Card.Body style={{ alignItems: "center" }}>
+        <h1>My Products</h1>
+        {products && (
+          <CardList
+            products={
+              user ? products.filter((prod) => prod.ownerId === user.uid) : null
+            }
+            users={users}
+            deleteHandler={deleteHandler}
+          />
+        )}
+      </Card.Body>
+    </Card>
   );
 }

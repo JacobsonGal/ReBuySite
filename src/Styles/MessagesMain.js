@@ -31,6 +31,7 @@ export default {
     New: "חדש",
     Used: "משומש",
     Market: "המרקט",
+    username: "שלום משתמש!",
   },
 
   en: {
@@ -75,5 +76,6 @@ export default {
     New: "New",
     Used: "Used",
     Market: "Market",
+    username: "Hello User!",
   },
 };

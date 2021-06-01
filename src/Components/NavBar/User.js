@@ -10,25 +10,11 @@ import { AuthContext, Admins } from "../SSO/Auth";
 import api from "../../API/API";
 
 export default function User({ handleToggleSidebar }) {
-  const [users, setUsers] = useState([]);
-  const [img, setimg] = useState("");
   const intl = useIntl();
+  const [users, setUsers] = useState([]);
+  const [user, setuser] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
-  const user = users.find(
-    (usr) =>
-      usr["email"] === currentUser.email.toUpperCase() ||
-      (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
-  );
-
-  // user && setimg(user["image"]);
-  console.log(user);
-  // const img = user && user["image"];
-  console.log(img);
-
-  const name = currentUser
-    ? currentUser.displayName
-    : intl.formatMessage({ id: "welcome" });
 
   useEffect(() => {
     return async () => {
@@ -36,16 +22,19 @@ export default function User({ handleToggleSidebar }) {
         setUsers(user.data.data);
       });
     };
-    setimg(user["image"]);
-  }, [img, users, user]);
+  });
 
-  // console.log(currentUser);
   function Userlog() {
-    user && setimg(user["image"]);
-    if (img !== "" && img !== null) {
+    const image =
+      user && user["image"]
+        ? user["image"]
+        : currentUser && currentUser.photoURL
+        ? currentUser.photoURL
+        : "";
+    if (image) {
       return (
         <img
-          src={img}
+          src={image}
           alt="User"
           style={{
             alignContent: "center",
@@ -55,15 +44,16 @@ export default function User({ handleToggleSidebar }) {
           }}
         />
       );
-    } else {
-      return <Person className="userPhoto" />;
-    }
+    } else return <Person className="userPhoto" />;
   }
 
   return (
     <>
       <Menu iconShape="circle">
-        <SubMenu title={name} icon={<Userlog />}>
+        <SubMenu
+          title={currentUser ? currentUser.displayName : "User"}
+          icon={<Userlog />}
+        >
           {!Admin && (
             <MenuItem icon={<Star />}>
               <NavLink to="/settings" onClick={handleToggleSidebar}>
@@ -71,12 +61,6 @@ export default function User({ handleToggleSidebar }) {
               </NavLink>
             </MenuItem>
           )}
-          {/* <MenuItem>
-            <NavLink to="/settings/mainSettings" onClick={handleToggleSidebar}>
-              {intl.formatMessage({ id: "settings" })}
-            </NavLink>
-          </MenuItem> */}
-          {/* <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem> */}
           <MenuItem icon={<Star />}>
             <NavLink to="/Favorites" onClick={handleToggleSidebar}>
               {intl.formatMessage({ id: "Favorites" })}
@@ -89,7 +73,7 @@ export default function User({ handleToggleSidebar }) {
       </Menu>
       {Admin && (
         <Menu iconShape="circle">
-          <Menu title={intl.formatMessage({ id: "welcome" }) + name}>
+          <Menu title={intl.formatMessage({ id: "welcome" })}>
             <MenuItem icon={<Star />}>
               <NavLink to="/Admin" onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "Administrator" })}

@@ -30,6 +30,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
+    "react-bootstrap-sweetalert": "^5.2.0",
     "react-card-scroll": "^2.2.4",
     "react-chartjs-2": "^3.0.3",
     "react-confirm-alert": "^2.7.0",

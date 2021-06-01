@@ -1,14 +1,10 @@
 import swal from "@sweetalert/with-react";
 
-export default function Alert(error) {
-  return swal(error, {
-    buttons: false,
-    title: "Alert!",
+export default function Alert(message) {
+  return swal({
+    title: "Alert",
+    text: message,
+    icon: "warning",
+    dangerMode: true,
   });
-  // return swal(
-  //   <div>
-  //     <h1>Alert</h1>
-  //     <h3>{error}</h3>
-  //   </div>
-  // );
 }

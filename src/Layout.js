@@ -48,7 +48,7 @@ export default function Layout({ setLocale, setActive, isActive }) {
   return (
     <LoadingOverlay
       active={isActive}
-      fadeSpeed={10000}
+      fadeSpeed={1000}
       spinner={
         <div
           style={{
@@ -148,10 +148,10 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/:sellerId/:description/:secondaryId'>
+                  <Route exact path="/:sellerId/:description/:secondaryId">
                     <Chat />
                   </Route>
-                  <Route exact path='/chat/:sellerId/:product/:currentId'>
+                  <Route exact path="/chat/:sellerId/:product/:currentId">
                     <SellerRoom />
                   </Route>
 

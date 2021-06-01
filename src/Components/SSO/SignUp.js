@@ -7,6 +7,8 @@ import { Form, Col, Row, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
+import Alert from "../Utils/Alert";
+
 const storage = firebase.storage();
 
 export default function SignUp({ setRegistered }) {
@@ -15,39 +17,53 @@ export default function SignUp({ setRegistered }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, phone, email, password } = e.target.elements;
-    try {
-      console.log(name.value + phone.value + email.value + image);
+    if (
+      name.value === "" ||
+      name.value === null ||
+      phone.value === "" ||
+      phone.value === null ||
+      email.value === null ||
+      email.value === "" ||
+      password.value === "" ||
+      password.value === null
+    ) {
+      Alert("Please fill all the require data!");
+    } else {
+      try {
+        // console.log(name.value + phone.value + email.value + image);
 
-      await firebaseConfig
-        .auth()
-        .createUserWithEmailAndPassword(email.value, password.value)
-        .then(function (result) {
-          window.alert(`User inserted successfully`);
-          return result.user.updateProfile({
-            displayName: name.value,
+        await firebaseConfig
+          .auth()
+          .createUserWithEmailAndPassword(email.value, password.value)
+          .then(function (result) {
+            // Alert(`User inserted successfully`);
+            return result.user.updateProfile({
+              displayName: name.value,
+              photoURL: image ? image : "",
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            Alert(error.message);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
 
-      let data = new FormData();
-      data.append("name", name.value);
-      data.append("phone", phone.value);
-      data.append("email", email.value);
-      data.append("image", image);
-      data.append("uid", firebase.auth().currentUser.uid);
+        let data = new FormData();
+        data.append("name", name.value);
+        data.append("phone", phone.value);
+        data.append("email", email.value);
+        data.append("image", image);
+        data.append("uid", firebase.auth().currentUser.uid);
 
-      await api
-        .insertUser(data)
-        .then((res) => {})
-        .catch((error) => {
-          console.log(error);
-          alert(error);
-        });
-    } catch (error) {
-      alert(error);
+        await api
+          .insertUser(data)
+          .then((res) => {})
+          .catch((error) => {
+            console.log(error);
+            Alert(error.message);
+          });
+      } catch (error) {
+        Alert(error.message);
+      }
     }
   };
 

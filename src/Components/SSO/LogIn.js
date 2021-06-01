@@ -62,7 +62,7 @@ export default function LogIn({ setRegistered }) {
         var email = error.email;
         var credential = error.credential;
         console.log(errorCode, errorMessage, email, credential);
-        alert(errorCode, errorMessage, email, credential);
+        Alert(errorCode, errorMessage, email, credential);
       });
   }
   const { currentUser } = useContext(AuthContext);

@@ -91,7 +91,7 @@ export default class ProductInsert extends Component {
           .put(image)
           .on(
             "state_changed",
-            () => { },
+            () => {},
             (error) => {
               console.log(error);
             },
@@ -163,7 +163,7 @@ export default class ProductInsert extends Component {
       await api
         .insertProduct(data)
         .then((res) => {
-          window.alert(`Product inserted successfully`);
+          Alert(`Product inserted successfully`, true);
           this.setState({
             name: "",
             condition: "",

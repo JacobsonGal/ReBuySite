@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import api from "../../../API/API";
 import { Redirect } from "react-router-dom";
 import styled from "styled-components";
-import Alert from "react-bootstrap/Alert";
+import Alert from "../../Utils/Alert";
 import firebase from "firebase/app";
 import "firebase/auth";
 
@@ -127,7 +127,7 @@ export default class ProductUpdate extends Component {
       this.setState({ alert: true });
     } else {
       await api.updateProductById(this.state.id, data).then((res) => {
-        window.alert(`Product updated successfully`);
+        Alert(`Product updated successfully`, true);
         this.setState({
           name: "",
           condition: "",

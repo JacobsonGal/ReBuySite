@@ -30,13 +30,11 @@ export default function SignUp({ setRegistered }) {
       Alert("Please fill all the require data!");
     } else {
       try {
-        // console.log(name.value + phone.value + email.value + image);
-
         await firebaseConfig
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
           .then(function (result) {
-            // Alert(`User inserted successfully`);
+            Alert(`Welcome to ReBuy`, true);
             return result.user.updateProfile({
               displayName: name.value,
               photoURL: image ? image : "",
@@ -58,7 +56,6 @@ export default function SignUp({ setRegistered }) {
           .insertUser(data)
           .then((res) => {})
           .catch((error) => {
-            console.log(error);
             Alert(error.message);
           });
       } catch (error) {

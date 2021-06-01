@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   he: {
+    Language: "עברית",
     title: "ReBuy ",
     Home: "בית",
     Map: "מפה",
@@ -45,6 +46,7 @@ export default {
   },
 
   en: {
+    Language: "English",
     title: "ReBuy",
     Home: "Home",
     Map: "Map",

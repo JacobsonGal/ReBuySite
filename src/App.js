@@ -20,6 +20,7 @@ export default function App() {
           <Switch>
             <Route path="/">
               <Layout
+                locale={locale}
                 setLocale={setLocale}
                 setActive={setActive}
                 isActive={isActive}

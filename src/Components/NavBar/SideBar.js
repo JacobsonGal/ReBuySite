@@ -35,6 +35,8 @@ export default function SideBar({
   notificationCount,
   setNotificationCount,
   setLoading,
+  setLocale,
+  locale,
 }) {
   const history = useHistory();
   const intl = useIntl();
@@ -101,7 +103,11 @@ export default function SideBar({
             </SubMenu>
           </Menu>
 
-          <User handleToggleSidebar={handleToggleSidebar} />
+          <User
+            handleToggleSidebar={handleToggleSidebar}
+            setLocale={setLocale}
+            locale={locale}
+          />
         </SidebarContent>
         <SidebarFooter className="sideBarFooter">
           <div className="sidebar-btn-wrapper">

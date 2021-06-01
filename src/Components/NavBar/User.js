@@ -3,13 +3,15 @@ import { useIntl } from "react-intl";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
 import { NavLink, Redirect } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 import Star from "@material-ui/icons/StarRounded";
 import Person from "@material-ui/icons/PersonRounded";
 import firebaseConfig from "../SSO/Config.js";
 import { AuthContext, Admins } from "../SSO/Auth";
 import api from "../../API/API";
+import Switch from "react-switch";
 
-export default function User({ handleToggleSidebar }) {
+export default function User({ handleToggleSidebar, setLocale, locale }) {
   const intl = useIntl();
   const [users, setUsers] = useState([]);
   const [user, setuser] = useState(null);
@@ -68,6 +70,20 @@ export default function User({ handleToggleSidebar }) {
               </MenuItem>
             </>
           )}
+          <MenuItem icon={<Star />}>
+            {intl.formatMessage({ id: "Language" })}
+            {"    |  "}
+            <Switch
+              height={10}
+              width={30}
+              checkedIcon={true}
+              uncheckedIcon={true}
+              onChange={() => setLocale(locale === "he" ? "en" : "he")}
+              checked={locale === "he" ? true : false}
+              onColor="#219de9"
+              offColor="#bbbbbb"
+            />
+          </MenuItem>
           <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
             {intl.formatMessage({ id: "disconnect" })}
           </MenuItem>

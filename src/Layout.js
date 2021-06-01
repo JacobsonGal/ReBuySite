@@ -19,7 +19,7 @@ import SellerRoom from "./Components/Pages/Chat/SellerRoom";
 import api from "./API/API";
 import Categories from "./Components/Pages/Categories/Categories";
 
-export default function Layout({ setLocale, setActive, isActive }) {
+export default function Layout({ locale, setLocale, setActive, isActive }) {
   const intl = useIntl();
   const [rtl, setRtl] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
@@ -90,6 +90,8 @@ export default function Layout({ setLocale, setActive, isActive }) {
                     notificationCount={notificationCount}
                     setNotificationCount={setNotificationCount}
                     setLoading={setActive}
+                    setLocale={setLocale}
+                    locale={locale}
                     loading={isActive}
                   />
                 </div>

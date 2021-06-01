@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "firebase/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Assets/Images/ReBuyLogo.png";
+import logo from "../../Assets/Images/ReBuy.png";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Welcome from "./Welcome";
@@ -14,15 +14,19 @@ export default function Registration() {
       <div>
         <img src={logo} alt="logo" className="loginLogo" />
       </div>
-      <div className="Form">
-        {!welcomeDone ? (
+      {!welcomeDone ? (
+        <div className="WelcomeForm">
           <Welcome setWelcomeDone={setWelcomeDone} />
-        ) : registered ? (
-          <LogIn setRegistered={setRegistered} />
-        ) : (
-          <SignUp setRegistered={setRegistered} />
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="Form">
+          {registered ? (
+            <LogIn setRegistered={setRegistered} />
+          ) : (
+            <SignUp setRegistered={setRegistered} />
+          )}
+        </div>
+      )}
     </div>
   );
 }

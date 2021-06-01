@@ -414,7 +414,18 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
           margin-bottom: 20px;
         }
         .Form {
-          width: fit-content;
+          width: 90%;
+          height: 90%;
+          text-align: center;
+          // margin: auto;
+          background: #ffffff;
+          box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+          padding: 30px;
+          border-radius: 15px;
+          transition: all 0.3s;
+        }
+        .WelcomeForm {
+          width: 90%;
           height: fit-content;
           text-align: center;
           // margin: auto;
@@ -809,6 +820,7 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
         }
         .login {
           direction: ltr;
+          padding: 1rem;
           height: 100%;
           display: flex;
           flex-direction: column;
@@ -841,11 +853,22 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
           .loginLogo {
             width: 150px;
             height: 150px;
-            margin-top: -50px;
+            margin-top: -0.1rem;
             margin-bottom: 20px;
           }
           .Form {
-            width: fit-content;
+            width: 50%;
+            height: 80%;
+            text-align: center;
+            // margin: auto;
+            background: #ffffff;
+            box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+            padding: 60px;
+            border-radius: 15px;
+            transition: all 0.3s;
+          }
+          .WelcomeForm {
+            width: 50%;
             height: fit-content;
             text-align: center;
             // margin: auto;

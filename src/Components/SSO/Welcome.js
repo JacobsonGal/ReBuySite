@@ -14,7 +14,7 @@ export default function Welcome({ setWelcomeDone }) {
       <Form.Label as="h1">Welcome to ReBuy</Form.Label>
       <Form.Label>
         ReBuy is an e-commerce platform for selling products that are not fit
-        for you!
+        for you
       </Form.Label>
       <Form.Group controlId="formPlaintextEmail"></Form.Group>
 

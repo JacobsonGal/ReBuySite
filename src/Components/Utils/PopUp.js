@@ -30,7 +30,7 @@ export default function Marker({
   isModelOpen,
   navigate,
   wazeNavigate,
-  lat,lng
+  lat, lng
 }) {
   let img =
     product && product["image"]
@@ -122,13 +122,13 @@ export default function Marker({
                       <p>
                         {users
                           .find((user) => user._id === product["owner"])
-                          ["name"].toUpperCase()}
+                        ["name"].toUpperCase()}
                         <Person />
                       </p>
 
                       <p>
                         <Button>
-                          <Link to="/chat" style={{ color: "blue" }}>
+                          <Link to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`} style={{ color: "blue" }}>
                             <Chat style={{ color: "#496c9e" }} />
                           </Link>
                         </Button>
@@ -136,7 +136,7 @@ export default function Marker({
                           number={
                             "+972" +
                             users.find((user) => user._id === product["owner"])[
-                              "phone"
+                            "phone"
                             ]
                           }
                           message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
@@ -146,11 +146,10 @@ export default function Marker({
                         </ReactWhatsapp>
                         {/* <WhatsApp /> */}
                         <Button
-                          href={`tel:${
-                            users.find((user) => user._id === product["owner"])[
-                              "phone"
-                            ]
-                          }`}
+                          href={`tel:${users.find((user) => user._id === product["owner"])[
+                            "phone"
+                          ]
+                            }`}
                         >
                           <Phone style={{ color: "#496c9e" }} />
                         </Button>

@@ -46,15 +46,15 @@ class Admin extends Component {
 
     return (
       <>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-sm'>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm">
               Number of registered users {users.length}
             </div>
-            <a className='btn btn-primary' href={FireBaseAuth}>
+            <a className="btn btn-primary" href={FireBaseAuth}>
               Users List
             </a>
-            <div className='col-sm'>Number of products {products.length}</div>
+            <div className="col-sm">Number of products {products.length}</div>
           </div>
         </div>
 

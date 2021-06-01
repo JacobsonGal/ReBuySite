@@ -43,7 +43,7 @@ export default function User({ handleToggleSidebar }) {
       return (
         <img
           src={img}
-          alt="User"
+          alt='User'
           style={{
             alignContent: "center",
             width: "100%",
@@ -53,17 +53,17 @@ export default function User({ handleToggleSidebar }) {
         />
       );
     } else {
-      return <Person className="userPhoto" />;
+      return <Person className='userPhoto' />;
     }
   }
 
   return (
     <>
-      <Menu iconShape="circle">
+      <Menu iconShape='circle'>
         <SubMenu title={name} icon={<Userlog />}>
           {!Admin && (
             <MenuItem icon={<Star />}>
-              <NavLink to="/settings" onClick={handleToggleSidebar}>
+              <NavLink to='/settings' onClick={handleToggleSidebar}>
                 {intl.formatMessage({ id: "profile" })}
               </NavLink>
             </MenuItem>
@@ -75,7 +75,7 @@ export default function User({ handleToggleSidebar }) {
           </MenuItem> */}
           {/* <MenuItem>{intl.formatMessage({ id: "help" })}</MenuItem> */}
           <MenuItem icon={<Star />}>
-            <NavLink to="/Favorites" onClick={handleToggleSidebar}>
+            <NavLink to='/Favorites' onClick={handleToggleSidebar}>
               {intl.formatMessage({ id: "Favorites" })}
             </NavLink>
           </MenuItem>
@@ -85,11 +85,11 @@ export default function User({ handleToggleSidebar }) {
         </SubMenu>
       </Menu>
       {Admin && (
-        <Menu iconShape="circle">
+        <Menu iconShape='circle'>
           <Menu title={intl.formatMessage({ id: "welcome" }) + name}>
             <MenuItem icon={<Star />}>
-              <NavLink to="/Admin" onClick={handleToggleSidebar}>
-                {intl.formatMessage({ id: "Administrator" })}
+              <NavLink to='/Admin' onClick={handleToggleSidebar}>
+                {intl.formatMessage({ id: "Stats & Admin" })}
               </NavLink>
             </MenuItem>
           </Menu>

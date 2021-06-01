@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import api from "../../../API/API.js";
 import _ from "lodash";
 import { Bar } from "react-chartjs-2";
-
+const FireBaseAuth =
+  "https://console.firebase.google.com/u/0/project/rebuy-47bc6/authentication/users";
 class Admin extends Component {
   state = { products: [], users: [], prodByAdress: [], prodByCategory: [] };
 
@@ -48,90 +49,92 @@ class Admin extends Component {
         <div className='container'>
           <div className='row'>
             <div className='col-sm'>
-              number of registered users {users.length}
+              Number of registered users {users.length}
             </div>
-            <div className='col-sm'>number of products {products.length}</div>
-            <div className='col-sm'>{console.log(prodByAdress)}</div>
-
-            <Bar
-              data={{
-                labels: address,
-                datasets: [
-                  {
-                    label: "Products per address",
-                    data: count,
-                    backgroundColor: [
-                      "rgba(255, 99, 132,0.4)",
-                      "rgba(54, 162, 235, 0.4)",
-                      "rgba(255, 206, 86, 0.4)",
-                      "rgba(75, 192, 192, 0.4)",
-                      "rgba(153, 102, 255, 0.4)",
-                      "rgba(255, 159, 64, 0.4)",
-                    ],
-                    borderColor: [
-                      "rgba(255, 99, 132,0.4)",
-                      "rgba(54, 162, 235, 0.4)",
-                      "rgba(255, 206, 86, 0.4)",
-                      "rgba(75, 192, 192, 0.4)",
-                      "rgba(153, 102, 255, 0.4)",
-                      "rgba(255, 159, 64, 0.4)",
-                    ],
-                    borderWidth: 1,
-                  },
-                ],
-              }}
-              height={100}
-              width={200}
-              oprions={{
-                maintainAspectRatio: false,
-                scales: {
-                  yAxes: {
-                    beginAtZero: true,
-                  },
-                },
-              }}
-            />
-            <div></div>
-            <Bar
-              data={{
-                labels: category,
-                datasets: [
-                  {
-                    label: "Products per Category",
-                    data: countCategory,
-                    backgroundColor: [
-                      "rgba(255, 99, 132,0.4)",
-                      "rgba(54, 162, 235, 0.4)",
-                      "rgba(255, 206, 86, 0.4)",
-                      "rgba(75, 192, 192, 0.4)",
-                      "rgba(153, 102, 255, 0.4)",
-                      "rgba(255, 159, 64, 0.4)",
-                    ],
-                    borderColor: [
-                      "rgba(255, 99, 132,0.4)",
-                      "rgba(54, 162, 235, 0.4)",
-                      "rgba(255, 206, 86, 0.4)",
-                      "rgba(75, 192, 192, 0.4)",
-                      "rgba(153, 102, 255, 0.4)",
-                      "rgba(255, 159, 64, 0.4)",
-                    ],
-                    borderWidth: 1,
-                  },
-                ],
-              }}
-              height={50}
-              width={100}
-              oprions={{
-                maintainAspectRatio: false,
-                scales: {
-                  yAxes: {
-                    beginAtZero: true,
-                  },
-                },
-              }}
-            />
+            <a className='btn btn-primary' href={FireBaseAuth}>
+              Users List
+            </a>
+            <div className='col-sm'>Number of products {products.length}</div>
           </div>
         </div>
+
+        <Bar
+          data={{
+            labels: address,
+            datasets: [
+              {
+                label: "Products per address",
+                data: count,
+                backgroundColor: [
+                  "rgba(255, 99, 132,0.4)",
+                  "rgba(54, 162, 235, 0.4)",
+                  "rgba(255, 206, 86, 0.4)",
+                  "rgba(75, 192, 192, 0.4)",
+                  "rgba(153, 102, 255, 0.4)",
+                  "rgba(255, 159, 64, 0.4)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132,0.4)",
+                  "rgba(54, 162, 235, 0.4)",
+                  "rgba(255, 206, 86, 0.4)",
+                  "rgba(75, 192, 192, 0.4)",
+                  "rgba(153, 102, 255, 0.4)",
+                  "rgba(255, 159, 64, 0.4)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          }}
+          height={20}
+          width={40}
+          oprions={{
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: {
+                beginAtZero: true,
+              },
+            },
+          }}
+        />
+        <div></div>
+        <Bar
+          data={{
+            labels: category,
+            datasets: [
+              {
+                label: "Products per Category",
+                data: countCategory,
+                backgroundColor: [
+                  "rgba(255, 99, 132,0.4)",
+                  "rgba(54, 162, 235, 0.4)",
+                  "rgba(255, 206, 86, 0.4)",
+                  "rgba(75, 192, 192, 0.4)",
+                  "rgba(153, 102, 255, 0.4)",
+                  "rgba(255, 159, 64, 0.4)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132,0.4)",
+                  "rgba(54, 162, 235, 0.4)",
+                  "rgba(255, 206, 86, 0.4)",
+                  "rgba(75, 192, 192, 0.4)",
+                  "rgba(153, 102, 255, 0.4)",
+                  "rgba(255, 159, 64, 0.4)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          }}
+          height={20}
+          width={40}
+          oprions={{
+            maintainAspectRatio: false,
+            scales: {
+              yAxes: {
+                beginAtZero: true,
+              },
+            },
+          }}
+        />
       </>
     );
   }

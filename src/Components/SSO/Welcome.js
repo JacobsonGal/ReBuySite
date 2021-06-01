@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { AuthContext } from "./Auth";
 
 export default function Welcome({ setWelcomeDone }) {
+  document.title = "ReBuy | Welcome";
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
     return <Redirect to="/" />;

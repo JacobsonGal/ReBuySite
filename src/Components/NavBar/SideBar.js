@@ -37,6 +37,7 @@ export default function SideBar({
   setLoading,
 }) {
   const intl = useIntl();
+
   return (
     <div className="sideBar">
       <ProSidebar

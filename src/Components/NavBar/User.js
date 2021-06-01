@@ -11,7 +11,7 @@ import api from "../../API/API";
 
 export default function User({ handleToggleSidebar }) {
   const [users, setUsers] = useState([]);
-  const [img, setimg] = useState(null);
+  const [img, setimg] = useState("");
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
@@ -20,6 +20,8 @@ export default function User({ handleToggleSidebar }) {
       usr["email"] === currentUser.email.toUpperCase() ||
       (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
   );
+
+  // user && setimg(user["image"]);
   console.log(user);
   // const img = user && user["image"];
   console.log(img);
@@ -34,7 +36,8 @@ export default function User({ handleToggleSidebar }) {
         setUsers(user.data.data);
       });
     };
-  }, []);
+    setimg(user["image"]);
+  }, [img, users, user]);
 
   // console.log(currentUser);
   function Userlog() {

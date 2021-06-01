@@ -463,6 +463,20 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
             }
           }
         }
+        .rebuy {
+          position: absolute;
+          width: 100%;
+          justify-content: center;
+          text-align: center;
+          margin-top: -0.5rem;
+          font-family: LucidaConsole, CourierNew, monospace;
+          color: #ffffff;
+          font-family: Raleway, sans-serif;
+          font-size: 35px;
+          font-weight: 500, lineHeight;
+          text-align: center;
+          box-shadow: 0px0px15px#fff;
+        }
         .tabs {
           // float: left;
           display: none;
@@ -894,7 +908,20 @@ $shadow: "0px 2px 5px 0px rgba(210.75000000000003, 210.75000000000003, 210.75000
             }
           }
         }
-
+        .rebuy {
+          position: absolute;
+          width: 100%;
+          justify-content: center;
+          text-align: center;
+          margin-top: 1rem;
+          font-family: LucidaConsole, CourierNew, monospace;
+          color: #ffffff;
+          font-family: Raleway, sans-serif;
+          font-size: 35px;
+          font-weight: 500, lineHeight;
+          text-align: center;
+          box-shadow: 0px0px15px#fff;
+        }
         // .title {
         //   width: 50%;
         //   float: right;

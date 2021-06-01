@@ -119,7 +119,13 @@ export default class ProductsList extends Component {
     const { products, users } = this.state;
 
     return (
-      <Wrapper style={{textAlign:"center" ,alignItems:"center",justifyContent:"center" }}>
+      <Wrapper
+        style={{
+          textAlign: "center",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <h1>Market</h1>
         <Search searchHandler={this.searchHandler} />
         {/* <Sort searchHandler={this.searchHandler} /> */}

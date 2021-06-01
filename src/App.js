@@ -10,7 +10,7 @@ import io from "socket.io-client";
 const socket = io.connect("http://localhost:3000");
 
 export default function App() {
-  const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState("he");
   const [isActive, setActive] = useState(true);
 
   return (

@@ -3,8 +3,10 @@ import { Form, Button, Col } from "react-bootstrap";
 import api from "../../../API/API";
 import Sort from "./Sort";
 import Groupby from "./Groupby";
-
+import { useIntl } from "react-intl";
 function Search(props) {
+  const intl = useIntl();
+
   const [query, setQuery] = useState("");
   const [condition, setCondition] = useState("");
   const [category, setCategory] = useState("");
@@ -66,10 +68,10 @@ function Search(props) {
     //     <Button onClick={clickHandler}>Search</Button>
     //   </Form.Group>
     // </Form>
-    <Form style={{ padding: "1rem"}}>
+    <Form style={{ padding: "1rem" }}>
       <Form.Row style={{ direction: "ltr" }}>
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>Price</Form.Label>
+          <Form.Label> {intl.formatMessage({ id: "Price" })}</Form.Label>
           <Form.Control as="select" onChange={(e) => priceChangeHandler(e)}>
             <option></option>
             <option>less than 500</option>
@@ -79,7 +81,7 @@ function Search(props) {
           </Form.Control>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridPassword">
-          <Form.Label>Category</Form.Label>
+          <Form.Label>{intl.formatMessage({ id: "Category" })}</Form.Label>
           <Form.Control as="select" onChange={(e) => categoryChangeHandler(e)}>
             <option></option>
             {categoryArray.map((category) => {
@@ -88,16 +90,17 @@ function Search(props) {
           </Form.Control>
         </Form.Group>
         <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Condition</Form.Label>
-
+          <Form.Label>{intl.formatMessage({ id: "Condition" })}</Form.Label>
           <Form.Control as="select" onChange={(e) => conditionChangeHandler(e)}>
             <option></option>
-            <option>NEW</option>
-            <option>USED</option>
+            <option>{intl.formatMessage({ id: "New" })}</option>
+            <option>{intl.formatMessage({ id: "Used" })}</option>
           </Form.Control>
         </Form.Group>
       </Form.Row>
-      <Button onClick={clickHandler}>Search</Button>
+      <Button onClick={clickHandler}>
+        {intl.formatMessage({ id: "Search" })}
+      </Button>
     </Form>
   );
 }

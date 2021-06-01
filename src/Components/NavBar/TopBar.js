@@ -33,7 +33,11 @@ const TopBar = ({
           <img className="yavologo" src={logo} alt="logo" />
         </Link>
       </div>
-
+      <div
+        className="rebuy"
+      >
+        ReBuy
+      </div>
       <div className="tabs">
         <div className="icons">
           <Link to="/notification" onClick={handleToggleSidebar}>

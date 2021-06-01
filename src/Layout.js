@@ -17,6 +17,7 @@ import Registration from "./Components/SSO/Registration";
 import Chat from "./Components/Pages/Chat/chat";
 import SellerRoom from "./Components/Pages/Chat/SellerRoom";
 import api from "./API/API";
+import Categories from "./Components/Pages/Categories/Categories";
 
 export default function Layout({ setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -136,6 +137,13 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setActive={setActive}
                     />
                   </Route>
+                  <Route path="/Categories/:id">
+                    <Categories
+                      title={"Categories"}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
                   <Route exact path="/Admin">
                     <Admin
                       title={intl.formatMessage({ id: "profile" })}
@@ -148,10 +156,10 @@ export default function Layout({ setLocale, setActive, isActive }) {
                       setTitle={setTitle}
                     />
                   </Route>
-                  <Route exact path='/:sellerId/:description/:secondaryId'>
+                  <Route exact path="/:sellerId/:description/:secondaryId">
                     <Chat />
                   </Route>
-                  <Route exact path='/chat/:sellerId/:product/:currentId'>
+                  <Route exact path="/chat/:sellerId/:product/:currentId">
                     <SellerRoom />
                   </Route>
 

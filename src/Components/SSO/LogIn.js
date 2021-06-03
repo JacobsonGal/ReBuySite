@@ -17,10 +17,12 @@ export default function LogIn({ setRegistered }) {
       firebase
         .auth()
         .signInWithEmailAndPassword(email.value, password.value)
-        .then()
+        .then(() => {
+          Alert(`Welcome to ReBuy`, true);
+        })
         .catch((error) => Alert(error));
     } catch (error) {
-      Alert(error);
+      // Alert(error);
     }
   };
   function GoogleLogin() {
@@ -34,6 +36,7 @@ export default function LogIn({ setRegistered }) {
         var token = credential.accessToken;
         var user = result.user;
         console.log(user);
+        Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -55,6 +58,7 @@ export default function LogIn({ setRegistered }) {
         var token = credential.accessToken;
         var user = result.user;
         console.log(user);
+        Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -62,7 +66,7 @@ export default function LogIn({ setRegistered }) {
         var email = error.email;
         var credential = error.credential;
         console.log(errorCode, errorMessage, email, credential);
-        Alert(errorCode, errorMessage, email, credential);
+        Alert(errorCode + errorMessage + email + credential);
       });
   }
   const { currentUser } = useContext(AuthContext);

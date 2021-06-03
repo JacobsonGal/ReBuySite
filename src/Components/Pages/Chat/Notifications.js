@@ -1,10 +1,11 @@
+import React, { useRef, useState, useContext } from "react";
+import Page from "../../Utils/Page";
+import ChatRoom from "./ChatRoom";
 import "./chat.css";
-import React, { useRef, useState } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Link, useParams } from "react-router-dom";
@@ -15,55 +16,66 @@ import {
   MDBRow,
   MDBCol,
 } from "mdbreact";
+import { AuthContext, Admins } from "../../SSO/Auth";
 import { NavItem } from "react-bootstrap";
 import { func } from "prop-types";
-import ChatRoom from "./ChatRoom";
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const analytics = firebase.analytics();
 
-const Chat = () => {
-  const [user] = useAuthState(auth);
-  const { sellerId } = useParams();
-  const { description } = useParams();
-  const { secondaryId } = useParams();
-  let ifSeller;
-  if (user && user.uid == sellerId) {
-    ifSeller = true;
-  }
+export default function Notifications({ title, setTitle, setActive }) {
+  const [loading, setLoading] = useState(false);
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      {ifSeller ? (
-        <SellerArea sellerId={sellerId} prodId={secondaryId} />
-      ) : (
-        <ChatRoom
-          sellerId={sellerId}
-          currentId={user?.uid}
-          productId={secondaryId}
-          currentName={user?.displayName}
-          desc={description}
-        />
-      )}
-    </div>
+    <Page
+      loading={loading}
+      title={title}
+      color={"#fdeded"}
+      setTitle={setTitle}
+      add={false}
+      FAB="none"
+      dots={false}
+    >
+      <h1>Notifications</h1>
+      {/* <SellerArea /> */}
+      {setActive(false)}
+    </Page>
   );
-};
+}
 
-export default Chat;
+async function SellerArea() {
+  //   let tmp = [{ name: "loading" }];
+  const [recivers, setRecivers] = useState([]);
+  const [products, setProducts] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
-function SellerArea({ sellerId, prodId }) {
-  let tmp = [{ name: "loading" }];
-  const [recivers, setRecivers] = useState(tmp);
-  firestore
-    .collection(`users/${sellerId}/prod/${prodId}/recivers`)
+  await firestore
+    .collection(`products`)
     .get()
     .then((querySnapshot) => {
       let temp = [];
-      querySnapshot.docs.map((doc) => temp.push(doc.data()));
-      setRecivers(temp);
+      querySnapshot.docs.foreach((doc) => {
+        console.log(doc);
+        if (doc.data().uid === currentUser?.uid) temp.push(doc.data().uid);
+      });
+      setProducts(temp);
     })
     .catch((error) => {
       console.log("Error getting documents: ", error);
+    });
+  (await products) &&
+    products.forEach((prodId) => {
+      firestore
+        .collection(`users/${currentUser.uid}/prod/${prodId}/recivers`)
+        .get()
+        .then((querySnapshot) => {
+          let temp = [];
+          querySnapshot.docs.map((doc) => temp.push(doc.data()));
+          setRecivers(temp);
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
     });
 
   return (
@@ -85,7 +97,7 @@ function SellerArea({ sellerId, prodId }) {
         <div className="card-body contacts_body">
           <ui className="contacts">
             <li className="active">
-              {recivers.map((item, index) => (
+              {recivers?.foreach((item, index) => (
                 <>
                   <div className="d-flex bd-highlight">
                     <div className="img_cont">
@@ -100,12 +112,12 @@ function SellerArea({ sellerId, prodId }) {
                     </div>
                     <div className="user_info">
                       <span>
-                        <Link
+                        {/* <Link
                           to={`/chat/${item.id}/${prodId}/${sellerId}`}
                           key={index}
-                        >
-                          {item.name}
-                        </Link>
+                        > */}
+                        {item.name}
+                        {/* </Link> */}
                       </span>
                       <p></p>
                     </div>

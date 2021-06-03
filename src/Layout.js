@@ -7,6 +7,7 @@ import LoadingOverlay from "react-loading-overlay";
 import Icon from "./Assets/Images/ReBuyLogoTrans.png";
 import Categories from "./Components/Pages/Categories/Categories";
 import Home from "./Components/Pages/Home/Home";
+import Notifications from "./Components/Pages/Chat/Notifications";
 import Map from "./Components/Pages/Map/Map";
 import Admin from "./Components/Pages/Admin/Admin";
 import Favorites from "./Components/Pages/Favorites/Favorites";
@@ -104,6 +105,13 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                   <Route exact path="/">
                     <Home
                       title={intl.formatMessage({ id: "Home" })}
+                      setTitle={setTitle}
+                      setActive={setActive}
+                    />
+                  </Route>
+                  <Route exact path="/Notifications">
+                    <Notifications
+                      title={intl.formatMessage({ id: "Notifications" })}
                       setTitle={setTitle}
                       setActive={setActive}
                     />

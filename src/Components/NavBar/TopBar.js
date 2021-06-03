@@ -33,14 +33,14 @@ const TopBar = ({
           <img className="yavologo" src={logo} alt="logo" />
         </Link>
       </div>
-      <div
-        className="rebuy"
-      >
-        ReBuy
-      </div>
+      <div className="rebuy">ReBuy</div>
       <div className="tabs">
         <div className="icons">
-          <Link to="/notification" onClick={handleToggleSidebar}>
+          <Link
+            to="/Notifications"
+            //  to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
+            onClick={handleToggleSidebar}
+          >
             <div class="notification-box">
               {notificationHandler}
               <div class="notification-bell">

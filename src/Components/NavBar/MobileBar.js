@@ -49,7 +49,7 @@ export default function MobileBar({
             </Link>
           </td>
           <td width="10%">
-            <Link to="/notification">
+            <Link to="/Notifications">
               <div class="notification notify">
                 {notificationHandle}
                 <svg

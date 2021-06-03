@@ -4,9 +4,9 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-// import "@fortawesome/fontawesome-free/css/all.min.css";
-// import "bootstrap-css-only/css/bootstrap.min.css";
-// import 'mdbreact/dist/css/mdb.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { MDBJumbotron, MDBContainer, MDBBtn, MDBRow, MDBCol } from "mdbreact";
 
@@ -40,9 +40,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName }) {
     .collection("messages");
   const queryCurrent = messagesRefCurrent.orderBy("createdAt");
   const [messagesCurrent] = useCollectionData(queryCurrent, { idField: "id" });
-
   const [formValue, setFormValue] = useState("");
-
   const sendMessage = async (e) => {
     e.preventDefault();
 
@@ -88,6 +86,16 @@ function ChatRoom({ sellerId, currentId, productId, currentName }) {
           onChange={(e) => setFormValue(e.target.value)}
           placeholder="say something nice"
         />
+        <MDBBtn
+          className="aqua-gradient"
+          color="blue-grey"
+          size="sm"
+          type="submit"
+          disabled={!formValue}
+          outline
+        >
+          🕊️
+        </MDBBtn>
       </form>
     </>
   );

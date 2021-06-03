@@ -5,6 +5,7 @@ import SideBar from "./Components/NavBar/SideBar";
 import MobileBar from "./Components/NavBar/MobileBar";
 import LoadingOverlay from "react-loading-overlay";
 import Icon from "./Assets/Images/ReBuyLogoTrans.png";
+import Categories from "./Components/Pages/Categories/Categories";
 import Home from "./Components/Pages/Home/Home";
 import Map from "./Components/Pages/Map/Map";
 import Admin from "./Components/Pages/Admin/Admin";
@@ -14,10 +15,9 @@ import ProductInsert from "./Components/Pages/Home/Create";
 import ProductUpload from "./Components/Pages/Home/Update";
 import { AuthContext } from "./Components/SSO/Auth";
 import Registration from "./Components/SSO/Registration";
+import api from "./API/API";
 import Chat from "./Components/Pages/Chat/chat";
 import SellerRoom from "./Components/Pages/Chat/SellerRoom";
-import api from "./API/API";
-import Categories from "./Components/Pages/Categories/Categories";
 
 export default function Layout({ locale, setLocale, setActive, isActive }) {
   const intl = useIntl();
@@ -164,7 +164,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                   <Route exact path="/chat/:sellerId/:product/:currentId">
                     <SellerRoom />
                   </Route>
-
                   {/* </>
                 )} */}
                 </div>

@@ -33,12 +33,7 @@ const Chat = () => {
     ifSeller = true;
   }
   return (
-    < MDBContainer >
-      <div className="header">
-        <h1 style={{ color: 'rgba(0,212,255,1)', textAlign: "center" }}>{description}</h1>
-        <hr />
-      </div>
-
+    < MDBContainer style={{ height: '100%', width: '100%' }}>
       <section className="section">
         {ifSeller ? <SellerArea sellerId={sellerId} prodId={
           secondaryId
@@ -56,7 +51,7 @@ export default Chat
 function SellerArea({ sellerId, prodId }) {
   let tmp = [{ name: "loading" }];
   const [recivers, setRecivers] = useState(tmp);
-  const [id, setId] = useState();
+
 
   firestore.collection(`users/${sellerId}/prod/${prodId}/recivers`).get().then((querySnapshot) => {
     let temp = [];

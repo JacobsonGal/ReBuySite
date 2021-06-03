@@ -14,19 +14,21 @@ export default function Registration() {
       <div>
         <img src={logo} alt="logo" className="loginLogo" />
       </div>
-      {!welcomeDone ? (
-        <div className="WelcomeForm">
-          <Welcome setWelcomeDone={setWelcomeDone} />
-        </div>
-      ) : (
-        <div className="Form">
-          {registered ? (
-            <LogIn setRegistered={setRegistered} />
-          ) : (
-            <SignUp setRegistered={setRegistered} />
-          )}
-        </div>
-      )}
+      <div className="regForms">
+        {!welcomeDone ? (
+          <div className="WelcomeForm">
+            <Welcome setWelcomeDone={setWelcomeDone} />
+          </div>
+        ) : (
+          <div className="Form">
+            {registered ? (
+              <LogIn setRegistered={setRegistered} />
+            ) : (
+              <SignUp setRegistered={setRegistered} />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

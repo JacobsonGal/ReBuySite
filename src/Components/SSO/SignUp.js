@@ -162,7 +162,9 @@ export default function SignUp({ setRegistered }) {
       </Button>
       <div style={{ margin: "1rem" }}>
         Already Registered?{" "}
-        <Button onClick={() => setRegistered(true)}>Login?</Button>
+        <Button variant="secondary" onClick={() => setRegistered(true)}>
+          Login?
+        </Button>
       </div>
     </Form>
   );

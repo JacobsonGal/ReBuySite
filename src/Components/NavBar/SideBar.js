@@ -1,5 +1,6 @@
 import React from "react";
 import { useIntl } from "react-intl";
+
 import { useHistory, NavLink } from "react-router-dom";
 import {
   ProSidebar,
@@ -117,6 +118,7 @@ export default function SideBar({
               className="sidebar-btn"
             >
               <span>
+                <Facebook />
                 {"    ReBuy "} {new Date().getFullYear()}
                 {"  "}
                 <img
@@ -129,8 +131,7 @@ export default function SideBar({
                     opacity: "0.9",
                   }}
                 />
-                <Facebook />
-                <Instagram />
+                {/* <Instagram /> */}
               </span>
             </a>
           </div>

@@ -23,6 +23,8 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
+import InfoIcon from "@material-ui/icons/Info";
+
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
@@ -34,6 +36,7 @@ import ReactWhatsapp from "react-whatsapp";
 import { IoPinOutline } from "react-icons/io5";
 import Alert from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
+import MediaQuery from "react-responsive";
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -87,32 +90,56 @@ class DeleteProduct extends Component {
   }
 }
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    padding: "1rem",
-    flexWrap: "wrap",
-    width: "100%",
-    justifyContent: "center",
-    textAlign: "center",
-    alignItems: "center",
-    overflow: "hidden",
-    // backgroundColor: theme.palette.background.paper,
+  [theme.breakpoints.up("md")]: {
+    root: {
+      display: "flex",
+      padding: "1rem",
+      flexWrap: "wrap",
+      width: "100%",
+      justifyContent: "center",
+      textAlign: "center",
+      alignItems: "center",
+      overflow: "hidden",
+      // backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+      width: "100%",
+      height: "100%",
+      flexDirection: "column",
+    },
+    tile: {
+      height: "100%",
+    },
+    title: {
+      color: theme.palette.primary.light,
+    },
+    titleBar: {
+      background:
+        "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+    },
   },
-  gridList: {
-    // display: "",
-    // width: "100%",
-    // height: "100%",
-    // flexDirection: "column",
-  },
-  tile: {
-    height: "100%",
-  },
-  title: {
-    color: theme.palette.primary.light,
-  },
-  titleBar: {
-    background:
-      "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  [theme.breakpoints.down("md")]: {
+    root: {
+      direction: "ltr",
+      width: "100%",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      overflow: "hidden",
+    },
+    gridList: {
+      width: "100%",
+      height: "100%",
+    },
+    icon: {
+      color: "black",
+    },
+    tileBar: {
+      backgroundColor: "rgba(255,255,255,0.5)",
+      justifyContent: "center",
+      color: "black",
+      display: "flex",
+    },
   },
 }));
 
@@ -148,123 +175,262 @@ export default function CardList({
         isModelOpen={isModelOpen}
         setIsModelOpen={setIsModelOpen}
       />
-      {/* <GridList className={classes.gridList}> */}
-      {products &&
-        products.map((product, i) => (
-          // <GridListTile
-          //   style={{ height: "100%", width: "fit-content" }}
-          //   key={product["name"]}
-          // >
-
-          <Card
-            style={{
-              margin: "5px",
-              width: 300,
-              // height: 500,
-              border: "1px solid #ececec",
-              borderRadius: "15px",
-            }}
-          >
-            {product["photo"] ? (
-              <Carousel>
-                {product["photo"]
-                  .toString()
-                  .split(",")
-                  .map((Image) => (
-                    <Carousel.Item
+      <MediaQuery maxWidth={800}>
+        <GridList cellHeight={200} className={classes.gridList}>
+          {products &&
+            products.map((product, i) => (
+              <GridListTile key={i} onClick={() => setData(product)}>
+                <Card
+                  style={{
+                    margin: "5px",
+                    // width: "5rem",
+                    // height: 500,
+                    border: "1px solid #ececec",
+                    borderRadius: "15px",
+                  }}
+                >
+                  {product["photo"] ? (
+                    <Carousel>
+                      {product["photo"]
+                        .toString()
+                        .split(",")
+                        .map((Image) => (
+                          <Carousel.Item
+                            style={{
+                              width: "100%",
+                              height: 200,
+                            }}
+                          >
+                            <img
+                              style={{ width: "100%", height: "100%" }}
+                              src={Image}
+                              alt={Image}
+                            />
+                          </Carousel.Item>
+                        ))}
+                    </Carousel>
+                  ) : (
+                    <img
+                      style={{ width: "100%", height: 200 }}
+                      src={rebuyProduct}
+                      alt={"rebuyProduct"}
+                    />
+                  )}{" "}
+                  <CardActions
+                    style={{ justifyContent: "center", height: "2rem" }}
+                  >
+                    {(user && user.uid === product.ownerId) ||
+                    Admins(currentUser.email) ? (
+                      <>
+                        <Button size="small" color="primary">
+                          <DeleteProduct
+                            id={product["_id"]}
+                            deleteHandler={deleteHandler}
+                          />
+                        </Button>
+                        <Button size="small" color="primary">
+                          <UpdateProduct id={product["_id"]} />
+                        </Button>
+                      </>
+                    ) : user &&
+                      user.favorites &&
+                      user.favorites.some((p) => {
+                        return product.name === p.name;
+                      }) ? (
+                      <Button size="small" color="primary">
+                        <Star
+                          onClick={() => api.removeFromFavorites(user, product)}
+                        />
+                      </Button>
+                    ) : (
+                      <Button size="small" color="primary">
+                        <StarBorderIcon
+                          onClick={() => api.addToFavorites(user, product)}
+                        />
+                      </Button>
+                    )}
+                  </CardActions>
+                  {console.log(user)}
+                </Card>
+                <GridListTileBar
+                  title={
+                    <h6
                       style={{
-                        width: "100%",
-                        height: 200,
+                        font: "16px bold",
+                        marginRight: "5rem",
+                        color: "black",
                       }}
                     >
-                      <img
-                        style={{ width: "100%", height: "100%" }}
-                        src={Image}
-                        alt={Image}
-                      />
-                    </Carousel.Item>
-                  ))}
-              </Carousel>
-            ) : (
-              <img
-                style={{ width: "100%", height: 200 }}
-                src={rebuyProduct}
-                alt={"rebuyProduct"}
-              />
-            )}{" "}
-            <CardActionArea
-              onClick={() => setData(product)}
-              // style={{
-              //   height: 400,
-              // }}
+                      {product["name"].toUpperCase()}
+                    </h6>
+                  }
+                  subtitle={
+                    <>
+                      <h8 style={{ marginRight: "5rem", color: "black" }}>
+                        {product["price"]}₪
+                      </h8>
+                    </>
+                  }
+                  actionIcon={
+                    <CardActions
+                      style={{ justifyContent: "center", height: "2rem" }}
+                    >
+                      {(user && user.uid === product.ownerId) ||
+                      Admins(currentUser.email) ? (
+                        <>
+                          <Button size="small" color="primary">
+                            <DeleteProduct
+                              id={product["_id"]}
+                              deleteHandler={deleteHandler}
+                            />
+                          </Button>
+                          <Button size="small" color="primary">
+                            <UpdateProduct id={product["_id"]} />
+                          </Button>
+                        </>
+                      ) : user &&
+                        user.favorites &&
+                        user.favorites.some((p) => {
+                          return product.name === p.name;
+                        }) ? (
+                        <Button size="small" color="primary">
+                          <Star
+                            onClick={() =>
+                              api.removeFromFavorites(user, product)
+                            }
+                          />
+                        </Button>
+                      ) : (
+                        <Button size="small" color="primary">
+                          <StarBorderIcon
+                            onClick={() => api.addToFavorites(user, product)}
+                          />
+                        </Button>
+                      )}
+                    </CardActions>
+                  }
+                  className={classes.tileBar}
+                />
+              </GridListTile>
+            ))}
+        </GridList>
+        <GridList className={classes.gridList} cols={3}></GridList>
+      </MediaQuery>
+      <MediaQuery minWidth={800}>
+        {products &&
+          products.map((product, i) => (
+            <Card
+              style={{
+                margin: "5px",
+                width: 300,
+                border: "1px solid #ececec",
+                borderRadius: "15px",
+              }}
             >
-              <CardContent>
-                <Typography>
-                  <h4 style={{ font: "bold" }}>
-                    {product["name"].toUpperCase()}
-                  </h4>
-                  <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>
-                  <p>{product["description"]}</p>
-                  <p>
-                    {product["address"]} <IoPinOutline />
-                  </p>
-                </Typography>
-                <Typography variant='body2' color='textSecondary' component='p'>
-                  {users.some((user) => user._id === product["owner"]) && (
-                    <div
-                      style={{
-                        backgroundColor: "#ececec",
-                        borderRadius: "15px",
-                      }}
-                    >
-                      <p>
-                        {users.some((user) => user.uid === product.ownerId) &&
-                          users
-                            .find((user) => user.uid === product.ownerId)
-                            ["name"].toUpperCase()}
-                        <Person />
-                      </p>
-                    </div>
-                  )}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions style={{ justifyContent: "center", height: "2rem" }}>
-              {(user && user.uid === product.ownerId) ||
-              Admins(currentUser.email) ? (
-                <>
-                  <Button size='small' color='primary'>
-                    <DeleteProduct
-                      id={product["_id"]}
-                      deleteHandler={deleteHandler}
+              {product["photo"] ? (
+                <Carousel>
+                  {product["photo"]
+                    .toString()
+                    .split(",")
+                    .map((Image) => (
+                      <Carousel.Item
+                        style={{
+                          width: "100%",
+                          height: 200,
+                        }}
+                      >
+                        <img
+                          style={{ width: "100%", height: "100%" }}
+                          src={Image}
+                          alt={Image}
+                        />
+                      </Carousel.Item>
+                    ))}
+                </Carousel>
+              ) : (
+                <img
+                  style={{ width: "100%", height: 200 }}
+                  src={rebuyProduct}
+                  alt={"rebuyProduct"}
+                />
+              )}{" "}
+              <CardActionArea
+                onClick={() => setData(product)}
+                // style={{
+                //   height: 400,
+                // }}
+              >
+                <CardContent>
+                  <Typography>
+                    <h4 style={{ font: "bold" }}>
+                      {product["name"].toUpperCase()}
+                    </h4>
+                    <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>
+                    <p>{product["description"]}</p>
+                    <p>
+                      {product["address"]} <IoPinOutline />
+                    </p>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                  >
+                    {users.some((user) => user._id === product["owner"]) && (
+                      <div
+                        style={{
+                          backgroundColor: "#ececec",
+                          borderRadius: "15px",
+                        }}
+                      >
+                        <p>
+                          {users.some((user) => user.uid === product.ownerId) &&
+                            users
+                              .find((user) => user.uid === product.ownerId)
+                              ["name"].toUpperCase()}
+                          <Person />
+                        </p>
+                      </div>
+                    )}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions style={{ justifyContent: "center", height: "2rem" }}>
+                {(user && user.uid === product.ownerId) ||
+                Admins(currentUser.email) ? (
+                  <>
+                    <Button size="small" color="primary">
+                      <DeleteProduct
+                        id={product["_id"]}
+                        deleteHandler={deleteHandler}
+                      />
+                    </Button>
+                    <Button size="small" color="primary">
+                      <UpdateProduct id={product["_id"]} />
+                    </Button>
+                  </>
+                ) : user &&
+                  user.favorites &&
+                  user.favorites.some((p) => {
+                    return product.name === p.name;
+                  }) ? (
+                  <Button size="small" color="primary">
+                    <Star
+                      onClick={() => api.removeFromFavorites(user, product)}
                     />
                   </Button>
-                  <Button size='small' color='primary'>
-                    <UpdateProduct id={product["_id"]} />
+                ) : (
+                  <Button size="small" color="primary">
+                    <StarBorderIcon
+                      onClick={() => api.addToFavorites(user, product)}
+                    />
                   </Button>
-                </>
-              ) : user &&
-                user.favorites &&
-                user.favorites.some((p) => {
-                  return product.name === p.name;
-                }) ? (
-                <Button size='small' color='primary'>
-                  <Star
-                    onClick={() => api.removeFromFavorites(user, product)}
-                  />
-                </Button>
-              ) : (
-                <Button size='small' color='primary'>
-                  <StarBorderIcon
-                    onClick={() => api.addToFavorites(user, product)}
-                  />
-                </Button>
-              )}
-            </CardActions>
-            {console.log(user)}
-          </Card>
-        ))}
-      {/* </GridList> */}
+                )}
+              </CardActions>
+              {console.log(user)}
+            </Card>
+          ))}
+      </MediaQuery>
     </div>
   );
 }

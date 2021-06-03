@@ -4,6 +4,14 @@ import _ from "lodash";
 import { Bar } from "react-chartjs-2";
 const FireBaseAuth =
   "https://console.firebase.google.com/u/0/project/rebuy-47bc6/authentication/users";
+const h1Style = {
+  color: "#00CCFF",
+  fontfamily: "Trocchi ",
+  fontsize: "45px",
+  fontweight: "normal",
+  lineheight: "48px",
+  margin: "2",
+};
 class Admin extends Component {
   state = { products: [], users: [], prodByAdress: [], prodByCategory: [] };
 
@@ -46,15 +54,16 @@ class Admin extends Component {
 
     return (
       <>
-        <div className="container">
-          <div className="row">
-            <div className="col-sm">
+        <h1 style={h1Style}>Stats About Products</h1>
+        <div className='container'>
+          <div className='row'>
+            <div className='col-sm'>
               Number of registered users {users.length}
             </div>
-            <a className="btn btn-primary" href={FireBaseAuth}>
+            <a className='btn btn-primary' href={FireBaseAuth}>
               Users List
             </a>
-            <div className="col-sm">Number of products {products.length}</div>
+            <div className='col-sm'>Number of products {products.length}</div>
           </div>
         </div>
 

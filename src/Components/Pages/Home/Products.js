@@ -124,6 +124,7 @@ export default class ProductsList extends Component {
           textAlign: "center",
           alignItems: "center",
           justifyContent: "center",
+          marginTop: "30px",
         }}
       >
         <h1>Market</h1>

@@ -99,21 +99,19 @@ export default class GoogleMap extends Component {
     });
   };
   productHandler = (product) => {
-       let plat = this.state.locations.some((x) => x.id === product.name)
-         ? this.state.locations.find((x) => x.id === product.name).lat
-         : null;
-                    
-        let plng = this.state.locations.some((x) => x.id === product.name
-                    )
-                      ? this.state.locations.find((x) => x.id === product.name)
-                          .lng
-                      : null;
-                    
+    let plat = this.state.locations.some((x) => x.id === product.name)
+      ? this.state.locations.find((x) => x.id === product.name).lat
+      : null;
+
+    let plng = this.state.locations.some((x) => x.id === product.name)
+      ? this.state.locations.find((x) => x.id === product.name).lng
+      : null;
+
     this.setState({
       product,
       selected: product["address"],
-     lat:plat,
-     lng:plng,
+      lat: plat,
+      lng: plng,
     });
   };
   modalHandler = (isModelOpen) => {
@@ -135,7 +133,7 @@ export default class GoogleMap extends Component {
       map,
       maps,
       lat,
-      lng
+      lng,
     } = this.state;
 
     const apiIsLoaded = (map, maps) => {
@@ -179,7 +177,7 @@ export default class GoogleMap extends Component {
                 travelMode: maps.TravelMode.DRIVING,
               },
               (response, status) => {
-                if (status === "OK") {  
+                if (status === "OK") {
                   directionsDisplay.setDirections(response);
                   console.log(response.routes[0]);
                   map.setCenter(pos);
@@ -270,6 +268,7 @@ export default class GoogleMap extends Component {
             width: "min-content",
             padding: "2rem",
             zIndex: "99",
+            marginTop: "30px",
           }}
         >
           <Search

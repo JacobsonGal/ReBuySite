@@ -6,7 +6,6 @@ const SellerRoom = () => {
   const { sellerId } = useParams();
   const { product } = useParams();
   const { currentId } = useParams();
-
   return (
     <>
       <ChatRoom sellerId={sellerId} currentId={currentId} productId={product} currentName={"flag"} />

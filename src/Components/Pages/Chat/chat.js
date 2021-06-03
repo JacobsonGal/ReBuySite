@@ -29,16 +29,11 @@ const Chat = () => {
   const { description } = useParams()
   const { secondaryId } = useParams()
   let ifSeller;
-  if (user.uid == sellerId) {
+  if (user && user.uid == sellerId) {
     ifSeller = true;
   }
   return (
-    < MDBContainer >
-      <div className="header">
-        <h1 style={{ color: 'rgba(0,212,255,1)', textAlign: "center" }}>{description}</h1>
-        <hr />
-      </div>
-
+    < MDBContainer style={{ height: '100%', width: '100%' }}>
       <section className="section">
         {ifSeller ? <SellerArea sellerId={sellerId} prodId={
           secondaryId
@@ -56,6 +51,8 @@ export default Chat
 function SellerArea({ sellerId, prodId }) {
   let tmp = [{ name: "loading" }];
   const [recivers, setRecivers] = useState(tmp);
+
+
   firestore.collection(`users/${sellerId}/prod/${prodId}/recivers`).get().then((querySnapshot) => {
     let temp = [];
     querySnapshot.docs.map((doc) => temp.push(doc.data()));
@@ -69,27 +66,52 @@ function SellerArea({ sellerId, prodId }) {
 
   return (
     <>
-      <main className="main">
-        <h1>people who interested in your product  </h1>
-        <hr />
+      <div className="card contacts_card">
+        <div className="card-header">
+          <div className="input-group">
+            <input type="text" placeholder="Search..." name className="form-control search" />
+            <div className="input-group-prepend">
+              <span className="input-group-text search_btn">🔍</span>
+            </div>
+          </div>
+        </div>
+        <div className="card-body contacts_body">
+          <ui className="contacts">
+            <li className="active">
+
+              {
+
+                recivers.map((item, index) => (
+                  <>
+                    <div className="d-flex bd-highlight">
+                      <div className="img_cont">
+                        <img src={item.photoURL || 'https://api.adorable.io/avatars/23/abott@adorable.png'} className="rounded-circle user_img" />
+                        <span className="online_icon" />
+                      </div>
+                      <div className="user_info">
+                        <span>< Link to={`/chat/${item.id}/${prodId}/${sellerId}`} key={index}>{item.name}</Link></span>
+                        <p></p>
+                      </div>
+                    </div>
+                    <hr />
+                  </>
 
 
-        {
-
-          recivers.map((item, index) => (
-            <MDBListGroup style={{ width: "22rem", }}>
-              <MDBListGroupItem>< Link to={`/chat/${item.id}/${prodId}/${sellerId}`} key={index}>{item.name}</Link></MDBListGroupItem>
-            </MDBListGroup>
-          ))
-        }
+                ))
+              }
 
 
 
-      </main>
+
+            </li>
+          </ui>
+        </div>
+      </div>
+
+
     </>
   )
 
 }
-
 
 

@@ -361,30 +361,26 @@ export default function Marker({
                           setIsModelOpen(false);
                         }}
                       >
-                        <SiGooglestreetview
-                          color="green"
-                          style={{ width: "50px", height: "50px" }}
+                        <img
+                          src="https://i.pinimg.com/originals/72/bd/cc/72bdccc73e35cdce6fc49a31b4f593ca.png"
+                          alt="googlemap"
+                          style={{ width: "7rem", height: "7rem" }}
                         />
                       </Button>
-                      {/* <Button
-                      onClick={() => {
-                        wazeNavigate(product["address"], product["photo"]);
-                        setIsModelOpen(false);
-                      }}
-                    >
-                      <SiWaze
-                        style={{ width: "50px", height: "50px" }}
-                        color="dodgerblue"
-                      />
-                    </Button> */}
+
                       <OpenApp
                         href={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
                         android={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
                         ios={`https://waze.com/ul?ll=${lat},${lng}&navigate=yes`}
                       >
-                        <SiWaze
-                          style={{ width: "50px", height: "50px" }}
-                          color="dodgerblue"
+                        <img
+                          src="https://cdn-images-1.medium.com/max/1200/1*3kS1iOOTBrvtkecae3u2aA.png"
+                          alt="waze"
+                          style={{
+                            width: "5.5rem",
+                            height: "5.5rem",
+                            borderRadius: "15px",
+                          }}
                         />
                       </OpenApp>
                     </div>

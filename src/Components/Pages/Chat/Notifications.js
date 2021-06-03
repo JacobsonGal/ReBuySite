@@ -9,13 +9,7 @@ import "firebase/analytics";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Link, useParams } from "react-router-dom";
-import {
-  MDBListGroupItem,
-  MDBContainer,
-  MDBListGroup,
-  MDBRow,
-  MDBCol,
-} from "mdbreact";
+
 import { AuthContext, Admins } from "../../SSO/Auth";
 import { NavItem } from "react-bootstrap";
 import { func } from "prop-types";

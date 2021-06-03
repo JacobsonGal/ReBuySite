@@ -6,7 +6,6 @@ export default function MobileBar({
   notificationCount,
   setNotificationCount,
 }) {
-     
   function notificationHandle() {
     if (notificationCount > 0)
       return (
@@ -30,6 +29,7 @@ export default function MobileBar({
 
   return (
     <div className="toggledBar">
+      <div className="toggledBar-notch" />
       <table width="100%">
         <tr width="100%">
           <td width="10%">
@@ -45,7 +45,6 @@ export default function MobileBar({
             <Link to="/">
               <div className="logodiv">
                 <img className="yavologo" src={Icon} alt="logo" />
-  
               </div>
             </Link>
           </td>

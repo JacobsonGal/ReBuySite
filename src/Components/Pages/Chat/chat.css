@@ -82,6 +82,7 @@ background: linear-gradient(to right, #3a6073, #3a7bd5); /* W3C, IE 10+/ Edge, F
   width: 100%;
 }
 .card{
+  direction: ltr; 
   background: #7F7FD5;
   background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
    background:linear-gradient(to right, #f64f59, #c471ed, #12c2e9);

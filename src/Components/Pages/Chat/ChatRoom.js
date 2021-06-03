@@ -97,7 +97,9 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
     if (currentName != "flag") {
       await reciverRef.set({
         id: currentId,
-        name: currentName
+        name: currentName,
+        photoURL: photoURL
+
       })
     }
 

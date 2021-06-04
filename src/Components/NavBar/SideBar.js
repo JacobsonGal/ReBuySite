@@ -97,7 +97,12 @@ export default function SideBar({
               icon={<Category />}
             >
               {categoryArray.map((cat) => (
-                <MenuItem onClick={() => history.push(`/categories/${cat[1]}`)}>
+                <MenuItem
+                  onClick={() => {
+                    history.push(`/categories/${cat[1]}`);
+                    handleToggleSidebar();
+                  }}
+                >
                   {cat[0]}
                 </MenuItem>
               ))}

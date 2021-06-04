@@ -36,8 +36,20 @@ function Categories() {
     // );
   };
   return (
-    <Card className="userSettings" style={{ height: "100%" }}>
-      <Card.Header className="userHeader">
+    <Card
+      style={{
+        height: "100%",
+        alignItems: "center",
+        textAlign: "center",
+        border: "none",
+      }}
+    >
+      <Card.Header
+        className="userHeader"
+        style={{
+          justifyContent: "center",
+        }}
+      >
         <Card.Title
           style={{
             margin: "1rem",

@@ -46,7 +46,14 @@ export function FavoritesPage({
     // );
   };
   return (
-    <Card className="userSettings">
+    <Card
+      style={{
+        height: "100%",
+        alignItems: "center",
+        textAlign: "center",
+        border: "none",
+      }}
+    >
       <Card.Header className="userHeader">
         <Card.Title
           style={{

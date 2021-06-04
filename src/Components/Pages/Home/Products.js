@@ -81,6 +81,7 @@ export default class ProductsList extends Component {
       isLoading: this.props.loading,
       imagePath: "",
       setLoading: this.props.setLoading,
+      intl: props.intl,
     };
   }
 
@@ -116,7 +117,7 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, users } = this.state;
+    const { products, users, intl } = this.state;
 
     return (
       <Wrapper
@@ -127,7 +128,7 @@ export default class ProductsList extends Component {
           marginTop: "30px",
         }}
       >
-        <h1>Market</h1>
+        <h1>{intl.formatMessage({ id: "Market" })}</h1>
         <Search searchHandler={this.searchHandler} />
         {/* <Sort searchHandler={this.searchHandler} /> */}
         <CardList

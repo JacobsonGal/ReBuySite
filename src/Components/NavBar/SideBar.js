@@ -43,16 +43,16 @@ export default function SideBar({
   const intl = useIntl();
 
   const categoryArray = [
-    intl.formatMessage({ id: "Sport" }),
-    intl.formatMessage({ id: "Clothing" }),
-    intl.formatMessage({ id: "Electricity" }),
-    intl.formatMessage({ id: "Underwear" }),
-    intl.formatMessage({ id: "Swimwear" }),
-    intl.formatMessage({ id: "Homecare" }),
-    intl.formatMessage({ id: "Plants" }),
-    intl.formatMessage({ id: "Activewear" }),
-    intl.formatMessage({ id: "Jewlery" }),
-    intl.formatMessage({ id: "Other" }),
+    [intl.formatMessage({ id: "Sport" }), "Sport"],
+    [intl.formatMessage({ id: "Clothing" }), "Clothing"],
+    [intl.formatMessage({ id: "Electricity" }), "Electricity"],
+    [intl.formatMessage({ id: "Underwear" }), "Underwear"],
+    [intl.formatMessage({ id: "Swimwear" }), "Swimwear"],
+    [intl.formatMessage({ id: "Homecare" }), "Homecare"],
+    [intl.formatMessage({ id: "Plants" }), "Plants"],
+    [intl.formatMessage({ id: "Activewear" }), "Activewear"],
+    [intl.formatMessage({ id: "Jewlery" }), "Jewlery"],
+    [intl.formatMessage({ id: "Other" }), "Other"],
   ];
 
   return (
@@ -97,8 +97,8 @@ export default function SideBar({
               icon={<Category />}
             >
               {categoryArray.map((cat) => (
-                <MenuItem onClick={() => history.push(`/categories/${cat}`)}>
-                  {cat}
+                <MenuItem onClick={() => history.push(`/categories/${cat[1]}`)}>
+                  {cat[0]}
                 </MenuItem>
               ))}
             </SubMenu>

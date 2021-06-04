@@ -3,10 +3,12 @@ import Page from "../../Utils/Page";
 import Card from "react-bootstrap/Card";
 import { AuthContext } from "../../SSO/Auth";
 import api from "../../../API/API";
+import { useIntl } from "react-intl";
+import CardList from "../Home/CardList";
 
 export default function Favorites({ title, setTitle, setActive }) {
   const [loading, setLoading] = useState(false);
-
+  const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState(null);
@@ -22,34 +24,67 @@ export default function Favorites({ title, setTitle, setActive }) {
   }, [user, products]);
 
   return (
-    <Page
-      loading={loading}
-      title={title}
-      color={"#fdeded"}
-      setTitle={setTitle}
-      add={false}
-      FAB="none"
-      dots={false}
-    >
-      <h1>My Favorites</h1>
-      {products?.map((product) => {
-        return (
-          <>
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={product["photo"]} />
-              <Card.Body>
-                <Card.Title>{product["name"]}</Card.Title>
-                <Card.Text>{product["description"]}</Card.Text>
-                <Card.Text>{product["condition"]}</Card.Text>
-                <Card.Text>{product["address"]}</Card.Text>
-                <Card.Text>{product["price"] + "₪"}</Card.Text>
-              </Card.Body>
-            </Card>
-          </>
-        );
-      })}
-
-      {setActive(false)}
-    </Page>
+    <FavoritesPage
+      title={intl.formatMessage({ id: "MyFavorites" })}
+      products={products}
+    />
+  );
+}
+export function FavoritesPage({
+  users,
+  images,
+  products,
+  title,
+  setTitle,
+  setLoading,
+}) {
+  const deleteHandler = (productId) => {
+    // setProducts(
+    //   products.filter((product) => {
+    //     return product._id !== productId.data._id;
+    //   })
+    // );
+  };
+  return (
+    <Card className="userSettings">
+      <Card.Header className="userHeader">
+        <Card.Title
+          style={{
+            margin: "1rem",
+            width: "80%",
+            color: "#147764",
+            alignSelf: "center",
+          }}
+        >
+          {title}
+        </Card.Title>
+      </Card.Header>
+      <Card.Body style={{ alignItems: "center" }}>
+        {products ? (
+          <CardList
+            products={products}
+            users={users}
+            deleteHandler={deleteHandler}
+          />
+        ) : (
+          <Card
+            style={{
+              width: "100%",
+              height: "50%",
+              borderRadius: "35px",
+              alignItems: "center",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px",
+              backgroundColor: "rgba(0,0,50,0.1)",
+            }}
+          >
+            <p> אין לך מוצרים מועדפים עדיין ! </p>
+            <p>אפשר להוסיף אותם בלחיצה על כוכב ליד כל מוצר</p>
+          </Card>
+        )}
+      </Card.Body>
+    </Card>
   );
 }

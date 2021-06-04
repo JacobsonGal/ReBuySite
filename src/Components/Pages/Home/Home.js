@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Page from "../../Utils/Page";
 import ProductsList from "./Products";
-export default function Home({ title, setTitle, setActive }) {
+export default function Home({ title, setTitle, setActive, intl }) {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -14,7 +14,7 @@ export default function Home({ title, setTitle, setActive }) {
       FAB="none"
       dots={false}
     >
-      <ProductsList loading={loading} setLoading={setLoading} />
+      <ProductsList loading={loading} setLoading={setLoading} intl={intl} />
       {setActive(false)}
     </Page>
   );

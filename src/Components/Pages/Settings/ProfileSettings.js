@@ -9,8 +9,27 @@ import { Avatar } from "@material-ui/core";
 import api from "../../../API/API";
 import CardList from "../Home/CardList";
 import apis from "../../../API/API";
+import Page from "../../Utils/Page";
 
-export default class ProfileSetting extends Component {
+export default function ProfileSetting({ title, setTitle, intl }) {
+  const [loading, setLoading] = useState(false);
+  // console.log(loading);
+  return (
+    <Page
+      loading={loading}
+      title={title}
+      color={"#fdeded"}
+      setTitle={setTitle}
+      add={false}
+      FAB="none"
+      dots={false}
+    >
+      <ProfileSettings loading={loading} setLoading={setLoading} intl={intl} />
+    </Page>
+  );
+}
+
+export class ProfileSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,6 +44,8 @@ export default class ProfileSetting extends Component {
   }
 
   componentDidMount = async () => {
+    console.log("loading settings");
+    console.log(this.state.isLoading);
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -39,6 +60,8 @@ export default class ProfileSetting extends Component {
     } catch (error) {
       console.log(error);
     }
+    this.state.setLoading(false);
+    console.log(this.state.isLoading);
   };
   searchHandler = (products) => {
     this.setState({
@@ -53,12 +76,26 @@ export default class ProfileSetting extends Component {
     });
   };
   render() {
-    const { products, images, users } = this.state;
+    const { products, images, users, setLoading } = this.state;
 
-    return <Profile products={products} images={images} users={users} />;
+    return (
+      <Profile
+        products={products}
+        images={images}
+        users={users}
+        setLoading={setLoading}
+      />
+    );
   }
 }
-export function Profile({ users, images, products, title, setTitle }) {
+export function Profile({
+  users,
+  images,
+  products,
+  title,
+  setTitle,
+  setLoading,
+}) {
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
@@ -74,18 +111,12 @@ export function Profile({ users, images, products, title, setTitle }) {
     ? currentUser.displayName
     : intl.formatMessage({ id: "welcome" });
   const email = currentUser ? currentUser.email : "Email";
-  const image = currentUser ? currentUser.photoURL : user && user["image"];
+  const image = currentUser
+    ? currentUser.photoURL
+    : user && user["image"]
+    ? user["image"]
+    : null;
 
-  function getUserProducts() {
-    let arr = [];
-    user &&
-      user["products"] &&
-      console.log(user["products"], "stam") &&
-      user["products"].map((product) =>
-        arr.push(products.find((prod) => product.email === prod.ownerId))
-      );
-    return arr;
-  }
   const deleteHandler = (productId) => {
     // setProducts(
     //   products.filter((product) => {
@@ -97,28 +128,21 @@ export function Profile({ users, images, products, title, setTitle }) {
   return (
     <Card className="userSettings">
       <Card.Header className="userHeader">
-        {currentUser ? (
-          <Card.Img
-            style={{
-              alignSelf: window.screen.width <= 800 ? "right" : "center",
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-            }}
-            variant="top"
-            src={image}
-          />
-        ) : (
-          <Avatar
-            style={{
-              alignSelf: window.screen.width <= 800 ? "right" : "center",
-              width: "100px",
-              height: "100px",
-              borderRadius: "50%",
-            }}
-          />
-        )}
-        {/* <Person className="userPhoto" /> */}
+        <Avatar
+          style={{
+            alignSelf: window.screen.width <= 800 ? "right" : "center",
+            width: "100px",
+            height: "100px",
+            borderRadius: "50%",
+          }}
+          variant="rounded"
+          src={image ? image : ""}
+        >
+          {user
+            ? user.name.toString().split(" ")[0][0].toUpperCase() +
+              user.name.toString().split(" ")[1][0].toUpperCase()
+            : null}
+        </Avatar>
         <Card.Title
           style={{
             margin: "1rem",
@@ -132,8 +156,10 @@ export function Profile({ users, images, products, title, setTitle }) {
         <Card.Subtitle>{email}</Card.Subtitle>
       </Card.Header>
       <Card.Body style={{ alignItems: "center" }}>
-        <h1>My Products</h1>
-        {products && (
+        <h1>{intl.formatMessage({ id: "MyProducts" })}</h1>
+        {products &&
+        user &&
+        products.filter((prod) => prod.ownerId === user.uid).length > 0 ? (
           <CardList
             products={
               user ? products.filter((prod) => prod.ownerId === user.uid) : null
@@ -141,6 +167,23 @@ export function Profile({ users, images, products, title, setTitle }) {
             users={users}
             deleteHandler={deleteHandler}
           />
+        ) : (
+          <Card
+            style={{
+              width: "100%",
+              height: "50%",
+              borderRadius: "35px",
+              alignItems: "center",
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px",
+              backgroundColor: "rgba(0,0,50,0.1)",
+            }}
+          >
+            <p> אין לך מוצרים עדיין ! </p>
+            <p>אפשר להוסיף אותם בלחיצה על "העלה" באזור הניווט</p>
+          </Card>
         )}
       </Card.Body>
     </Card>

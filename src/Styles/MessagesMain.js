@@ -32,7 +32,7 @@ export default {
     Search: "חיפוש",
     New: "חדש",
     Used: "משומש",
-    Market: "המרקט",
+    Market: "חנות",
     username: "שלום משתמש!",
     Sport: "ספורט",
     Clothing: "ביגוד",
@@ -44,6 +44,10 @@ export default {
     Activewear: "ביגוד ספורט",
     Jewlery: "תכשיטים",
     Other: "אחר",
+    MyProducts: "המוצרים שלי",
+    CreateProduct: "העלאת מוצר חדש",
+    Update: "עדכן",
+    MyFavorites: "המועדפים שלי",
   },
 
   en: {
@@ -101,5 +105,9 @@ export default {
     Activewear: "Activewear",
     Jewlery: "Jewlery",
     Other: "Other",
+    MyProducts: "My Products",
+    CreateProduct: "Create Product",
+    Update: "Update",
+    MyFavorites: "My Favorites",
   },
 };

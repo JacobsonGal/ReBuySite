@@ -107,6 +107,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "Home" })}
                       setTitle={setTitle}
                       setActive={setActive}
+                      intl={intl}
                     />
                   </Route>
                   <Route exact path="/Notifications">
@@ -131,6 +132,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "Upload" })}
                       setTitle={setTitle}
                       setActive={setActive}
+                      intl={intl}
                     />
                   </Route>
                   <Route path="/Update/:id">

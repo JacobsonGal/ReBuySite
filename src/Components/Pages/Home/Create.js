@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Alert from "../../Utils/Alert";
 import firebase from "firebase/app";
+import { useIntl } from "react-intl";
+
 import "firebase/auth";
 import "firebase/storage";
 
@@ -59,6 +61,7 @@ export default class ProductInsert extends Component {
       // ownerId: null,
       redirect: false,
       alert: false,
+      intl: props.intl,
     };
   }
 
@@ -172,6 +175,7 @@ export default class ProductInsert extends Component {
             address: "",
             images: null,
             price: null,
+
             // ownerId: null,
             redirect: true,
           });
@@ -195,6 +199,7 @@ export default class ProductInsert extends Component {
       // ownerId,
       redirect,
       alert,
+      intl,
     } = this.state;
     let alertMessage = "";
     if (redirect) {
@@ -205,9 +210,10 @@ export default class ProductInsert extends Component {
         <Alert variant="danger">Please fill all the fields.</Alert>
       );
     }
+
     return (
       <Wrapper style={{ marginTop: "50px" }}>
-        <Title>Create Product</Title>
+        <Title>{intl.formatMessage({ id: "CreateProduct" })}</Title>
         <div style={{ textAlign: "center" }}>
           <Label>Name: </Label>
           <InputText

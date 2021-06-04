@@ -268,7 +268,7 @@ export default class GoogleMap extends Component {
             width: "min-content",
             padding: "2rem",
             zIndex: "99",
-            marginTop: "30px",
+            // marginTop: "30px",
           }}
         >
           <Search

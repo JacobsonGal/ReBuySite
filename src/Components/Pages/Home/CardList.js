@@ -37,9 +37,10 @@ import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
 import { IoPinOutline } from "react-icons/io5";
-import { deleteAlert } from "../../Utils/Alert";
+import Alert from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
 import MediaQuery from "react-responsive";
+import swal from "@sweetalert/with-react";
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -75,23 +76,44 @@ class DeleteProduct extends Component {
   deleteUser = (event) => {
     event.preventDefault();
 
-    if (
-      // window.confirm(
-      //   `Do tou want to delete the product ${this.props.id} permanently?`
-      // )
-      deleteAlert(
-        `Do tou want to delete the product ${this.props.id} permanently?`
-      )
-    ) {
-      api
-        .deleteProductById(this.props.id)
-        .then((res) => {
-          this.props.deleteHandler(this.props.id);
-        })
-        .catch((err) => console.log(err));
-      console.log("after res");
-      // window.location.reload();
-    }
+    swal({
+      title: "Are you sure?",
+      text: `Do tou want to delete the product ${this.props.id} permanently?`,
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        firestore
+          .collection("products")
+          .where("seconderyId", "==", this.props.id)
+          .get()
+          .then((Snapshot) => {
+            Snapshot.forEach((doc) => {
+              doc.ref.delete().then((res) => {
+                this.props.deleteHandler(this.props.id);
+                swal("Poof! Your Product has been deleted!", {
+                  icon: "success",
+                });
+              });
+            });
+          })
+          .catch((error) => {
+            Alert(error.message);
+          });
+        // api
+        //   .deleteProductById(this.props.id)
+        //   .then((res) => {
+        //     this.props.deleteHandler(this.props.id);
+        //     swal("Poof! Your Product has been deleted!", {
+        //       icon: "success",
+        //     });
+        //   })
+        //   .catch((err) => Alert(err.message));
+      } else {
+        swal("Your Product file is safe!");
+      }
+    });
   };
 
   render() {

@@ -93,8 +93,8 @@ function Search(props) {
           <Form.Label>{intl.formatMessage({ id: "Condition" })}</Form.Label>
           <Form.Control as="select" onChange={(e) => conditionChangeHandler(e)}>
             <option></option>
-            <option>{intl.formatMessage({ id: "New" })}</option>
-            <option>{intl.formatMessage({ id: "Used" })}</option>
+            <option value={"NEW"}>{intl.formatMessage({ id: "New" })}</option>
+            <option value={"USED"}>{intl.formatMessage({ id: "Used" })}</option>
           </Form.Control>
         </Form.Group>
       </Form.Row>

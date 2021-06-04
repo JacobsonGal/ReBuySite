@@ -26,6 +26,13 @@ import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
 import CardList from "./CardList";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/analytics";
+
+const auth = firebase.auth();
+const firestore = firebase.firestore();
 
 const Wrapper = styled.div``;
 const Update = styled.div`
@@ -82,6 +89,9 @@ export default class ProductsList extends Component {
       imagePath: "",
       setLoading: this.props.setLoading,
       intl: props.intl,
+      currentUser: props.currentUser,
+      favCategories: [],
+      favProduct: [],
     };
   }
 
@@ -98,6 +108,47 @@ export default class ProductsList extends Component {
           users: user.data.data,
         });
       });
+      firestore
+        .collection("users")
+        .where("email", "==", this.state.currentUser?.email)
+        .get()
+        .then((Snapshot) => {
+          Snapshot.docs.forEach((doc) => {
+            let favCategory = doc.data().favCategory;
+            let cat1 = null;
+            let max1 = 0;
+            favCategory.forEach((cat) => {
+              if (cat.val > max1) {
+                cat1 = cat.key;
+                max1 = cat.val;
+              }
+            });
+            let cat2 = null;
+            let max2 = 0;
+            favCategory.forEach((cat) => {
+              if (cat.val > max2 && cat.val < max1) {
+                cat2 = cat.key;
+                max2 = cat.val;
+              }
+            });
+
+            this.setState({
+              favCategories: [cat1, cat2],
+            });
+            console.log(this.state.favCategories);
+          });
+          let prods = [];
+          console.log(this.state.favCategories);
+          this.state.products.forEach((product) => {
+            this.state.favCategories.some((f) => f === product.category) &&
+              prods.push(product);
+          });
+          this.setState({
+            favProduct: prods,
+          });
+        })
+        .catch((error) => {});
+
       this.state.setLoading(false);
     } catch (error) {
       console.log(error);
@@ -117,7 +168,7 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, users, intl } = this.state;
+    const { products, users, intl, favProduct, favCategories } = this.state;
 
     return (
       <Wrapper
@@ -131,6 +182,24 @@ export default class ProductsList extends Component {
         <h1>{intl.formatMessage({ id: "Market" })}</h1>
         <Search searchHandler={this.searchHandler} />
         {/* <Sort searchHandler={this.searchHandler} /> */}
+
+        {favProduct.length > 0 && (
+          <>
+            <h1>{intl.formatMessage({ id: "Recommended for you" })}</h1>
+            <h3>
+              {`We can see that you like ${favCategories[0]} and ${favCategories[1]}`}
+            </h3>
+            <CardList
+              products={favProduct}
+              users={users}
+              deleteHandler={this.deleteHandler}
+              from={0}
+              to={products.length}
+            />
+            <h1>{intl.formatMessage({ id: "All Products" })}</h1>
+          </>
+        )}
+
         <CardList
           products={products}
           users={users}

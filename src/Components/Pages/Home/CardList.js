@@ -24,7 +24,10 @@ import {
   GridListTileBar,
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
-
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/analytics";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
@@ -37,6 +40,10 @@ import { IoPinOutline } from "react-icons/io5";
 import Alert from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
 import MediaQuery from "react-responsive";
+
+
+const auth = firebase.auth();
+const firestore = firebase.firestore();
 
 const Wrapper = styled.div`
   padding: 0 40px 40px 40px;
@@ -163,6 +170,33 @@ export default function CardList({
 
   function setData(product) {
     setproduct(product);
+    let category = product.category;
+    firestore
+      .collection("users")
+      .where("email", "==", currentUser?.email)
+      .get()
+      .then((Snapshot) => {
+        Snapshot.docs.forEach((doc) => {
+          let favCategory = doc.data().favCategory;
+          let newfavCategory = [{}];
+          let flag = false;
+          newfavCategory = favCategory;
+          console.log(newfavCategory);
+          newfavCategory.forEach((cat) => {
+            if (cat.key === category) {
+              cat.val++;
+              flag = true;
+            }
+          });
+          if (flag === false) {
+            newfavCategory.push({ key: category, val: 1 });
+          }
+          doc.ref.update({
+            favCategory: newfavCategory,
+          });
+        });
+      })
+      .catch((error) => {});
     setIsModelOpen(true);
   }
 
@@ -250,7 +284,7 @@ export default function CardList({
                       </Button>
                     )}
                   </CardActions>
-                  {console.log(user)}
+                  {/* {console.log(user)} */}
                 </Card>
                 <GridListTileBar
                   title={
@@ -427,7 +461,7 @@ export default function CardList({
                   </Button>
                 )}
               </CardActions>
-              {console.log(user)}
+              {/* {console.log(user)} */}
             </Card>
           ))}
       </MediaQuery>

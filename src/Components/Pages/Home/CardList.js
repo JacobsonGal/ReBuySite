@@ -37,10 +37,9 @@ import Phone from "@material-ui/icons/Phone";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import ReactWhatsapp from "react-whatsapp";
 import { IoPinOutline } from "react-icons/io5";
-import Alert from "../../Utils/Alert";
+import { deleteAlert } from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
 import MediaQuery from "react-responsive";
-
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -77,7 +76,10 @@ class DeleteProduct extends Component {
     event.preventDefault();
 
     if (
-      window.confirm(
+      // window.confirm(
+      //   `Do tou want to delete the product ${this.props.id} permanently?`
+      // )
+      deleteAlert(
         `Do tou want to delete the product ${this.props.id} permanently?`
       )
     ) {

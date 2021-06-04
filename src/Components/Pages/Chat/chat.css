@@ -26,14 +26,32 @@ button:disabled {
   background-color: #282c3454; /* Green */
   position: relative;
   border-radius: 20px;
+ 
 }
+.button{
+  width: 12%;
+}
+.input{
+  width: 75%;
+}
+
+
+
 @media (max-width: 37.5em) {
   .form {
     right: 0;
   }
+  .input{
+    width: 70%;
+  }
+  .button{
+    width: 15%;
+  }
+  
+  
 }
 .p {
-  max-width: 500px;
+  max-width: 300px;
   margin-bottom: 28px;
   line-height: 20px;
   padding: 5px 20px;
@@ -119,6 +137,7 @@ button:disabled {
   justify-self: center;
   width: 100%;
 }
+
 .card-footer {
   border-radius: 0 0 15px 15px !important;
   border-top: 0 !important;
@@ -179,9 +198,7 @@ button:disabled {
   padding: 5px 10px;
   margin-bottom: 15px !important;
 }
-.active {
-  background-color: rgba(0, 0, 0, 0.3);
-}
+
 .user_img {
   height: 70px;
   width: 70px;
@@ -192,11 +209,7 @@ button:disabled {
   width: 40px;
   border: 1.5px solid #f5f6fa;
 }
-.img_cont {
-  position: relative;
-  height: 70px;
-  width: 70px;
-}
+
 .img_cont_msg {
   height: 40px;
   width: 40px;
@@ -217,9 +230,9 @@ button:disabled {
 .user_info {
   margin-top: auto;
   margin-bottom: auto;
-  margin-left: 15px;
+  margin-left: 30px;
   width: "100%";
-  text-align: center;
+  
 }
 .user_info span {
   font-size: 20px;
@@ -259,8 +272,8 @@ button:disabled {
   max-width: 70px;
   position: absolute;
   left: 0;
-  bottom: -15px;
-  color: rgba(255, 255, 255, 0.5);
+  bottom:-3px;
+  color: #d3d3d3;
   font-size: 10px;
 }
 .msg_time_send {

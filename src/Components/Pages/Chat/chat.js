@@ -64,16 +64,12 @@ function SellerArea({ sellerId, prodId }) {
     <>
       <div className="card contacts_card">
         <div className="card-header">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Search..."
-              name
-              className="form-control search"
-            />
-            <div className="input-group-prepend">
-              <span className="input-group-text search_btn">🔍</span>
+
+          <div className="col-12">
+            <div className="header ">
+              <h1>people who interested your product</h1>
             </div>
+
           </div>
         </div>
         <div className="card-body contacts_body">
@@ -90,7 +86,6 @@ function SellerArea({ sellerId, prodId }) {
                         }
                         className="rounded-circle user_img"
                       />
-                      <span className="online_icon" />
                     </div>
                     <div className="user_info">
                       <span>

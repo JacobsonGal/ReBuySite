@@ -5,6 +5,7 @@ import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
 import Avatar from "@material-ui/core/Avatar";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEllipsisV } from "@fontawesome/free-solid-svg-icons";
@@ -14,6 +15,7 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
+  const [user] = useAuthState(auth);
   const [photoURL, setPhotoURL] = useState(null);
   const [sellerName, setSellerName] = useState(null);
   const [sellerPhoto, setSellerPhoto] = useState(null);
@@ -104,6 +106,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
+      name: user?.displayName
     });
 
     await messagesRefSeller.add({
@@ -111,6 +114,9 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
+      name: user?.displayName
+
+
     });
 
     setFormValue("");
@@ -128,8 +134,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
     <div className="card">
       <div className="card-header msg_head">
         <div className="d-flex head  bd-highlight">
-          <div className="img_cont">
-            {/* <img
+          {/* <img
               src={
                 sellerPhoto
                   ? sellerPhoto
@@ -137,34 +142,33 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
               }
               className="rounded-circle user_img"
             /> */}
-            {sellerPhoto !== null ? (
-              <img
-                style={{
-                  alignSelf: window.screen.width <= 800 ? "right" : "center",
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                }}
-                variant="top"
-                src={sellerPhoto}
-                alt={sellerPhoto}
-              />
-            ) : (
-              <Avatar
-                style={{
-                  alignSelf: window.screen.width <= 800 ? "right" : "center",
-                  width: "100px",
-                  height: "100px",
-                  borderRadius: "50%",
-                }}
-              />
-            )}
-          </div>
+          {sellerPhoto !== null ? (
+            <img
+              style={{
+                alignSelf: window.screen.width <= 800 ? "right" : "center",
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
+              variant="top"
+              src={sellerPhoto}
+              alt={sellerPhoto}
+            />
+          ) : (
+            <Avatar
+              style={{
+                alignSelf: window.screen.width <= 800 ? "right" : "center",
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+              }}
+            />
+          )}
           <div className="user_info">
             <span>
               Chat with {sellerName}
               <hr />
-              Product : {desc}
+              {desc}
             </span>
           </div>
         </div>
@@ -191,35 +195,39 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       </div>
       <div class="card-footer">
         <form className="form-inline form" onSubmit={SendMessage}>
-          <button type="none" disabled={!formValue}>
+          <button type="none" className="button" disabled={!formValue}>
             😀
           </button>
-          <input
-            type="text"
-            className="form-control form-control-sm w-75 text-center "
-            value={formValue}
-            onChange={(e) => setFormValue(e.target.value)}
-            style={{
-              backgroundColor: "#282c3454",
-              color: "wheat",
-              margin: "0 auto",
-              border: "1px solid transparent",
-              borderRadius: "20px",
-            }}
-            placeholder=".. say something nice"
-          />
-          <button type="submit" disabled={!formValue}>
+          <div className="input">
+            <input
+              type="text"
+              className="form-control input  form-control-sm w-100  text-center "
+              value={formValue}
+              onChange={(e) => setFormValue(e.target.value)}
+              style={{
+                backgroundColor: "#282c3454",
+                color: "wheat",
+                margin: "0 auto",
+                border: "1px solid transparent",
+                borderRadius: "20px",
+              }}
+              placeholder=".. say something nice"
+            />
+          </div>
+          <button type="submit" className="button" disabled={!formValue}>
             🕊️
           </button>
         </form>
       </div>
-    </div>
+    </div >
   );
 }
 
 export default ChatRoom;
 function ChatMessage(props) {
-  const { text, uid, photoURL, createdAt } = props.message;
+  const { text, uid, photoURL, name } = props.message;
+
+
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   return (
@@ -233,7 +241,7 @@ function ChatMessage(props) {
         />
         <div class="msg_cotainer">
           <p className="p">{text}</p>
-          <span className="msg_time">8:40 AM, Today from osher nati</span>
+          <span className="msg_time">from {name}</span>
         </div>
       </div>
     </>

@@ -109,10 +109,9 @@ export default class ProductsList extends Component {
     });
   };
   deleteHandler = (productId) => {
-    console.log(productId);
     this.setState({
       products: this.state.products.filter((product) => {
-        return product.name !== productId;
+        return product.seconderyId !== productId;
       }),
     });
   };

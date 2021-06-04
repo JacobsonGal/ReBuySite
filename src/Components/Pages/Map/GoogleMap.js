@@ -6,6 +6,13 @@ import Geocode from "react-geocode";
 import Search from "../Home/Search";
 import PopUp from "../../Utils/PopUp";
 import OpenApp from "react-open-app";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/auth";
+import "firebase/analytics";
+
+const auth = firebase.auth();
+const firestore = firebase.firestore();
 
 export default class GoogleMap extends Component {
   constructor(props) {
@@ -30,6 +37,7 @@ export default class GoogleMap extends Component {
       directionsDisplay: null,
       map: null,
       maps: null,
+      currentUser: props.currentUser,
     };
     this.state.setLoading(true);
   }
@@ -113,6 +121,33 @@ export default class GoogleMap extends Component {
       lat: plat,
       lng: plng,
     });
+    let category = product.category;
+    firestore
+      .collection("users")
+      .where("email", "==", this.state.currentUser?.email)
+      .get()
+      .then((Snapshot) => {
+        Snapshot.docs.forEach((doc) => {
+          let favCategory = doc.data().favCategory;
+          let newfavCategory = [{}];
+          let flag = false;
+          newfavCategory = favCategory;
+          console.log(newfavCategory);
+          newfavCategory.forEach((cat) => {
+            if (cat.key === category) {
+              cat.val++;
+              flag = true;
+            }
+          });
+          if (flag === false) {
+            newfavCategory.push({ key: category, val: 1 });
+          }
+          doc.ref.update({
+            favCategory: newfavCategory,
+          });
+        });
+      })
+      .catch((error) => {});
   };
   modalHandler = (isModelOpen) => {
     this.setState({

@@ -52,9 +52,15 @@ export function FavoritesPage({
         alignItems: "center",
         textAlign: "center",
         border: "none",
+        marginTop: "30px",
       }}
     >
-      <Card.Header className="userHeader">
+      <Card.Header
+        className="userHeader"
+        style={{
+          justifyContent: "center",
+        }}
+      >
         <Card.Title
           style={{
             margin: "1rem",

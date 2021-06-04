@@ -42,6 +42,7 @@ function Categories() {
         alignItems: "center",
         textAlign: "center",
         border: "none",
+        marginTop: "30px",
       }}
     >
       <Card.Header

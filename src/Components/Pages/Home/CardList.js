@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "center",
       alignItems: "center",
       overflow: "hidden",
-      // backgroundColor: theme.palette.background.paper,
+      // backgroundColor: themeגק.palette.background.paper,
     },
     gridList: {
       width: "100%",
@@ -437,7 +437,7 @@ export default function CardList({
                   <>
                     <Button size="small" color="primary">
                       <DeleteProduct
-                        id={product["_id"]}
+                        id={product["seconderyId"]}
                         deleteHandler={deleteHandler}
                       />
                     </Button>

@@ -263,7 +263,7 @@ export default class GoogleMap extends Component {
         <div
           style={{
             position: "absolute",
-            top: "3rem",
+            // top: "3rem",
             alignItems: "center",
             width: "min-content",
             padding: "2rem",

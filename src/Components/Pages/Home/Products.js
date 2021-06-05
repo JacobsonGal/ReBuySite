@@ -110,7 +110,10 @@ export default class ProductsList extends Component {
       });
       firestore
         .collection("users")
-        .where("email", "==", this.state.currentUser?.email)
+        .where("email", "in", [
+          this.state.currentUser?.email.toUpperCase(),
+          this.state.currentUser?.email.toLowerCase(),
+        ])
         .get()
         .then((Snapshot) => {
           Snapshot.docs.forEach((doc) => {

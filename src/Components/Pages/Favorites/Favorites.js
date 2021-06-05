@@ -15,14 +15,11 @@ export default function Favorites({ title, setTitle, setActive }) {
 
   useEffect(async () => {
     if (!user) {
-      const response = await api.getUserById(currentUser?.email.toUpperCase());
-      if (!response)
-        response = await api.getUserById(currentUser?.email.toLowerCase());
+      const response = await api.getUserById(currentUser?.email);
       console.log(response.data.data);
       setUser(response.data.data);
     } else {
       setProducts(user.favorites);
-      console.log(user);
     }
   }, [user, products]);
 

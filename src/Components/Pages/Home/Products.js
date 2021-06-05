@@ -189,7 +189,9 @@ export default class ProductsList extends Component {
           <>
             <h1>{intl.formatMessage({ id: "Recommended for you" })}</h1>
             <h3>
-              {`We can see that you like ${favCategories[0]} and ${favCategories[1]}`}
+              {`We can see that you like ${favCategories[0]}  ${
+                favCategories[1] !== null ? "and " + favCategories[1] : ""
+              }`}
             </h3>
             <CardList
               products={favProduct}

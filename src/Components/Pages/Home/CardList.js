@@ -312,6 +312,7 @@ export default function CardList({
                       <Button size="small" color="primary">
                         <Star
                           onClick={() => {
+                            Alert("Products removed from favorites!", true);
                             api.removeFromFavorites(user, product);
                             setChange((prev) => !prev);
                           }}
@@ -322,6 +323,7 @@ export default function CardList({
                         <StarBorderIcon
                           onClick={() => {
                             api.addToFavorites(user, product);
+                            Alert("Products added from favorites!", true);
                             setChange((prev) => !prev);
                           }}
                         />

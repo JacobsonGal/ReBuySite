@@ -186,7 +186,7 @@ export default function CardList({
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [product, setproduct] = useState(null);
   const { currentUser } = useContext(AuthContext);
-  const user = users.find(
+  const user = users?.find(
     (usr) =>
       usr["email"] === currentUser.email.toUpperCase() ||
       (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
@@ -282,17 +282,17 @@ export default function CardList({
                       <>
                         <Button size="small" color="primary">
                           <DeleteProduct
-                            id={product["_id"]}
+                            id={product["secondaryId"]}
                             deleteHandler={deleteHandler}
                           />
                         </Button>
                         <Button size="small" color="primary">
-                          <UpdateProduct id={product["_id"]} />
+                          <UpdateProduct id={product["secondaryId"]} />
                         </Button>
                       </>
                     ) : user &&
                       user.favorites &&
-                      user.favorites.some((p) => {
+                      user.favorites?.some((p) => {
                         return product.name === p.name;
                       }) ? (
                       <Button size="small" color="primary">
@@ -338,17 +338,17 @@ export default function CardList({
                         <>
                           <Button size="small" color="primary">
                             <DeleteProduct
-                              id={product["_id"]}
+                              id={product["secondaryId"]}
                               deleteHandler={deleteHandler}
                             />
                           </Button>
                           <Button size="small" color="primary">
-                            <UpdateProduct id={product["_id"]} />
+                            <UpdateProduct id={product["secondaryId"]} />
                           </Button>
                         </>
                       ) : user &&
                         user.favorites &&
-                        user.favorites.some((p) => {
+                        user.favorites?.some((p) => {
                           return product.name === p.name;
                         }) ? (
                         <Button size="small" color="primary">
@@ -434,7 +434,7 @@ export default function CardList({
                     color="textSecondary"
                     component="p"
                   >
-                    {users.some((user) => user._id === product["owner"]) && (
+                    {users?.some((user) => user._id === product["owner"]) && (
                       <div
                         style={{
                           backgroundColor: "#ececec",
@@ -442,7 +442,9 @@ export default function CardList({
                         }}
                       >
                         <p>
-                          {users.some((user) => user.uid === product.ownerId) &&
+                          {users?.some(
+                            (user) => user.uid === product.ownerId
+                          ) &&
                             users
                               .find((user) => user.uid === product.ownerId)
                               ["name"].toUpperCase()}
@@ -464,12 +466,12 @@ export default function CardList({
                       />
                     </Button>
                     <Button size="small" color="primary">
-                      <UpdateProduct id={product["_id"]} />
+                      <UpdateProduct id={product["sedcondaryId"]} />
                     </Button>
                   </>
                 ) : user &&
                   user.favorites &&
-                  user.favorites.some((p) => {
+                  user.favorites?.some((p) => {
                     return product.name === p.name;
                   }) ? (
                   <Button size="small" color="primary">

@@ -1,8 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://rebuyserver.herokuapp.com/api",
+  baseURL: "http://localhost:5000/api",
 });
+
+// const api = axios.create({
+//   baseURL: "https://rebuyserver.herokuapp.com/api",
+// });
 
 export const insertUser = (payload) => api.post(`/user`, payload);
 export const getAllUsers = () => api.get(`/users`);

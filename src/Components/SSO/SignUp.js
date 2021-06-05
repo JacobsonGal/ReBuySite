@@ -51,6 +51,7 @@ export default function SignUp({ setRegistered }) {
         data.append("email", email.value);
         data.append("image", image);
         data.append("uid", firebase.auth().currentUser.uid);
+        data.append("favorites", []);
 
         await api
           .insertUser(data)

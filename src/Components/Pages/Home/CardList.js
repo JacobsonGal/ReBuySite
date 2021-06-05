@@ -1,14 +1,9 @@
-import React, { Component, useState, useContext } from "react";
+import React, { Component, useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
 import "react-table/index";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import Search from "./Search";
-import Groupby from "./Groupby";
-import Sort from "./Sort";
-import { Link } from "react-router-dom";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Star from "@material-ui/icons/Star";
 import {
@@ -23,7 +18,6 @@ import {
   GridListTile,
   GridListTileBar,
 } from "@material-ui/core";
-import InfoIcon from "@material-ui/icons/Info";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
@@ -33,9 +27,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
 import { AuthContext, Admins } from "../../SSO/Auth";
 import Person from "@material-ui/icons/PersonRounded";
-import Phone from "@material-ui/icons/Phone";
-import WhatsApp from "@material-ui/icons/WhatsApp";
-import ReactWhatsapp from "react-whatsapp";
+
 import { IoPinOutline } from "react-icons/io5";
 import Alert from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
@@ -61,7 +53,7 @@ const Delete = styled.div`
 
 function UpdateProduct({ id }) {
   const history = useHistory();
-
+  console.log(id, "btam");
   const updateUser = (event) => {
     event.preventDefault();
     history.push(`/Update/${id}`);
@@ -186,6 +178,12 @@ export default function CardList({
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [product, setproduct] = useState(null);
   const { currentUser } = useContext(AuthContext);
+  const [change, setChange] = useState(false);
+
+  useEffect(() => {
+    console.log(change);
+  }, [change]);
+
   const user = users?.find(
     (usr) =>
       usr["email"] === currentUser.email.toUpperCase() ||
@@ -282,12 +280,13 @@ export default function CardList({
                       <>
                         <Button size="small" color="primary">
                           <DeleteProduct
-                            id={product["secondaryId"]}
+                            id={product["seconderyId"]}
                             deleteHandler={deleteHandler}
                           />
                         </Button>
+                        {console.log(product)}
                         <Button size="small" color="primary">
-                          <UpdateProduct id={product["secondaryId"]} />
+                          <UpdateProduct id={product["seconderyId"]} />
                         </Button>
                       </>
                     ) : user &&
@@ -297,13 +296,19 @@ export default function CardList({
                       }) ? (
                       <Button size="small" color="primary">
                         <Star
-                          onClick={() => api.removeFromFavorites(user, product)}
+                          onClick={() => {
+                            api.removeFromFavorites(user, product);
+                            setChange((prev) => !prev);
+                          }}
                         />
                       </Button>
                     ) : (
                       <Button size="small" color="primary">
                         <StarBorderIcon
-                          onClick={() => api.addToFavorites(user, product)}
+                          onClick={() => {
+                            api.addToFavorites(user, product);
+                            setChange((prev) => !prev);
+                          }}
                         />
                       </Button>
                     )}
@@ -338,12 +343,12 @@ export default function CardList({
                         <>
                           <Button size="small" color="primary">
                             <DeleteProduct
-                              id={product["secondaryId"]}
+                              id={product["seconderyId"]}
                               deleteHandler={deleteHandler}
                             />
                           </Button>
                           <Button size="small" color="primary">
-                            <UpdateProduct id={product["secondaryId"]} />
+                            <UpdateProduct id={product["seconderyId"]} />
                           </Button>
                         </>
                       ) : user &&
@@ -353,15 +358,19 @@ export default function CardList({
                         }) ? (
                         <Button size="small" color="primary">
                           <Star
-                            onClick={() =>
-                              api.removeFromFavorites(user, product)
-                            }
+                            onClick={() => {
+                              api.removeFromFavorites(user, product);
+                              setChange((prev) => !prev);
+                            }}
                           />
                         </Button>
                       ) : (
                         <Button size="small" color="primary">
                           <StarBorderIcon
-                            onClick={() => api.addToFavorites(user, product)}
+                            onClick={() => {
+                              api.addToFavorites(user, product);
+                              setChange((prev) => !prev);
+                            }}
                           />
                         </Button>
                       )}
@@ -466,7 +475,7 @@ export default function CardList({
                       />
                     </Button>
                     <Button size="small" color="primary">
-                      <UpdateProduct id={product["sedcondaryId"]} />
+                      <UpdateProduct id={product["seconderyId"]} />
                     </Button>
                   </>
                 ) : user &&
@@ -476,13 +485,19 @@ export default function CardList({
                   }) ? (
                   <Button size="small" color="primary">
                     <Star
-                      onClick={() => api.removeFromFavorites(user, product)}
+                      onClick={() => {
+                        api.removeFromFavorites(user, product);
+                        setChange((prev) => !prev);
+                      }}
                     />
                   </Button>
                 ) : (
                   <Button size="small" color="primary">
                     <StarBorderIcon
-                      onClick={() => api.addToFavorites(user, product)}
+                      onClick={() => {
+                        api.addToFavorites(user, product);
+                        setChange((prev) => !prev);
+                      }}
                     />
                   </Button>
                 )}

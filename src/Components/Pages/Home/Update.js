@@ -126,21 +126,27 @@ export default class ProductUpdate extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      await api.updateProductById(this.state.id, data).then((res) => {
-        Alert(`Product updated successfully`, true);
-        this.setState({
-          name: "",
-          condition: "",
-          description: "",
-          category: "",
-          address: "",
-          images: null,
-          price: null,
-          ownerId: null,
-          redirect: true,
-          alert: false,
-        });
-      });
+      console.log("stamahi");
+      await api
+        .updateProductById(this.state.id, data)
+        .then((res) => {
+          console.log(res);
+          console.log("stam");
+          Alert(`Product updated successfully`, true);
+          this.setState({
+            name: "",
+            condition: "",
+            description: "",
+            category: "",
+            address: "",
+            images: null,
+            price: null,
+            ownerId: null,
+            redirect: true,
+            alert: false,
+          });
+        })
+        .catch((err) => console.log(err));
     }
   };
   componentDidMount = async () => {

@@ -134,10 +134,14 @@ export default class ProductsList extends Component {
                 max2 = cat.val;
               }
             });
+            cat2
+              ? this.setState({
+                  favCategories: [cat1, cat2],
+                })
+              : this.setState({
+                  favCategories: [cat1],
+                });
 
-            this.setState({
-              favCategories: [cat1, cat2],
-            });
             console.log(this.state.favCategories);
           });
           let prods = [];
@@ -190,7 +194,7 @@ export default class ProductsList extends Component {
             <h1>{intl.formatMessage({ id: "Recommended for you" })}</h1>
             <h3>
               {`We can see that you like ${favCategories[0]}  ${
-                favCategories[1] !== null ? "and " + favCategories[1] : ""
+                favCategories[1] ? "and " + favCategories[1] : ""
               }`}
             </h3>
             <CardList

@@ -126,7 +126,6 @@ export default class ProductUpdate extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      console.log("stamahi");
       await api
         .updateProductById(this.state.id, data)
         .then((res) => {

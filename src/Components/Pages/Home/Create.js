@@ -85,7 +85,7 @@ export default class ProductInsert extends Component {
     const address = event.target.value;
     this.setState({ address });
   };
-  
+
   handleChangeInputImages = async (event) => {
     return Promise.all(
       [...event.target.files].map((image) => {
@@ -311,7 +311,7 @@ export default class ProductInsert extends Component {
         <div>
           <div style={{ textAlign: "center" }}>
             <Button onClick={this.handleIncludeProduct}>Add Product</Button>
-            <CancelButton href={"/Home"}>Cancel</CancelButton>
+            <CancelButton href={"/"}>Cancel</CancelButton>
             {alertMessage}
           </div>{" "}
         </div>

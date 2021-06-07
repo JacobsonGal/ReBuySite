@@ -110,7 +110,10 @@ export default class ProductsList extends Component {
       });
       firestore
         .collection("users")
-        .where("email", "==", this.state.currentUser?.email)
+        .where("email", "in", [
+          this.state.currentUser?.email.toUpperCase(),
+          this.state.currentUser?.email.toLowerCase(),
+        ])
         .get()
         .then((Snapshot) => {
           Snapshot.docs.forEach((doc) => {
@@ -131,10 +134,14 @@ export default class ProductsList extends Component {
                 max2 = cat.val;
               }
             });
+            cat2
+              ? this.setState({
+                  favCategories: [cat1, cat2],
+                })
+              : this.setState({
+                  favCategories: [cat1],
+                });
 
-            this.setState({
-              favCategories: [cat1, cat2],
-            });
             console.log(this.state.favCategories);
           });
           let prods = [];
@@ -186,7 +193,9 @@ export default class ProductsList extends Component {
           <>
             <h1>{intl.formatMessage({ id: "Recommended for you" })}</h1>
             <h3>
-              {`We can see that you like ${favCategories[0]} and ${favCategories[1]}`}
+              {`We can see that you like ${favCategories[0]}  ${
+                favCategories[1] ? "and " + favCategories[1] : ""
+              }`}
             </h3>
             <CardList
               products={favProduct}

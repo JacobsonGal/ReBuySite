@@ -195,27 +195,42 @@ export default function CardList({
     let category = product.category;
     firestore
       .collection("users")
-      .where("email", "==", currentUser?.email)
+      // .where("email", "==", currentUser?.email)
+      .where("email", "in", [
+        currentUser?.email.toUpperCase(),
+        currentUser?.email.toLowerCase(),
+      ])
       .get()
       .then((Snapshot) => {
         Snapshot.docs.forEach((doc) => {
+          console.log(doc.data());
           let favCategory = doc.data().favCategory;
-          let newfavCategory = [{}];
-          let flag = false;
-          newfavCategory = favCategory;
-          console.log(newfavCategory);
-          newfavCategory.forEach((cat) => {
-            if (cat.key === category) {
-              cat.val++;
-              flag = true;
-            }
-          });
-          if (flag === false) {
+          console.log(favCategory);
+          if (!favCategory) {
+            console.log("new fav");
+            let newfavCategory = [];
             newfavCategory.push({ key: category, val: 1 });
+            doc.ref.update({
+              favCategory: newfavCategory,
+            });
+          } else {
+            let newfavCategory = [{}];
+            let flag = false;
+            newfavCategory = favCategory;
+            console.log(newfavCategory);
+            newfavCategory.forEach((cat) => {
+              if (cat.key === category) {
+                cat.val++;
+                flag = true;
+              }
+            });
+            if (flag === false) {
+              newfavCategory.push({ key: category, val: 1 });
+            }
+            doc.ref.update({
+              favCategory: newfavCategory,
+            });
           }
-          doc.ref.update({
-            favCategory: newfavCategory,
-          });
         });
       })
       .catch((error) => {});
@@ -297,6 +312,7 @@ export default function CardList({
                       <Button size="small" color="primary">
                         <Star
                           onClick={() => {
+                            Alert("Products removed from favorites!", true);
                             api.removeFromFavorites(user, product);
                             setChange((prev) => !prev);
                           }}
@@ -307,6 +323,7 @@ export default function CardList({
                         <StarBorderIcon
                           onClick={() => {
                             api.addToFavorites(user, product);
+                            Alert("Products added from favorites!", true);
                             setChange((prev) => !prev);
                           }}
                         />

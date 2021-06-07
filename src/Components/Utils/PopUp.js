@@ -63,6 +63,7 @@ export default function Marker({
             }}
             isOpen={isModelOpen}
             onRequestClose={() => setIsModelOpen(false)}
+            ariaHideApp={false}
           >
             <Button
               style={{ left: 25, zIndex: 950, position: "fixed" }}
@@ -238,6 +239,7 @@ export default function Marker({
             }}
             isOpen={isModelOpen}
             onRequestClose={() => setIsModelOpen(false)}
+            ariaHideApp={false}
           >
             {product && (
               <Card

@@ -221,6 +221,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                   <Route exact path="/chat/:sellerId/:product/:currentId">
                     <SellerRoom />
                   </Route>
+
                   {/* </>
                 )} */}
                 </div>

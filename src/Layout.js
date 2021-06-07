@@ -24,13 +24,48 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
   const intl = useIntl();
   const [rtl, setRtl] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
-  const [image, setImage] = useState(false);
+  const [sideBarImage, setSideBarImage] = useState(false);
   const [toggled, setToggled] = useState(true);
   const [title, setTitle] = useState("ReBuy");
   const [notificationData, setnotificationData] = useState();
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
   const { currentUser } = useContext(AuthContext);
+  const email = useState(currentUser ? currentUser.email : "Email");
+  const [user, setUser] = useState(null);
+  const [name, setName] = useState(null);
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    async function use() {
+      if (!user) {
+        let response = await api.getUserById(currentUser?.email.toUpperCase());
+        if (!response)
+          response = await api.getUserById(currentUser?.email.toLowerCase());
+        console.log(response.data.data);
+        setUser(response.data.data);
+      } else {
+        console.log(user);
+        !name &&
+          setName(
+            user
+              ? user["name"]
+              : currentUser && currentUser.displayName
+              ? currentUser.displayName
+              : intl.formatMessage({ id: "welcome" })
+          );
+        !image &&
+          setImage(
+            user
+              ? user["image"]
+              : currentUser && currentUser.photoURL
+              ? currentUser.photoURL
+              : null
+          );
+      }
+    }
+    use();
+  }, [user, name, image, currentUser, intl]);
 
   const handleCollapsedChange = (checked) => {
     setCollapsed(checked);
@@ -41,7 +76,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
     setLocale(checked ? "he" : "en");
   };
   const handleImageChange = (checked) => {
-    setImage(checked);
+    setSideBarImage(checked);
   };
 
   const handleToggleSidebar = () => {
@@ -80,7 +115,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
               <div className="main-container">
                 <div className="sideBar">
                   <SideBar
-                    image={image}
+                    sideBarImage={sideBarImage}
                     collapsed={collapsed}
                     rtl={rtl}
                     toggled={toggled}
@@ -94,6 +129,12 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                     setLocale={setLocale}
                     locale={locale}
                     loading={isActive}
+                    user={user}
+                    setUser={setUser}
+                    name={name}
+                    setName={setName}
+                    image={image}
+                    setImage={setImage}
                   />
                 </div>
                 <MobileBar
@@ -166,6 +207,12 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                     <ProfileSettings
                       title={intl.formatMessage({ id: "profile" })}
                       setTitle={setTitle}
+                      user={user}
+                      setUser={setUser}
+                      name={name}
+                      setName={setName}
+                      image={image}
+                      setImage={setImage}
                     />
                   </Route>
                   <Route exact path="/:sellerId/:description/:secondaryId">

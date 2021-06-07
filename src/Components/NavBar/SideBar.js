@@ -23,7 +23,7 @@ import TopBar from "./TopBar";
 import User from "./User";
 
 export default function SideBar({
-  image,
+  sideBarImage,
   collapsed,
   rtl,
   toggled,
@@ -38,6 +38,12 @@ export default function SideBar({
   setLoading,
   setLocale,
   locale,
+  user,
+  setUser,
+  name,
+  setName,
+  image,
+  setImage,
 }) {
   const history = useHistory();
   const intl = useIntl();
@@ -58,7 +64,7 @@ export default function SideBar({
   return (
     <div className="sideBar">
       <ProSidebar
-        // image={image ? sidebarBg : false}
+        // image={sideBarImage ? sideBarImage : false}
         rtl={rtl}
         collapsed={collapsed}
         toggled={toggled}
@@ -113,6 +119,12 @@ export default function SideBar({
             handleToggleSidebar={handleToggleSidebar}
             setLocale={setLocale}
             locale={locale}
+            user={user}
+            setUser={setUser}
+            name={name}
+            setName={setName}
+            image={image}
+            setImage={setImage}
           />
         </SidebarContent>
         <SidebarFooter className="sideBarFooter">

@@ -5,13 +5,37 @@ import MediaQuery from "react-responsive";
 import { Form, Card, Dropdown } from "react-bootstrap";
 import { FaPencilAlt } from "react-icons/fa";
 import Person from "@material-ui/icons/PersonRounded";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import api from "../../../API/API";
 import CardList from "../Home/CardList";
 import apis from "../../../API/API";
 import Page from "../../Utils/Page";
+import styled from "styled-components";
+import Alert from "../../Utils/Alert";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/storage";
+const storage = firebase.storage();
 
-export default function ProfileSetting({ title, setTitle, intl }) {
+const InputText = styled.input.attrs({
+  className: "form-control",
+})`
+  margin: 0 auto;
+  width: 0;
+  text-align: center;
+`;
+
+export default function ProfileSetting({
+  title,
+  setTitle,
+  intl,
+  user,
+  setUser,
+  name,
+  setName,
+  image,
+  setImage,
+}) {
   const [loading, setLoading] = useState(false);
   // console.log(loading);
   return (
@@ -24,7 +48,17 @@ export default function ProfileSetting({ title, setTitle, intl }) {
       FAB="none"
       dots={false}
     >
-      <ProfileSettings loading={loading} setLoading={setLoading} intl={intl} />
+      <ProfileSettings
+        loading={loading}
+        setLoading={setLoading}
+        intl={intl}
+        user={user}
+        setUser={setUser}
+        name={name}
+        setName={setName}
+        image={image}
+        setImage={setImage}
+      />
     </Page>
   );
 }
@@ -40,6 +74,12 @@ export class ProfileSettings extends Component {
       isLoading: this.props.loading,
       imagePath: "",
       setLoading: this.props.setLoading,
+      user: props.user,
+      setUser: props.setUser,
+      name: props.name,
+      setName: props.setName,
+      image: props.image,
+      setImage: props.setImage,
     };
   }
 
@@ -76,7 +116,18 @@ export class ProfileSettings extends Component {
     });
   };
   render() {
-    const { products, images, users, setLoading } = this.state;
+    const {
+      products,
+      images,
+      users,
+      setLoading,
+      user,
+      setUser,
+      name,
+      setName,
+      image,
+      setImage,
+    } = this.state;
 
     return (
       <Profile
@@ -84,6 +135,12 @@ export class ProfileSettings extends Component {
         images={images}
         users={users}
         setLoading={setLoading}
+        user={user}
+        setUser={setUser}
+        name={name}
+        setName={setName}
+        image={image}
+        setImage={setImage}
       />
     );
   }
@@ -95,27 +152,52 @@ export function Profile({
   title,
   setTitle,
   setLoading,
+  user,
+  setUser,
+  name,
+  setName,
+  image,
+  setImage,
 }) {
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
-  const Admin = currentUser ? Admins(currentUser.email) : false;
-  // const [user, setuser] = useState(null);
-  const [photo, setphoto] = useState(null);
+  const email = useState(currentUser ? currentUser.email : "Email");
 
-  const user = users.find(
-    (usr) =>
-      usr["email"] === currentUser.email.toUpperCase() ||
-      (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
-  );
-  const name = currentUser
-    ? currentUser.displayName
-    : intl.formatMessage({ id: "welcome" });
-  const email = currentUser ? currentUser.email : "Email";
-  const image = currentUser
-    ? currentUser.photoURL
-    : user && user["image"]
-    ? user["image"]
-    : null;
+  // const [user, setUser] = useState(null);
+  // const [name, setName] = useState(null);
+  // const [image, setImage] = useState(null);
+  const [nameChange, setNameChange] = useState(false);
+
+  // useEffect(() => {
+  //   async function use() {
+  //     if (!user) {
+  //       let response = await api.getUserById(currentUser?.email.toUpperCase());
+  //       if (!response)
+  //         response = await api.getUserById(currentUser?.email.toLowerCase());
+  //       console.log(response.data.data);
+  //       setUser(response.data.data);
+  //     } else {
+  //       console.log(user);
+  //       !name &&
+  //         setName(
+  //           user
+  //             ? user["name"]
+  //             : currentUser && currentUser.displayName
+  //             ? currentUser.displayName
+  //             : intl.formatMessage({ id: "welcome" })
+  //         );
+  //       !image &&
+  //         setImage(
+  //           user
+  //             ? user["image"]
+  //             : currentUser && currentUser.photoURL
+  //             ? currentUser.photoURL
+  //             : null
+  //         );
+  //     }
+  //   }
+  //   use();
+  // }, [user, setUser, name, setName, image, setImage, currentUser, intl]);
 
   const deleteHandler = (productId) => {
     // setProducts(
@@ -124,25 +206,93 @@ export function Profile({
     //   })
     // );
   };
-
+  async function handleChangeInputImages(event) {
+    console.log(event.target.files);
+    return Promise.all(
+      [...event.target.files].map((image) => {
+        console.log(image);
+        storage
+          .ref(`users/${image.name}`)
+          .put(image)
+          .on(
+            "state_changed",
+            () => {},
+            (error) => {
+              console.log(error);
+            },
+            () =>
+              storage
+                .ref("users")
+                .child(image.name)
+                .getDownloadURL()
+                .then(async (url) => {
+                  let data = new FormData();
+                  data.append("image", url);
+                  await api
+                    .updateUserById(currentUser?.email, data)
+                    .then((res) => {
+                      Alert("Image changed!", true);
+                    })
+                    .catch((error) => {
+                      Alert(error.message);
+                    });
+                  console.log(url);
+                  setImage(url);
+                })
+          );
+      })
+    );
+  }
+  async function handleChangeInputName(event) {
+    const newName = event.target.value;
+    console.log(newName);
+    let data = new FormData();
+    data.append("name", newName);
+    await api
+      .updateUserById(currentUser?.email, data)
+      .then((res) => {
+        Alert("Name changed!", true);
+      })
+      .catch((error) => {
+        Alert(error.message);
+      });
+    setName(newName);
+    setNameChange(false);
+  }
   return (
     <Card className="userSettings">
       <Card.Header className="userHeader">
-        <Avatar
+        <label
           style={{
-            alignSelf: window.screen.width <= 800 ? "right" : "center",
-            width: "100px",
-            height: "100px",
-            borderRadius: "50%",
+            border: "1pxsolid#ccc",
+            display: "inline-block",
+            padding: "6px12px",
+            cursor: "pointer",
           }}
-          variant="rounded"
-          src={image ? image : ""}
         >
-          {user
-            ? user.name.toString().split(" ")[0][0].toUpperCase() +
-              user.name.toString().split(" ")[1][0].toUpperCase()
-            : null}
-        </Avatar>
+          <input
+            type="file"
+            onChange={handleChangeInputImages}
+            style={{ display: "none" }}
+          />
+          <Avatar
+            style={{
+              alignSelf: window.screen.width <= 800 ? "right" : "center",
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+            }}
+            variant="rounded"
+            src={image ? image : ""}
+          >
+            {/* {user
+              ? user.name.toString().split(" ")[0][0].toUpperCase() +
+                user.name.toString().split(" ")[1][0].toUpperCase()
+              : null} */}
+          </Avatar>
+        </label>
+        {/* </Button> */}
+
         <Card.Title
           style={{
             margin: "1rem",
@@ -151,7 +301,23 @@ export function Profile({
             alignSelf: "center",
           }}
         >
-          {name}
+          <label
+            style={{
+              border: "1pxsolid#ccc",
+              display: "inline-block",
+              padding: "6px12px",
+              cursor: "pointer",
+            }}
+          >
+            <input
+              type="text"
+              onClick={() => setNameChange(true)}
+              // onChange={handleChangeInputName}
+              onKeyDown={(e) => e.keyCode === 13 && handleChangeInputName(e)}
+              style={{ display: !nameChange ? "none" : "flex" }}
+            />
+            {!nameChange && name}
+          </label>
         </Card.Title>
         <Card.Subtitle>{email}</Card.Subtitle>
       </Card.Header>

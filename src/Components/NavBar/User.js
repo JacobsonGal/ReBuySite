@@ -11,28 +11,56 @@ import { AuthContext, Admins } from "../SSO/Auth";
 import api from "../../API/API";
 import Switch from "react-switch";
 
-export default function User({ handleToggleSidebar, setLocale, locale }) {
+export default function User({
+  handleToggleSidebar,
+  setLocale,
+  locale,
+  user,
+  setUser,
+  name,
+  setName,
+  image,
+  setImage,
+}) {
   const intl = useIntl();
-  const [users, setUsers] = useState([]);
-  const [user, setuser] = useState(null);
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
+  // const [user, setUser] = useState(null);
+  // const [name, setName] = useState(null);
+  // const [image, setImage] = useState(null);
 
-  useEffect(() => {
-    return async () => {
-      await api.getAllUsers().then((user) => {
-        setUsers(user.data.data);
-      });
-    };
-  });
+  // useEffect(() => {
+  //   async function use() {
+  //     if (!user) {
+  //       let response = await api.getUserById(currentUser?.email.toUpperCase());
+  //       if (!response)
+  //         response = await api.getUserById(currentUser?.email.toLowerCase());
+  //       console.log(response.data.data);
+  //       setUser(response.data.data);
+  //     } else {
+  //       console.log(user);
+  //       !name &&
+  //         setName(
+  //           user
+  //             ? user["name"]
+  //             : currentUser && currentUser.displayName
+  //             ? currentUser.displayName
+  //             : intl.formatMessage({ id: "welcome" })
+  //         );
+  //       !image &&
+  //         setImage(
+  //           user
+  //             ? user["image"]
+  //             : currentUser && currentUser.photoURL
+  //             ? currentUser.photoURL
+  //             : null
+  //         );
+  //     }
+  //   }
+  //   use();
+  // }, [user, setUser, name, setName, image, setImage, currentUser, intl]);
 
-  function Userlog() {
-    const image =
-      user && user["image"]
-        ? user["image"]
-        : currentUser && currentUser.photoURL
-        ? currentUser.photoURL
-        : "";
+  function UserLogo() {
     if (image) {
       return (
         <img
@@ -53,8 +81,8 @@ export default function User({ handleToggleSidebar, setLocale, locale }) {
     <>
       <Menu iconShape="circle">
         <SubMenu
-          title={currentUser ? currentUser.displayName : "User"}
-          icon={<Userlog />}
+          title={name ? name : currentUser?.displayName}
+          icon={<UserLogo />}
         >
           {!Admin && (
             <>

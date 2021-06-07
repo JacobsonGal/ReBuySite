@@ -85,6 +85,7 @@ export default class ProductInsert extends Component {
     const address = event.target.value;
     this.setState({ address });
   };
+  
   handleChangeInputImages = async (event) => {
     return Promise.all(
       [...event.target.files].map((image) => {

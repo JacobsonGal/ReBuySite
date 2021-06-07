@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../Assets/ReBuy.jpeg";
+import { FaInbox } from "react-icons/fa";
 
 const TopBar = ({
   handleToggleSidebar,
@@ -41,7 +42,8 @@ const TopBar = ({
             //  to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
             onClick={handleToggleSidebar}
           >
-            <div class="notification-box">
+            <FaInbox color="white" size="40px" />
+            {/* <div class="notification-box">
               {notificationHandler}
               <div class="notification-bell">
                 <span class="bell-top"></span>
@@ -49,7 +51,7 @@ const TopBar = ({
                 <span class="bell-bottom"></span>
                 <span class="bell-rad"></span>
               </div>
-            </div>
+            </div> */}
           </Link>
         </div>
       </div>
@@ -58,12 +60,3 @@ const TopBar = ({
 };
 
 export default TopBar;
-
-{
-  /* <div className="title">
-        <h1 className="titleh1">Yavo</h1>
-        <Button to="/" className="titlefast" onClick={isCollapsed}>
-          Yavo
-        </Button>
-      </div> */
-}

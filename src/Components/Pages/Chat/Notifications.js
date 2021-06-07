@@ -19,7 +19,8 @@ export default function Notifications({ title, setTitle, setActive }) {
   const [loading, setLoading] = useState(false);
   let tmp = [{ name: "loading" }];
   const [products, setProducts] = useState(tmp);
-  const [recivers, setRecivers] = useState(tmp);
+  const [sellerId, setSellerId] = useState();
+  const [secondaryId, setScondaryId] = useState();
   firestore
     .collection(`products`).where("ownerId", "==", user?.uid)
     .get()
@@ -32,6 +33,8 @@ export default function Notifications({ title, setTitle, setActive }) {
       console.log("Error getting documents: ", error);
     });
   {
+
+
 
 
     return (
@@ -49,7 +52,7 @@ export default function Notifications({ title, setTitle, setActive }) {
 
             <div className="col-12">
               <div className="header ">
-                <h1>people who interested your products</h1>
+                <h1>Choose Product</h1>
               </div>
 
             </div>
@@ -70,9 +73,9 @@ export default function Notifications({ title, setTitle, setActive }) {
                         />
                       </div>
                       <div className="user_info">
-                        <span>
+                        <span >
                           <Link
-                            to={`/chat/${item.id}/${item.prodID}/${user?.uid}`}
+                            // onClick=
                             key={index}
                           >
                             {item.name}
@@ -91,4 +94,69 @@ export default function Notifications({ title, setTitle, setActive }) {
       </Page >
     );
   }
+}
+
+function SellerArea({ sellerId, prodId }) {
+  let tmp = [{ name: "loading" }];
+  const [recivers, setRecivers] = useState(tmp);
+  firestore
+    .collection(`users/${sellerId}/prod/${prodId}/recivers`)
+    .get()
+    .then((querySnapshot) => {
+      let temp = [];
+      querySnapshot.docs.map((doc) => temp.push(doc.data()));
+      setRecivers(temp);
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+
+  return (
+    <>
+      <div className="card contacts_card">
+        <div className="card-header">
+
+          <div className="col-12">
+            <div className="header ">
+              <h1>people who interested your product</h1>
+            </div>
+
+          </div>
+        </div>
+        <div className="card-body contacts_body">
+          <ui className="contacts">
+            <li className="active">
+              {recivers.map((item, index) => (
+                <>
+                  <div className="d-flex bd-highlight">
+                    <div className="img_cont">
+                      <img
+                        src={
+                          item.photoURL ||
+                          "https://api.adorable.io/avatars/23/abott@adorable.png"
+                        }
+                        className="rounded-circle user_img"
+                      />
+                    </div>
+                    <div className="user_info">
+                      <span>
+                        <Link
+                          to={`/chat/${item.id}/${prodId}/${sellerId}`}
+                          key={index}
+                        >
+                          {item.name}
+                        </Link>
+                      </span>
+                      <p></p>
+                    </div>
+                  </div>
+                  <hr />
+                </>
+              ))}
+            </li>
+          </ui>
+        </div>
+      </div>
+    </>
+  );
 }

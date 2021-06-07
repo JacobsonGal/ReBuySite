@@ -106,7 +106,8 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
-      name: user?.displayName
+      name: user?.displayName,
+
     });
 
     await messagesRefSeller.add({
@@ -114,7 +115,8 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
-      name: user?.displayName
+      name: user?.displayName,
+
 
 
     });
@@ -126,6 +128,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
         id: currentId,
         name: currentName,
         photoURL: photoURL,
+        prodID: productId
       });
     }
   };

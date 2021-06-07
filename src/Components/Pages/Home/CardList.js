@@ -158,7 +158,7 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
     tileBar: {
-      backgroundColor: "rgba(255,255,255,0.5)",
+      backgroundColor: "rgba(255,255,255,0.7)",
       justifyContent: "center",
       color: "black",
       display: "flex",
@@ -250,7 +250,7 @@ export default function CardList({
         <GridList cellHeight={200} className={classes.gridList}>
           {products &&
             products.map((product, i) => (
-              <GridListTile key={i} onClick={() => setData(product)}>
+              <GridListTile key={i}>
                 <Card
                   style={{
                     margin: "5px",
@@ -258,7 +258,9 @@ export default function CardList({
                     // height: 500,
                     border: "1px solid #ececec",
                     borderRadius: "15px",
+                    zIndex: 100,
                   }}
+                  onClick={() => setData(product)}
                 >
                   {product["photo"] ? (
                     <Carousel>
@@ -287,50 +289,6 @@ export default function CardList({
                       alt={"rebuyProduct"}
                     />
                   )}{" "}
-                  <CardActions
-                    style={{ justifyContent: "center", height: "2rem" }}
-                  >
-                    {(user && user.uid === product.ownerId) ||
-                    Admins(currentUser.email) ? (
-                      <>
-                        <Button size="small" color="primary">
-                          <DeleteProduct
-                            id={product["seconderyId"]}
-                            deleteHandler={deleteHandler}
-                          />
-                        </Button>
-                        {console.log(product)}
-                        <Button size="small" color="primary">
-                          <UpdateProduct id={product["seconderyId"]} />
-                        </Button>
-                      </>
-                    ) : user &&
-                      user.favorites &&
-                      user.favorites?.some((p) => {
-                        return product.name === p.name;
-                      }) ? (
-                      <Button size="small" color="primary">
-                        <Star
-                          onClick={() => {
-                            Alert("Products removed from favorites!", true);
-                            api.removeFromFavorites(user, product);
-                            setChange((prev) => !prev);
-                          }}
-                        />
-                      </Button>
-                    ) : (
-                      <Button size="small" color="primary">
-                        <StarBorderIcon
-                          onClick={() => {
-                            api.addToFavorites(user, product);
-                            Alert("Products added from favorites!", true);
-                            setChange((prev) => !prev);
-                          }}
-                        />
-                      </Button>
-                    )}
-                  </CardActions>
-                  {/* {console.log(user)} */}
                 </Card>
                 <GridListTileBar
                   title={
@@ -352,19 +310,17 @@ export default function CardList({
                     </>
                   }
                   actionIcon={
-                    <CardActions
-                      style={{ justifyContent: "center", height: "2rem" }}
-                    >
+                    <div>
                       {(user && user.uid === product.ownerId) ||
                       Admins(currentUser.email) ? (
                         <>
-                          <Button size="small" color="primary">
+                          <Button size="medium" variant="primary">
                             <DeleteProduct
                               id={product["seconderyId"]}
                               deleteHandler={deleteHandler}
                             />
                           </Button>
-                          <Button size="small" color="primary">
+                          <Button size="medium" variant="primary">
                             <UpdateProduct id={product["seconderyId"]} />
                           </Button>
                         </>
@@ -391,7 +347,7 @@ export default function CardList({
                           />
                         </Button>
                       )}
-                    </CardActions>
+                    </div>
                   }
                   className={classes.tileBar}
                 />

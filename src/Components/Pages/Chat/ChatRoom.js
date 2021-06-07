@@ -107,7 +107,6 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       uid,
       photoURL,
       name: user?.displayName,
-
     });
 
     await messagesRefSeller.add({
@@ -116,9 +115,6 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
       uid,
       photoURL,
       name: user?.displayName,
-
-
-
     });
 
     setFormValue("");
@@ -128,7 +124,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
         id: currentId,
         name: currentName,
         photoURL: photoURL,
-        prodID: productId
+        prodID: productId,
       });
     }
   };
@@ -222,14 +218,13 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
           </button>
         </form>
       </div>
-    </div >
+    </div>
   );
 }
 
 export default ChatRoom;
 function ChatMessage(props) {
   const { text, uid, photoURL, name } = props.message;
-
 
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 

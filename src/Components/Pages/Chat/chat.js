@@ -1,5 +1,5 @@
 import "./chat.css";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
@@ -8,7 +8,7 @@ import "firebase/analytics";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Link, useParams } from "react-router-dom";
-
+import { Avatar } from "@material-ui/core";
 import { NavItem } from "react-bootstrap";
 import { func } from "prop-types";
 import ChatRoom from "./ChatRoom";
@@ -45,55 +45,82 @@ const Chat = () => {
 
 export default Chat;
 
-function SellerArea({ sellerId, prodId }) {
+export function SellerArea({ sellerId, prodId }) {
+  console.log("sellerId : " + sellerId);
+  console.log("prodId : " + prodId);
   let tmp = [{ name: "loading" }];
   const [recivers, setRecivers] = useState(tmp);
-  firestore
-    .collection(`users/${sellerId}/prod/${prodId}/recivers`)
-    .get()
-    .then((querySnapshot) => {
-      let temp = [];
-      querySnapshot.docs.map((doc) => temp.push(doc.data()));
-      setRecivers(temp);
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
+
+  useEffect(() => {
+    async function use() {
+      firestore
+        .collection(`users/${sellerId}/prod/${prodId}/recivers`)
+        .get()
+        .then((querySnapshot) => {
+          let temp = [];
+          querySnapshot.docs.map((doc) => temp.push(doc.data()));
+          setRecivers(temp);
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+    }
+    use();
+  }, []);
 
   return (
     <>
       <div className="card contacts_card">
         <div className="card-header">
-
           <div className="col-12">
             <div className="header ">
-              <h1>people who interested your product</h1>
+              <h1>People who interested your product</h1>
             </div>
-
           </div>
         </div>
         <div className="card-body contacts_body">
           <ui className="contacts">
             <li className="active">
-              {recivers.map((item, index) => (
+              {recivers.map((reciver, index) => (
                 <>
                   <div className="d-flex bd-highlight">
                     <div className="img_cont">
-                      <img
+                      <Avatar
+                        style={{
+                          alignSelf:
+                            window.screen.width <= 800 ? "right" : "center",
+                          width: "70px",
+                          height: "70px",
+                          borderRadius: "50%",
+                        }}
+                        variant="rounded"
+                        src={
+                          reciver.photoURL
+                            ? reciver.photoURL
+                            : reciver["image"]
+                            ? reciver["image"]
+                            : ""
+                        }
+                      >
+                        {reciver
+                          ? reciver.name.toString()[0].toUpperCase()
+                          : null}
+                      </Avatar>
+                      {/* <img
                         src={
                           item.photoURL ||
                           "https://api.adorable.io/avatars/23/abott@adorable.png"
                         }
                         className="rounded-circle user_img"
-                      />
+                      /> */}
                     </div>
                     <div className="user_info">
                       <span>
                         <Link
-                          to={`/chat/${item.id}/${prodId}/${sellerId}`}
+                          to={`/chat/${reciver.id}/${prodId}/${sellerId}`}
                           key={index}
                         >
-                          {item.name}
+                          {reciver.name}
                         </Link>
                       </span>
                       <p></p>

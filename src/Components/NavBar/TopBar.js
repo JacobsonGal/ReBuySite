@@ -42,16 +42,20 @@ const TopBar = ({
             //  to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
             onClick={handleToggleSidebar}
           >
-            <FaInbox color="white" size="40px" />
-            {/* <div class="notification-box">
+            <div class="notification-box">
+              <FaInbox
+                color="white"
+                size="40px"
+                style={{ curser: "pointer" }}
+              />
               {notificationHandler}
-              <div class="notification-bell">
+              {/* <div class="notification-bell">
                 <span class="bell-top"></span>
                 <span class="bell-middle"></span>
                 <span class="bell-bottom"></span>
                 <span class="bell-rad"></span>
-              </div>
-            </div> */}
+              </div> */}
+            </div>
           </Link>
         </div>
       </div>

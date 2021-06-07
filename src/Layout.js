@@ -38,15 +38,15 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
 
   useEffect(() => {
     async function use() {
-      if (!user) {
-        let response = await api.getUserById(currentUser?.email.toUpperCase());
-        if (!response)
-          response = await api.getUserById(currentUser?.email.toLowerCase());
-        console.log(response.data.data);
-        setUser(response.data.data);
-      } else {
-        console.log(user);
-        !name &&
+      if (currentUser) {
+        if (!user || user.uid !== currentUser.uid) {
+          let response = await api.getUserById(
+            currentUser?.email.toUpperCase()
+          );
+          if (!response)
+            response = await api.getUserById(currentUser?.email.toLowerCase());
+          console.log(response.data.data);
+          setUser(response.data.data);
           setName(
             user
               ? user["name"]
@@ -54,7 +54,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
               ? currentUser.displayName
               : intl.formatMessage({ id: "welcome" })
           );
-        !image &&
           setImage(
             user
               ? user["image"]
@@ -62,6 +61,25 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
               ? currentUser.photoURL
               : null
           );
+        } else {
+          console.log(user);
+          !name &&
+            setName(
+              user
+                ? user["name"]
+                : currentUser && currentUser.displayName
+                ? currentUser.displayName
+                : intl.formatMessage({ id: "welcome" })
+            );
+          !image &&
+            setImage(
+              user
+                ? user["image"]
+                : currentUser && currentUser.photoURL
+                ? currentUser.photoURL
+                : null
+            );
+        }
       }
     }
     use();
@@ -156,6 +174,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                       title={intl.formatMessage({ id: "Notifications" })}
                       setTitle={setTitle}
                       setActive={setActive}
+                      user={user}
                     />
                   </Route>
                   <Route exact path="/Map">

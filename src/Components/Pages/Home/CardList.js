@@ -11,7 +11,6 @@ import {
   CardContent,
   CardActionArea,
   CardActions,
-  CardMedia,
   Typography,
   Button,
   GridList,
@@ -34,12 +33,7 @@ import rebuyProduct from "../../../Assets/Images/ReBuy.png";
 import MediaQuery from "react-responsive";
 import swal from "@sweetalert/with-react";
 
-const auth = firebase.auth();
 const firestore = firebase.firestore();
-
-const Wrapper = styled.div`
-  padding: 0 40px 40px 40px;
-`;
 
 const Update = styled.div`
   color: #ef9b0f;
@@ -61,9 +55,6 @@ function UpdateProduct({ id }) {
 }
 
 export class DeleteProduct extends Component {
-  constructor() {
-    super();
-  }
   deleteUser = (event) => {
     event.preventDefault();
 

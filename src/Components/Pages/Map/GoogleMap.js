@@ -5,13 +5,10 @@ import Marker from "./Marker";
 import Geocode from "react-geocode";
 import Search from "../Home/Search";
 import PopUp from "../../Utils/PopUp";
-import OpenApp from "react-open-app";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-
-const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 export default class GoogleMap extends Component {
@@ -58,8 +55,6 @@ export default class GoogleMap extends Component {
             Geocode.fromAddress(p["address"]).then(
               (response) => {
                 var { lat, lng } = response.results[0].geometry.location;
-                // lat = lat + i * 0.005;
-                // lng = lng + i * 0.005;
                 lat = lat;
                 lng = lng;
 
@@ -154,7 +149,6 @@ export default class GoogleMap extends Component {
       isModelOpen,
       product,
       locations,
-      selected,
       map,
       maps,
       lat,

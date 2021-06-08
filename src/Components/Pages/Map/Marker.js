@@ -1,17 +1,7 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  CardMedia,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import React from "react";
+import { Button } from "@material-ui/core";
 import reBuy from "../../../Assets/Images/ReBuyLogoBig.png";
-import Modal from "react-modal";
-import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
-import PopUp from "../../Utils/PopUp";
 import { random } from "lodash";
 
 export default function Marker({

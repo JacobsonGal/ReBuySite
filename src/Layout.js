@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useIntl } from "react-intl";
 import SideBar from "./Components/NavBar/SideBar";
 import MobileBar from "./Components/NavBar/MobileBar";
@@ -31,7 +31,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
   const count = notificationData ? notificationData.length : 0;
   const [notificationCount, setNotificationCount] = useState(count);
   const { currentUser } = useContext(AuthContext);
-  const email = useState(currentUser ? currentUser.email : "Email");
   const [user, setUser] = useState(null);
   const [name, setName] = useState(null);
   const [image, setImage] = useState(null);

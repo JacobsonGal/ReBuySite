@@ -7,26 +7,26 @@ export default function MobileBar({
   notificationCount,
   setNotificationCount,
 }) {
-  function notificationHandle() {
-    if (notificationCount > 0)
-      return (
-        <span
-          class="notification-count"
-          style={{
-            backgroundColor: "red",
-            borderRadius: "500px",
-            padding: "2px 4px",
-            fontSize: "10px",
-            fontWeight: "700",
-            lineHeight: "100%",
-            right: "-15px",
-            top: "5px",
-          }}
-        >
-          {notificationCount}
-        </span>
-      );
-  }
+  // function notificationHandle() {
+  //   if (notificationCount > 0)
+  //     return (
+  //       <span
+  //         class="notification-count"
+  //         style={{
+  //           backgroundColor: "red",
+  //           borderRadius: "500px",
+  //           padding: "2px 4px",
+  //           fontSize: "10px",
+  //           fontWeight: "700",
+  //           lineHeight: "100%",
+  //           right: "-15px",
+  //           top: "5px",
+  //         }}
+  //       >
+  //         {notificationCount}
+  //       </span>
+  //     );
+  // }
 
   return (
     <div className="toggledBar">

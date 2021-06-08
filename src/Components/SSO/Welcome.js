@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import { AuthContext } from "./Auth";
 
@@ -16,11 +16,9 @@ export default function Welcome({ setWelcomeDone }) {
         style={{
           justifyContent: "center",
           textAlign: "center",
-          fontFamily: "LucidaConsole,CourierNew,monospace",
           fontFamily: "Raleway,sans-serif",
           fontSize: "16px",
           fontWeight: "500,lineHeight",
-          textAlign: "center",
           boxShadow: "0px0px15px#fff",
           animation: "glow1sease-in-outinfinitealternate",
         }}

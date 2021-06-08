@@ -1,5 +1,4 @@
 import React from "react";
-import { useIntl } from "react-intl";
 import PageBody from "./PageBody";
 import LoadingOverlay from "react-loading-overlay";
 import icon from "../../Assets/Images/ReBuyLogoTrans.png";

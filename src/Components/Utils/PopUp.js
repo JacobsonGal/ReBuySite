@@ -1,18 +1,10 @@
-import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  CardMedia,
-  Typography,
-  Button,
-} from "@material-ui/core";
+import React from "react";
+import { Card, CardContent, Typography, Button } from "@material-ui/core";
 import reBuy from "../../Assets/Images/ReBuyLogoBig.png";
 import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
 import Person from "@material-ui/icons/PersonRounded";
-import Pin from "@material-ui/icons/PinDropRounded";
 import Phone from "@material-ui/icons/Phone";
 import Chat from "@material-ui/icons/Chat";
 import { IoClose } from "react-icons/io5";
@@ -21,7 +13,6 @@ import ReactWhatsapp from "react-whatsapp";
 import { Link } from "react-router-dom";
 import PayPal from "./PayPal";
 import rebuyProduct from "../../Assets/Images/ReBuy.png";
-import { SiGooglestreetview, SiWaze } from "react-icons/si";
 import OpenApp from "react-open-app";
 import MediaQuery from "react-responsive";
 

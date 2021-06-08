@@ -7,9 +7,6 @@ import "firebase/analytics";
 import Avatar from "@material-ui/core/Avatar";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faEllipsisV } from "@fontawesome/free-solid-svg-icons";
-import { BorderBottom } from "@material-ui/icons";
 import Send from "@material-ui/icons/Send";
 
 const auth = firebase.auth();
@@ -120,7 +117,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
 
     setFormValue("");
     dummy.current.scrollIntoView({ behavior: "smooth" });
-    if (currentName != "flag") {
+    if (currentName !== "flag") {
       await reciverRef.set({
         id: currentId,
         name: currentName,
@@ -239,6 +236,7 @@ function ChatMessage(props) {
           src={
             photoURL || "https://api.adorable.io/avatars/23/abott@adorable.png"
           }
+          alt="imgMSG"
         />
         <div class="msg_cotainer">
           <p className="p">{text}</p>

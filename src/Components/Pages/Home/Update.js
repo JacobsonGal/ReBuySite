@@ -166,11 +166,9 @@ export default class ProductUpdate extends Component {
       name,
       condition,
       description,
-      images,
       address,
       price,
       category,
-      ownerId,
       redirect,
       alert,
     } = this.state;

@@ -27,16 +27,8 @@ function Categories({ title, setTitle }) {
       api.getAllUsers().then((res) => setUsers(res.data.data));
     }
     setLoading(false);
-  }, [category, products, id]);
-  {
-  }
-  const deleteHandler = (productId) => {
-    // setProducts(
-    //   products.filter((product) => {
-    //     return product._id !== productId.data._id;
-    //   })
-    // );
-  };
+  }, [category, products, id, users]);
+
   return (
     <Page
       loading={loading}

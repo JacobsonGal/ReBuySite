@@ -1,22 +1,16 @@
 import "./chat.css";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Link, useParams } from "react-router-dom";
+import { Avatar } from "@material-ui/core";
+import ChatRoom from "./ChatRoom";
+import { useIntl } from "react-intl";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { Link, useParams } from "react-router-dom";
-import { Avatar } from "@material-ui/core";
-import { NavItem } from "react-bootstrap";
-import { func } from "prop-types";
-import ChatRoom from "./ChatRoom";
-import { useIntl } from "react-intl";
-
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const analytics = firebase.analytics();
 
 const Chat = () => {
   const [user] = useAuthState(auth);
@@ -24,7 +18,7 @@ const Chat = () => {
   const { description } = useParams();
   const { secondaryId } = useParams();
   let ifSeller;
-  if (user && user.uid == sellerId) {
+  if (user && user.uid === sellerId) {
     ifSeller = true;
   }
   return (

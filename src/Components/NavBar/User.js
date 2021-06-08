@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { useIntl } from "react-intl";
 import { Menu, MenuItem } from "react-pro-sidebar";
 import { SubMenu } from "react-pro-sidebar";
-import { NavLink, Redirect } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import Star from "@material-ui/icons/StarRounded";
 import Person from "@material-ui/icons/PersonRounded";
 import firebaseConfig from "../SSO/Config.js";
 import { AuthContext, Admins } from "../SSO/Auth";
-import api from "../../API/API";
 import Switch from "react-switch";
 
 export default function User({

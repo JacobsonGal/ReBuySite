@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Redirect } from "react-router-dom";
 import Alert from "../../Utils/Alert";
 import firebase from "firebase/app";
-import { useIntl } from "react-intl";
 
 import "firebase/auth";
 import "firebase/storage";
@@ -192,10 +191,8 @@ export default class ProductInsert extends Component {
       condition,
       description,
       address,
-      images,
       category,
       price,
-      // ownerId,
       redirect,
       alert,
       intl,

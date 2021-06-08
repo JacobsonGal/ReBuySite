@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Col } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import api from "../../../API/API";
 
-function Groupby(props) {
+export default function Groupby(props) {
   const [products, setProducts] = useState([]);
   const [data, setData] = useState([]);
-  const [total, setTotal] = useState(0);
 
-  useEffect(async () => {
-    await api
-      .groupByCategory()
-      .then((res) => {
-        setProducts(res.data.products);
-        setData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  useEffect(() => {
+    async function use() {
+      await api
+        .groupByCategory()
+        .then((res) => {
+          setProducts(res.data.products);
+          setData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    use();
   }, []);
 
   const onChange = async (e) => {
@@ -31,17 +33,7 @@ function Groupby(props) {
         console.log(err);
       });
   };
-  const mapReduceHandler = async () => {
-    await api
-      .mapAndReduce()
-      .then((res) => {
-        // console.log(res);
-        setTotal(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
       <Form>
@@ -77,27 +69,4 @@ function Groupby(props) {
       </Button> */}
     </div>
   );
-}
-
-export default Groupby;
-
-{
-  /* <Form.Group controlId="formGroupEmail"> */
-}
-{
-  /* <Form.Label>Groupby Category</Form.Label> */
-}
-{
-  /* <Form.Control
-          type="text"
-          style={{ direction: "ltr" }}
-          placeholder="Enter search"
-          onChange={(e) => changeHandler(e)}
-        /> */
-}
-{
-  /* <Button onClick={clickHandler}>Group By Category</Button> */
-}
-{
-  /* </Form.Group> */
 }

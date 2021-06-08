@@ -32,9 +32,6 @@ export function UpdateProduct({ id }) {
 }
 
 export class DeleteProduct extends Component {
-  constructor() {
-    super();
-  }
   deleteUser = (event) => {
     event.preventDefault();
 

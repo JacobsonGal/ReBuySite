@@ -32,9 +32,6 @@ export default function LogIn({ setRegistered }) {
       .signInWithPopup(provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
-        var token = credential.accessToken;
-        var user = result.user;
         Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {
@@ -52,9 +49,6 @@ export default function LogIn({ setRegistered }) {
       .signInWithPopup(provider)
       .then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
-        var credential = result.credential;
-        var token = credential.accessToken;
-        var user = result.user;
         Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {

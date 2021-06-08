@@ -1,28 +1,26 @@
 import React, { useState } from "react";
 import { Form, Button, Col } from "react-bootstrap";
 import api from "../../../API/API";
-import Sort from "./Sort";
-import Groupby from "./Groupby";
 import { useIntl } from "react-intl";
 function Search(props) {
   const intl = useIntl();
 
-  const [query, setQuery] = useState("");
+  // const [query, setQuery] = useState("");
   const [condition, setCondition] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
 
-  const changeHandler = async (e) => {
-    setQuery(e.target.value);
-    await api
-      .search(query)
-      .then((res) => {
-        props.searchHandler(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const changeHandler = async (e) => {
+  //   setQuery(e.target.value);
+  //   await api
+  //     .search(query)
+  //     .then((res) => {
+  //       props.searchHandler(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const clickHandler = async () => {
     await api

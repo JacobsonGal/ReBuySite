@@ -1,36 +1,22 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Page from "../../Utils/Page";
-// import ChatRoom from "./ChatRoom";
 import "./chat.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { AuthContext } from "../../SSO/Auth";
-import { Link, useParams } from "react-router-dom";
-import { Avatar, Button } from "@material-ui/core";
-import { SellerArea } from "./chat";
+import { Link } from "react-router-dom";
+import { Avatar } from "@material-ui/core";
 import { useIntl } from "react-intl";
 import { random } from "lodash";
 
-// const auth = firebase.auth();
 const firestore = firebase.firestore();
-// const analytics = firebase.analytics();
 
 export default function Notifications({ title, setTitle, setActive, user }) {
-  // const [user] = useAuthState(auth);
-  // const { currentUser } = useContext(AuthContext);
-  // const user = currentUser;
   const intl = useIntl();
-  // console.log(user);
   const [loading, setLoading] = useState(true);
   let tmp = [{ name: "loading" }];
   const [products, setProducts] = useState(tmp);
-  const [sellerId, setSellerId] = useState();
-  const [secondaryId, setScondaryId] = useState();
-  const [selling, setSelling] = useState(false);
-  const [itemId, setItemId] = useState("");
   const userId = user && user["uid"];
 
   useEffect(() => {
@@ -50,7 +36,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
       setLoading(false);
     }
     use();
-  }, [user]);
+  }, [user, userId]);
 
   return (
     <Page

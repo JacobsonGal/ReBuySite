@@ -1,30 +1,17 @@
-import React, { Component, useState, useContext, useEffect } from "react";
-import { AuthContext, Admins } from "../../SSO/Auth";
+import React, { Component, useState, useContext } from "react";
+import { AuthContext } from "../../SSO/Auth";
 import { useIntl } from "react-intl";
-import MediaQuery from "react-responsive";
-import { Form, Card, Dropdown } from "react-bootstrap";
-import { FaPencilAlt } from "react-icons/fa";
-import Person from "@material-ui/icons/PersonRounded";
-import { Avatar, Button } from "@material-ui/core";
+import { Card } from "react-bootstrap";
+import { Avatar } from "@material-ui/core";
 import api from "../../../API/API";
 import CardList from "../Home/CardList";
-import apis from "../../../API/API";
 import Page from "../../Utils/Page";
-import styled from "styled-components";
 import Alert from "../../Utils/Alert";
-import { DeleteProduct, UpdateProduct } from "../../Utils/Handlers";
+import { DeleteProduct } from "../../Utils/Handlers";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
 const storage = firebase.storage();
-
-const InputText = styled.input.attrs({
-  className: "form-control",
-})`
-  margin: 0 auto;
-  width: 0;
-  text-align: center;
-`;
 
 export default function ProfileSetting({
   title,

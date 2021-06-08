@@ -1,83 +1,20 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { useHistory } from "react-router-dom";
 import api from "../../../API/API";
 import styled from "styled-components";
-import "react-table/index";
-import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
 import Search from "./Search";
-import Groupby from "./Groupby";
-import Sort from "./Sort";
-import { Link } from "react-router-dom";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import {
-  Card,
-  CardContent,
-  CardActionArea,
-  CardActions,
-  CardMedia,
-  Typography,
-  Button,
-  GridList,
-  GridListTile,
-  GridListTileBar,
-} from "@material-ui/core";
-import Carousel from "react-bootstrap/Carousel";
-import "bootstrap/dist/css/bootstrap.min.css";
-import PopUp from "../../Utils/PopUp";
 import CardList from "./CardList";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/analytics";
+import "react-table/index";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const auth = firebase.auth();
 const firestore = firebase.firestore();
 
 const Wrapper = styled.div``;
-const Update = styled.div`
-  color: #ef9b0f;
-  cursor: pointer;
-`;
-const Delete = styled.div`
-  color: #ff0000;
-  cursor: pointer;
-`;
-function UpdateProduct({ id }) {
-  const history = useHistory();
 
-  const updateUser = (event) => {
-    event.preventDefault();
-    history.push(`/Update/${id}`);
-  };
-  return <Update onClick={updateUser}>Update</Update>;
-}
-class DeleteProduct extends Component {
-  constructor() {
-    super();
-  }
-  deleteUser = (event) => {
-    event.preventDefault();
-
-    if (
-      window.confirm(
-        `Do tou want to delete the product ${this.props.id} permanently?`
-      )
-    ) {
-      api
-        .deleteProductById(this.props.id)
-        .then((res) => {
-          this.props.deleteHandler(res.data);
-        })
-        .catch((err) => console.log(err));
-      // window.location.reload();
-    }
-  };
-
-  render() {
-    return <Delete onClick={this.deleteUser}>DELETE</Delete>;
-  }
-}
 export default class ProductsList extends Component {
   constructor(props) {
     super(props);
@@ -96,9 +33,7 @@ export default class ProductsList extends Component {
   }
 
   componentDidMount = async () => {
-    // this.props.setLoading(false);
     try {
-      // this.props.setLoading(false);
       await api.getAllProducts().then((product) => {
         this.setState({
           products: product.data.data,
@@ -173,7 +108,7 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, users, intl, favProduct, favCategories } = this.state;
+    const { products, users, intl, favProduct } = this.state;
 
     return (
       <Wrapper

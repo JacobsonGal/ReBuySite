@@ -17,9 +17,7 @@ export default function Favorites({ title, setTitle, setActive }) {
   useEffect(() => {
     async function use() {
       if (!user) {
-        const response = await api.getUserById(
-          currentUser?.email.toUpperCase()
-        );
+        let response = await api.getUserById(currentUser?.email.toUpperCase());
         if (!response)
           response = await api.getUserById(currentUser?.email.toLowerCase());
         setUser(response.data.data);
@@ -29,7 +27,7 @@ export default function Favorites({ title, setTitle, setActive }) {
     }
     use();
     setLoading(false);
-  }, [user, products]);
+  }, [user, products, currentUser]);
 
   return (
     <Page

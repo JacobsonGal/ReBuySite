@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ChatRoom from "./ChatRoom";
 const SellerRoom = () => {
   const { sellerId } = useParams();

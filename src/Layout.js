@@ -184,9 +184,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                       setActive={setActive}
                     />
                   </Route>
-                  {/* <Route exact path="/admin">
-                    <Admin />
-                  </Route> */}
                   <Route exact path="/Upload">
                     <ProductInsert
                       title={intl.formatMessage({ id: "Upload" })}

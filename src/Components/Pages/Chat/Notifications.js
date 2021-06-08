@@ -23,7 +23,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
   // const user = currentUser;
   const intl = useIntl();
   console.log(user);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   let tmp = [{ name: "loading" }];
   const [products, setProducts] = useState(tmp);
   const [sellerId, setSellerId] = useState();
@@ -46,6 +46,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
+      setLoading(false);
     }
     use();
   }, [user]);

@@ -5,9 +5,10 @@ import { AuthContext } from "../../SSO/Auth";
 import api from "../../../API/API";
 import { useIntl } from "react-intl";
 import CardList from "../Home/CardList";
+import { DeleteProduct } from "../../Utils/Handlers";
 
 export default function Favorites({ title, setTitle, setActive }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(null);
@@ -24,13 +25,24 @@ export default function Favorites({ title, setTitle, setActive }) {
       setProducts(user.favorites);
       console.log(user);
     }
+    setLoading(false);
   }, [user, products]);
 
   return (
-    <FavoritesPage
-      title={intl.formatMessage({ id: "MyFavorites" })}
-      products={products}
-    />
+    <Page
+      loading={loading}
+      title={title}
+      color={"#fdeded"}
+      setTitle={setTitle}
+      add={false}
+      FAB="none"
+      dots={false}
+    >
+      <FavoritesPage
+        title={intl.formatMessage({ id: "MyFavorites" })}
+        products={products}
+      />
+    </Page>
   );
 }
 export function FavoritesPage({
@@ -74,12 +86,12 @@ export function FavoritesPage({
           {title}
         </Card.Title>
       </Card.Header>
-      <Card.Body style={{ alignItems: "center" }}>
+      <Card.Body style={{ alignItems: "center", width: "100%" }}>
         {products ? (
           <CardList
             products={products}
             users={users}
-            deleteHandler={deleteHandler}
+            deleteHandler={DeleteProduct}
           />
         ) : (
           <Card

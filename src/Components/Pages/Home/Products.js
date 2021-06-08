@@ -96,8 +96,9 @@ export default class ProductsList extends Component {
   }
 
   componentDidMount = async () => {
-    this.state.setLoading(false);
+    // this.props.setLoading(false);
     try {
+      // this.props.setLoading(false);
       await api.getAllProducts().then((product) => {
         this.setState({
           products: product.data.data,
@@ -158,6 +159,7 @@ export default class ProductsList extends Component {
 
       this.state.setLoading(false);
     } catch (error) {
+      this.state.setLoading(false);
       console.log(error);
     }
   };

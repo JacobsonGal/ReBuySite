@@ -39,11 +39,9 @@ export default class GoogleMap extends Component {
       maps: null,
       currentUser: props.currentUser,
     };
-    this.state.setLoading(true);
+    // this.state.setLoading(true);
   }
   componentDidMount = async () => {
-    this.state.setLoading(false);
-
     Geocode.setApiKey("AIzaSyDzTw-IhXNRYDH1QpvVVNp_ix9AzFC0McM");
     Geocode.setLanguage("He");
     Geocode.setRegion("Il");
@@ -85,18 +83,13 @@ export default class GoogleMap extends Component {
             locations: rest,
           };
         });
-      });
-      await api.getAllImages().then((image) => {
-        this.setState({
-          images: image.data.data,
-        });
+        this.state.setLoading(false);
       });
       await api.getAllUsers().then((user) => {
         this.setState({
           users: user.data.data,
         });
       });
-      this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }

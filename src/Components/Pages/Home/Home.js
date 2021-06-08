@@ -4,7 +4,7 @@ import ProductsList from "./Products";
 import { AuthContext } from "../../SSO/Auth";
 
 export default function Home({ title, setTitle, setActive, intl }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(AuthContext);
   return (
     <Page

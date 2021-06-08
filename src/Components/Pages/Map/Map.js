@@ -4,7 +4,7 @@ import GoogleMap from "./GoogleMap";
 import { AuthContext } from "../../SSO/Auth";
 
 export default function Map({ title, setTitle, setActive }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(AuthContext);
   console.log(loading);
   return (

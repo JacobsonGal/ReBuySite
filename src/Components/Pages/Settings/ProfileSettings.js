@@ -12,6 +12,7 @@ import apis from "../../../API/API";
 import Page from "../../Utils/Page";
 import styled from "styled-components";
 import Alert from "../../Utils/Alert";
+import { DeleteProduct, UpdateProduct } from "../../Utils/Handlers";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/storage";
@@ -36,8 +37,7 @@ export default function ProfileSetting({
   image,
   setImage,
 }) {
-  const [loading, setLoading] = useState(false);
-  // console.log(loading);
+  const [loading, setLoading] = useState(true);
   return (
     <Page
       loading={loading}
@@ -162,50 +162,15 @@ export function Profile({
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const email = useState(currentUser ? currentUser.email : "Email");
-
-  // const [user, setUser] = useState(null);
-  // const [name, setName] = useState(null);
-  // const [image, setImage] = useState(null);
   const [nameChange, setNameChange] = useState(false);
 
-  // useEffect(() => {
-  //   async function use() {
-  //     if (!user) {
-  //       let response = await api.getUserById(currentUser?.email.toUpperCase());
-  //       if (!response)
-  //         response = await api.getUserById(currentUser?.email.toLowerCase());
-  //       console.log(response.data.data);
-  //       setUser(response.data.data);
-  //     } else {
-  //       console.log(user);
-  //       !name &&
-  //         setName(
-  //           user
-  //             ? user["name"]
-  //             : currentUser && currentUser.displayName
-  //             ? currentUser.displayName
-  //             : intl.formatMessage({ id: "welcome" })
-  //         );
-  //       !image &&
-  //         setImage(
-  //           user
-  //             ? user["image"]
-  //             : currentUser && currentUser.photoURL
-  //             ? currentUser.photoURL
-  //             : null
-  //         );
-  //     }
-  //   }
-  //   use();
-  // }, [user, setUser, name, setName, image, setImage, currentUser, intl]);
-
-  const deleteHandler = (productId) => {
-    // setProducts(
-    //   products.filter((product) => {
-    //     return product._id !== productId.data._id;
-    //   })
-    // );
-  };
+  // const deleteHandler = (productId) => {
+  //   // setProducts(
+  //   //   products.filter((product) => {
+  //   //     return product._id !== productId.data._id;
+  //   //   })
+  //   // );
+  // };
   async function handleChangeInputImages(event) {
     console.log(event.target.files);
     return Promise.all(
@@ -260,7 +225,7 @@ export function Profile({
     setNameChange(false);
   }
   return (
-    <Card className="userSettings">
+    <Card className="userSettings" style={{ border: "0px" }}>
       <Card.Header className="userHeader">
         <label
           style={{
@@ -321,7 +286,9 @@ export function Profile({
         </Card.Title>
         <Card.Subtitle>{email}</Card.Subtitle>
       </Card.Header>
-      <Card.Body style={{ alignItems: "center" }}>
+      <Card.Body
+        style={{ alignItems: "center", width: "100%", height: "100%" }}
+      >
         <h1>{intl.formatMessage({ id: "MyProducts" })}</h1>
         {products &&
         user &&
@@ -331,7 +298,7 @@ export function Profile({
               user ? products.filter((prod) => prod.ownerId === user.uid) : null
             }
             users={users}
-            deleteHandler={deleteHandler}
+            deleteHandler={DeleteProduct}
           />
         ) : (
           <Card

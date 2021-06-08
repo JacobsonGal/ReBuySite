@@ -61,7 +61,7 @@ function UpdateProduct({ id }) {
   return <Update onClick={updateUser}>Update</Update>;
 }
 
-class DeleteProduct extends Component {
+export class DeleteProduct extends Component {
   constructor() {
     super();
   }
@@ -98,7 +98,6 @@ class DeleteProduct extends Component {
       }
     });
   };
-
   render() {
     return <Delete onClick={this.deleteUser}>DELETE</Delete>;
   }

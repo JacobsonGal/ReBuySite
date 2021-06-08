@@ -24,7 +24,6 @@ const Delete = styled.div`
 
 export function UpdateProduct({ id }) {
   const history = useHistory();
-  console.log(id, "btam");
   const updateUser = (event) => {
     event.preventDefault();
     history.push(`/Update/${id}`);

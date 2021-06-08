@@ -80,7 +80,7 @@ function Search(props) {
             <option>5000+</option>
           </Form.Control>
         </Form.Group>
-        <Form.Group as={Col} controlId="formGridPassword">
+        <Form.Group as={Col} controlId="formGridCategory">
           <Form.Label>{intl.formatMessage({ id: "Category" })}</Form.Label>
           <Form.Control as="select" onChange={(e) => categoryChangeHandler(e)}>
             <option></option>

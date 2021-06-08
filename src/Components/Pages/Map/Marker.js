@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import { IoPinOutline } from "react-icons/io5";
 import Carousel from "react-bootstrap/Carousel";
 import PopUp from "../../Utils/PopUp";
+import { random } from "lodash";
 
 export default function Marker({
   product,
@@ -42,6 +43,7 @@ export default function Marker({
                     height: "3rem",
                     borderRadius: "30px",
                   }}
+                  key={random(0, 10000)}
                 >
                   <img
                     className="d-block w-100"

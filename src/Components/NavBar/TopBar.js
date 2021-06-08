@@ -21,7 +21,7 @@ const TopBar = ({
   // setNotificationCount(count);
   function notificationHandler() {
     // if (count > 0 || notificationCount>0)
-    console.log(notificationCount);
+    // console.log(notificationCount);
     if (notificationCount > 0)
       return <span class="notification-count">{notificationCount}</span>;
     else return 0;

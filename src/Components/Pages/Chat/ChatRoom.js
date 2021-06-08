@@ -142,7 +142,7 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
               }
               className="rounded-circle user_img"
             /> */}
-          {console.log(sellerPhoto)}
+          {/* {console.log(sellerPhoto)} */}
           {sellerPhoto && sellerPhoto !== "null" ? (
             <img
               style={{

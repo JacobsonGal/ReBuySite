@@ -89,7 +89,6 @@ export default class ProductInsert extends Component {
   handleChangeInputImages = async (event) => {
     return Promise.all(
       [...event.target.files].map((image) => {
-        console.log(image);
         storage
           .ref(`products/${image.name}`)
           .put(image)
@@ -154,7 +153,6 @@ export default class ProductInsert extends Component {
     data.append("ownerId", ownerID);
     data.append("seconderyId", this.state.description + ownerID);
     data.append("photo", this.state.images);
-    console.log(this.state);
 
     if (
       Object.values(this.state).some((element) => {
@@ -163,7 +161,7 @@ export default class ProductInsert extends Component {
     ) {
       this.setState({ alert: true });
     } else {
-      data && console.log("sending data" + data.values());
+      // data && console.log("sending data" + data.values());
       await api
         .insertProduct(data)
         .then((res) => {

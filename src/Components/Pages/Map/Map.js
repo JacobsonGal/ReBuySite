@@ -6,7 +6,6 @@ import { AuthContext } from "../../SSO/Auth";
 export default function Map({ title, setTitle, setActive }) {
   const [loading, setLoading] = useState(true);
   const { currentUser } = useContext(AuthContext);
-  console.log(loading);
   return (
     <Page
       loading={loading}

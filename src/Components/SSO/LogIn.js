@@ -35,7 +35,6 @@ export default function LogIn({ setRegistered }) {
         var credential = result.credential;
         var token = credential.accessToken;
         var user = result.user;
-        console.log(user);
         Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {
@@ -43,7 +42,6 @@ export default function LogIn({ setRegistered }) {
         var errorMessage = error.message;
         var email = error.email;
         var credential = error.credential;
-        console.log(errorCode, errorMessage, email, credential);
         Alert(errorCode + errorMessage + email + credential);
       });
   }
@@ -57,7 +55,6 @@ export default function LogIn({ setRegistered }) {
         var credential = result.credential;
         var token = credential.accessToken;
         var user = result.user;
-        console.log(user);
         Alert(`Welcome to ReBuy`, true);
       })
       .catch((error) => {
@@ -65,7 +62,6 @@ export default function LogIn({ setRegistered }) {
         var errorMessage = error.message;
         var email = error.email;
         var credential = error.credential;
-        console.log(errorCode, errorMessage, email, credential);
         Alert(errorCode + errorMessage + email + credential);
       });
   }

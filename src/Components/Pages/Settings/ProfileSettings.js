@@ -62,7 +62,6 @@ export default function ProfileSetting({
     </Page>
   );
 }
-
 export class ProfileSettings extends Component {
   constructor(props) {
     super(props);
@@ -84,8 +83,6 @@ export class ProfileSettings extends Component {
   }
 
   componentDidMount = async () => {
-    console.log("loading settings");
-    console.log(this.state.isLoading);
     try {
       await api.getAllProducts().then((product) => {
         this.setState({
@@ -97,11 +94,10 @@ export class ProfileSettings extends Component {
           users: user.data.data,
         });
       });
+      this.state.setLoading(false);
     } catch (error) {
       console.log(error);
     }
-    this.state.setLoading(false);
-    console.log(this.state.isLoading);
   };
   searchHandler = (products) => {
     this.setState({
@@ -164,18 +160,9 @@ export function Profile({
   const email = useState(currentUser ? currentUser.email : "Email");
   const [nameChange, setNameChange] = useState(false);
 
-  // const deleteHandler = (productId) => {
-  //   // setProducts(
-  //   //   products.filter((product) => {
-  //   //     return product._id !== productId.data._id;
-  //   //   })
-  //   // );
-  // };
   async function handleChangeInputImages(event) {
-    console.log(event.target.files);
     return Promise.all(
       [...event.target.files].map((image) => {
-        console.log(image);
         storage
           .ref(`users/${image.name}`)
           .put(image)
@@ -201,7 +188,6 @@ export function Profile({
                     .catch((error) => {
                       Alert(error.message);
                     });
-                  console.log(url);
                   setImage(url);
                 })
           );
@@ -210,7 +196,6 @@ export function Profile({
   }
   async function handleChangeInputName(event) {
     const newName = event.target.value;
-    console.log(newName);
     let data = new FormData();
     data.append("name", newName);
     await api

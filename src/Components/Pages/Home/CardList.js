@@ -53,7 +53,6 @@ const Delete = styled.div`
 
 function UpdateProduct({ id }) {
   const history = useHistory();
-  console.log(id, "btam");
   const updateUser = (event) => {
     event.preventDefault();
     history.push(`/Update/${id}`);
@@ -171,7 +170,7 @@ export default function CardList({
   const [change, setChange] = useState(false);
 
   useEffect(() => {
-    console.log(change);
+    // console.log(change);
   }, [change]);
 
   const user = users?.find(
@@ -193,11 +192,8 @@ export default function CardList({
       .get()
       .then((Snapshot) => {
         Snapshot.docs.forEach((doc) => {
-          console.log(doc.data());
           let favCategory = doc.data().favCategory;
-          console.log(favCategory);
           if (!favCategory) {
-            console.log("new fav");
             let newfavCategory = [];
             newfavCategory.push({ key: category, val: 1 });
             doc.ref.update({
@@ -207,7 +203,6 @@ export default function CardList({
             let newfavCategory = [{}];
             let flag = false;
             newfavCategory = favCategory;
-            console.log(newfavCategory);
             newfavCategory.forEach((cat) => {
               if (cat.key === category) {
                 cat.val++;

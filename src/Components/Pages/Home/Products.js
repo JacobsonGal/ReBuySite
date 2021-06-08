@@ -142,11 +142,8 @@ export default class ProductsList extends Component {
               : this.setState({
                   favCategories: [cat1],
                 });
-
-            console.log(this.state.favCategories);
           });
           let prods = [];
-          console.log(this.state.favCategories);
           this.state.products.forEach((product) => {
             this.state.favCategories.some((f) => f === product.category) &&
               prods.push(product);

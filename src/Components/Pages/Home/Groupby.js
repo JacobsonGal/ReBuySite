@@ -24,7 +24,7 @@ function Groupby(props) {
     await api
       .groupByCategory(category)
       .then((res) => {
-        console.log(res.data.products);
+        // console.log(res.data.products);
         props.searchHandler(res.data.products);
       })
       .catch((err) => {
@@ -35,7 +35,7 @@ function Groupby(props) {
     await api
       .mapAndReduce()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setTotal(res);
       })
       .catch((err) => {

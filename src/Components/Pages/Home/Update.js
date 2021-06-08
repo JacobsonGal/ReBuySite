@@ -129,8 +129,6 @@ export default class ProductUpdate extends Component {
       await api
         .updateProductById(this.state.id, data)
         .then((res) => {
-          console.log(res);
-          console.log("stam");
           Alert(`Product updated successfully`, true);
           this.setState({
             name: "",
@@ -151,7 +149,6 @@ export default class ProductUpdate extends Component {
   componentDidMount = async () => {
     const { id } = this.state;
     const product = await api.getProductById(id);
-    console.log(product);
     this.setState({
       name: product.data.data.name,
       condition: product.data.data.condition,

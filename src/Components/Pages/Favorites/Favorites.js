@@ -14,17 +14,20 @@ export default function Favorites({ title, setTitle, setActive }) {
   const [user, setUser] = useState(null);
   const [products, setProducts] = useState(null);
 
-  useEffect(async () => {
-    if (!user) {
-      const response = await api.getUserById(currentUser?.email.toUpperCase());
-      if (!response)
-        response = await api.getUserById(currentUser?.email.toLowerCase());
-      console.log(response.data.data);
-      setUser(response.data.data);
-    } else {
-      setProducts(user.favorites);
-      console.log(user);
+  useEffect(() => {
+    async function use() {
+      if (!user) {
+        const response = await api.getUserById(
+          currentUser?.email.toUpperCase()
+        );
+        if (!response)
+          response = await api.getUserById(currentUser?.email.toLowerCase());
+        setUser(response.data.data);
+      } else {
+        setProducts(user.favorites);
+      }
     }
+    use();
     setLoading(false);
   }, [user, products]);
 
@@ -53,13 +56,6 @@ export function FavoritesPage({
   setTitle,
   setLoading,
 }) {
-  const deleteHandler = (productId) => {
-    // setProducts(
-    //   products.filter((product) => {
-    //     return product._id !== productId.data._id;
-    //   })
-    // );
-  };
   return (
     <Card
       style={{

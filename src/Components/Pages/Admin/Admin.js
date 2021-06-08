@@ -46,7 +46,7 @@ class Admin extends Component {
       address.push(key);
       count.push(val);
     });
-    console.log(prodByCategory, "category");
+    // console.log(prodByCategory, "category");
     _.forEach(prodByCategory, (val, key) => {
       category.push(key);
       countCategory.push(val);
@@ -55,15 +55,15 @@ class Admin extends Component {
     return (
       <>
         <h1 style={h1Style}>Stats About Products</h1>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-sm'>
+        <div className="container">
+          <div className="row">
+            <div className="col-sm">
               Number of registered users {users.length}
             </div>
-            <a className='btn btn-primary' href={FireBaseAuth}>
+            <a className="btn btn-primary" href={FireBaseAuth}>
               Users List
             </a>
-            <div className='col-sm'>Number of products {products.length}</div>
+            <div className="col-sm">Number of products {products.length}</div>
           </div>
         </div>
 

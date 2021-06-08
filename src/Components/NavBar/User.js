@@ -25,41 +25,6 @@ export default function User({
   const intl = useIntl();
   const { currentUser } = useContext(AuthContext);
   const Admin = currentUser ? Admins(currentUser.email) : false;
-  // const [user, setUser] = useState(null);
-  // const [name, setName] = useState(null);
-  // const [image, setImage] = useState(null);
-
-  // useEffect(() => {
-  //   async function use() {
-  //     if (!user) {
-  //       let response = await api.getUserById(currentUser?.email.toUpperCase());
-  //       if (!response)
-  //         response = await api.getUserById(currentUser?.email.toLowerCase());
-  //       console.log(response.data.data);
-  //       setUser(response.data.data);
-  //     } else {
-  //       console.log(user);
-  //       !name &&
-  //         setName(
-  //           user
-  //             ? user["name"]
-  //             : currentUser && currentUser.displayName
-  //             ? currentUser.displayName
-  //             : intl.formatMessage({ id: "welcome" })
-  //         );
-  //       !image &&
-  //         setImage(
-  //           user
-  //             ? user["image"]
-  //             : currentUser && currentUser.photoURL
-  //             ? currentUser.photoURL
-  //             : null
-  //         );
-  //     }
-  //   }
-  //   use();
-  // }, [user, setUser, name, setName, image, setImage, currentUser, intl]);
-
   function UserLogo() {
     if (image) {
       return (

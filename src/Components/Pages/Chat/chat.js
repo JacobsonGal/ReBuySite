@@ -52,8 +52,8 @@ export default Chat;
 
 export function SellerArea({ sellerId, prodId, productName }) {
   const intl = useIntl();
-  console.log("sellerId : " + sellerId);
-  console.log("prodId : " + prodId);
+  // console.log("sellerId : " + sellerId);
+  // console.log("prodId : " + prodId);
   let tmp = [{ name: "loading" }];
   const [recivers, setRecivers] = useState(tmp);
 

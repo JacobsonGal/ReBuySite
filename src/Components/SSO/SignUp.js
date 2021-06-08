@@ -68,7 +68,6 @@ export default function SignUp({ setRegistered }) {
   async function handleChangeInputImages(event) {
     return Promise.all(
       [...event.target.files].map((image) => {
-        console.log(image);
         storage
           .ref(`users/${image.name}`)
           .put(image)
@@ -84,7 +83,6 @@ export default function SignUp({ setRegistered }) {
                 .child(image.name)
                 .getDownloadURL()
                 .then((url) => {
-                  console.log(url);
                   setImage(url);
                 })
           );
@@ -94,7 +92,6 @@ export default function SignUp({ setRegistered }) {
 
   const { currentUser } = useContext(AuthContext);
   if (currentUser) {
-    console.log(currentUser);
     return <Redirect to="/" />;
   }
   return (

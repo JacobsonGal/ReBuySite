@@ -45,7 +45,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
           );
           if (!response)
             response = await api.getUserById(currentUser?.email.toLowerCase());
-          console.log(response.data.data);
           setUser(response.data.data);
           setName(
             user
@@ -62,7 +61,6 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
               : null
           );
         } else {
-          console.log(user);
           !name &&
             setName(
               user

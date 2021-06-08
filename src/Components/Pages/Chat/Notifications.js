@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { Avatar, Button } from "@material-ui/core";
 import { SellerArea } from "./chat";
 import { useIntl } from "react-intl";
+import { random } from "lodash";
 
 // const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -22,7 +23,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
   // const { currentUser } = useContext(AuthContext);
   // const user = currentUser;
   const intl = useIntl();
-  console.log(user);
+  // console.log(user);
   const [loading, setLoading] = useState(true);
   let tmp = [{ name: "loading" }];
   const [products, setProducts] = useState(tmp);
@@ -83,6 +84,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
               {products.map((item, index) => (
                 <Link
                   to={`/${item["ownerId"]}/${item["description"]} / ${item["seconderyId"]}`}
+                  key={random(0, 1000)}
                 >
                   <div className="d-flex bd-highlight">
                     <div className="img_cont">
@@ -99,16 +101,6 @@ export default function Notifications({ title, setTitle, setActive, user }) {
                       >
                         {item ? item.name.toString()[0].toUpperCase() : null}
                       </Avatar>
-
-                      {/* <img
-                          src={
-                            item["photo"]
-                              ? item["photo"]
-                              : "../../../Assets/Images/ReBuy.png"
-                          }
-                          alt="userPhoto"
-                          className="rounded-circle user_img"
-                        /> */}
                     </div>
                     <div className="user_info">
                       <span>{item.name.toUpperCase()}</span>
@@ -124,78 +116,3 @@ export default function Notifications({ title, setTitle, setActive, user }) {
     </Page>
   );
 }
-
-// function SellerArea({ sellerId, prodId }) {
-//   console.log(sellerId);
-//   console.log(prodId);
-//   let tmp = [{ name: "loading" }];
-//   const [recivers, setRecivers] = useState(tmp);
-
-//   useEffect(() => {
-//     //  function use() {
-//     firestore
-//       .collection(`users/${sellerId}/prod/${prodId}/recivers`)
-//       .get()
-//       .then((querySnapshot) => {
-//         console.log(querySnapshot.docs);
-//         let temp = [];
-//         querySnapshot.docs.map((doc) => temp.push(doc.data()));
-//         // console.log(temp);
-//         temp.length > 0 && setRecivers(temp);
-//       })
-//       .catch((error) => {
-//         console.log("Error getting documents: ", error);
-//       });
-//     // }
-//     // use();
-//   }, [sellerId, prodId]);
-
-//   return (
-//     <>
-//       <div className="card contacts_card">
-//         <div className="card-header">
-//           <div className="col-12">
-//             <div className="header ">
-//               <h1>People who interested your product</h1>
-//             </div>
-//           </div>
-//         </div>
-//         <div className="card-body contacts_body">
-//           <ui className="contacts">
-//             <li className="active">
-//               {recivers.map((item, index) => (
-//                 <>
-//                   <div className="d-flex bd-highlight">
-//                     <div className="img_cont">
-//                       <img
-//                         src={
-//                           item.photoURL
-//                             ? item.photoURL
-//                             : "https://api.adorable.io/avatars/23/abott@adorable.png"
-//                         }
-//                         alt="userPhoto"
-//                         className="rounded-circle user_img"
-//                       />
-//                     </div>
-//                     <div className="user_info">
-//                       <span>
-//                         <Link
-//                           to={`/chat/${item.id}/${prodId}/${sellerId}`}
-//                           key={index}
-//                         >
-//                           {item.name}
-//                         </Link>
-//                       </span>
-//                       <p></p>
-//                     </div>
-//                   </div>
-//                   <hr />
-//                 </>
-//               ))}
-//             </li>
-//           </ui>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }

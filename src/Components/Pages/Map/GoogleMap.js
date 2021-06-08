@@ -46,7 +46,7 @@ export default class GoogleMap extends Component {
     Geocode.setLanguage("He");
     Geocode.setRegion("Il");
     Geocode.setLocationType("ROOFTOP");
-    Geocode.enableDebug();
+    // Geocode.enableDebug();
 
     try {
       await api.getAllProducts().then((product) => {
@@ -56,14 +56,12 @@ export default class GoogleMap extends Component {
         product.data.data.map((p, i) => {
           p["address"] &&
             Geocode.fromAddress(p["address"]).then(
-              // Geocode.fromAddress("RISHON-LE-ZION").then(
               (response) => {
                 var { lat, lng } = response.results[0].geometry.location;
                 // lat = lat + i * 0.005;
                 // lng = lng + i * 0.005;
                 lat = lat;
                 lng = lng;
-                console.log(p);
 
                 this.setState({
                   locations: this.state.locations.concat([
@@ -125,7 +123,6 @@ export default class GoogleMap extends Component {
           let newfavCategory = [{}];
           let flag = false;
           newfavCategory = favCategory;
-          console.log(newfavCategory);
           newfavCategory.forEach((cat) => {
             if (cat.key === category) {
               cat.val++;
@@ -165,8 +162,6 @@ export default class GoogleMap extends Component {
     } = this.state;
 
     const apiIsLoaded = (map, maps) => {
-      console.log(map);
-      console.log(maps);
       map &&
         this.setState({
           map,
@@ -207,10 +202,9 @@ export default class GoogleMap extends Component {
               (response, status) => {
                 if (status === "OK") {
                   directionsDisplay.setDirections(response);
-                  console.log(response.routes[0]);
+                  // console.log(response.routes[0]);
                   map.setCenter(pos);
                 } else {
-                  console.log(status);
                   alert("Directions request failed due to " + status);
                 }
               }

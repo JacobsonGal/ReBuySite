@@ -16,8 +16,6 @@ function Categories({ title, setTitle }) {
   const intl = useIntl();
 
   useEffect(() => {
-    console.log(window.location.href);
-    console.log(id);
     if (!category) {
       setCategory(id);
       // setCategory(window.location.href.split("/categories/")[1]);

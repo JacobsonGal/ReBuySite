@@ -93,15 +93,6 @@ class DeleteProduct extends Component {
           .catch((error) => {
             Alert(error.message);
           });
-        // api
-        //   .deleteProductById(this.props.id)
-        //   .then((res) => {
-        //     this.props.deleteHandler(this.props.id);
-        //     swal("Poof! Your Product has been deleted!", {
-        //       icon: "success",
-        //     });
-        //   })
-        //   .catch((err) => Alert(err.message));
       } else {
         swal("Your Product file is safe!");
       }

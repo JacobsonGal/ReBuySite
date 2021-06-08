@@ -11,6 +11,7 @@ import { AuthContext } from "../../SSO/Auth";
 import { Link, useParams } from "react-router-dom";
 import { Avatar, Button } from "@material-ui/core";
 import { SellerArea } from "./chat";
+import { useIntl } from "react-intl";
 
 // const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -20,6 +21,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
   // const [user] = useAuthState(auth);
   // const { currentUser } = useContext(AuthContext);
   // const user = currentUser;
+  const intl = useIntl();
   console.log(user);
   const [loading, setLoading] = useState(false);
   let tmp = [{ name: "loading" }];
@@ -58,11 +60,19 @@ export default function Notifications({ title, setTitle, setActive, user }) {
       FAB="none"
       dots={false}
     >
-      <div className="card contacts_card">
+      <div
+        className="card contacts_card"
+        style={{
+          width: "100%",
+          height: "100%",
+          direction: "ltr",
+          border: "0px",
+        }}
+      >
         <div className="card-header">
           <div className="col-12">
             <div className="header ">
-              <h1>Choose Product</h1>
+              <h1>{intl.formatMessage({ id: "NotificationCenter" })}</h1>
             </div>
           </div>
         </div>
@@ -70,7 +80,9 @@ export default function Notifications({ title, setTitle, setActive, user }) {
           <ui className="contacts">
             <li className="active">
               {products.map((item, index) => (
-                <>
+                <Link
+                  to={`/${item["ownerId"]}/${item["description"]} / ${item["seconderyId"]}`}
+                >
                   <div className="d-flex bd-highlight">
                     <div className="img_cont">
                       <Avatar
@@ -98,29 +110,11 @@ export default function Notifications({ title, setTitle, setActive, user }) {
                         /> */}
                     </div>
                     <div className="user_info">
-                      <span>
-                        <Link
-                          to={`/${item["ownerId"]}/${item["description"]} / ${item["seconderyId"]}`}
-                          style={{ color: "blue" }}
-                        >
-                          {item.name}
-                        </Link>
-                        {/* <Button
-                            onClick={() => {
-                              console.log(item);
-                              setItemId(item["seconderyId"]);
-                              setSelling(true);
-                            }}
-                            key={index}
-                          >
-                            {item.name}
-                          </Button> */}
-                      </span>
-                      <p></p>
+                      <span>{item.name.toUpperCase()}</span>
                     </div>
                   </div>
                   <hr />
-                </>
+                </Link>
               ))}
             </li>
           </ui>

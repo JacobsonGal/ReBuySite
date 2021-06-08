@@ -110,16 +110,22 @@ button:disabled {
   border: 0px;
 }
 .contacts_body {
-  padding: 0.75rem 0 !important;
+  /* padding: 0.75rem 0 !important; */
   overflow-y: auto;
-  white-space: nowrap;
+  border: 0px;
+  height: 100%;
+  border: 0px;
+  /* white-space: nowrap; */
 }
 .msg_card_body {
   overflow-y: auto;
   height: 100%;
+  border: 0px;
 }
 .card-body {
-  height: 70vh;
+  /* height: 70vh; */
+  border: 0px;
+  height: 100%;
 }
 .card-header {
   background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
@@ -316,8 +322,8 @@ button:disabled {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.2);
 }
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
   .contacts_card {
     margin-bottom: 15px !important;
   }
-}
+} */

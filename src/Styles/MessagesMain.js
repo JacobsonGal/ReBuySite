@@ -48,6 +48,10 @@ export default {
     CreateProduct: "העלאת מוצר חדש",
     Update: "עדכן",
     MyFavorites: "המועדפים שלי",
+    Recommendedforyou: "מומלצים בשבילך",
+    AllProducts: "כל המוצרים",
+    NotificationCenter: "מרכז ההודעות",
+    intrestedPeople: "הודעות בקשר למוצר ",
   },
 
   en: {
@@ -109,5 +113,9 @@ export default {
     CreateProduct: "Create Product",
     Update: "Update",
     MyFavorites: "My Favorites",
+    Recommendedforyou: "Recommended for you",
+    AllProducts: "All Products",
+    NotificationCenter: "Notification Center",
+    intrestedPeople: "People who interested your product",
   },
 };

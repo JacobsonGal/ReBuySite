@@ -191,12 +191,12 @@ export default class ProductsList extends Component {
 
         {favProduct.length > 0 && (
           <>
-            <h1>{intl.formatMessage({ id: "Recommended for you" })}</h1>
-            <h3>
+            <h1>{intl.formatMessage({ id: "Recommendedforyou" })}</h1>
+            {/* <h3>
               {`We can see that you like ${favCategories[0]}  ${
                 favCategories[1] ? "and " + favCategories[1] : ""
               }`}
-            </h3>
+            </h3> */}
             <CardList
               products={favProduct}
               users={users}
@@ -204,7 +204,7 @@ export default class ProductsList extends Component {
               from={0}
               to={products.length}
             />
-            <h1>{intl.formatMessage({ id: "All Products" })}</h1>
+            <h1>{intl.formatMessage({ id: "AllProducts" })}</h1>
           </>
         )}
 

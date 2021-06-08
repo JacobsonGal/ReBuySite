@@ -10,6 +10,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faEllipsisV } from "@fontawesome/free-solid-svg-icons";
 import { BorderBottom } from "@material-ui/icons";
+import Send from "@material-ui/icons/Send";
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -141,7 +142,8 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
               }
               className="rounded-circle user_img"
             /> */}
-          {sellerPhoto !== null ? (
+          {console.log(sellerPhoto)}
+          {sellerPhoto && sellerPhoto !== "null" ? (
             <img
               style={{
                 alignSelf: window.screen.width <= 800 ? "right" : "center",
@@ -214,7 +216,8 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
             />
           </div>
           <button type="submit" className="button" disabled={!formValue}>
-            🕊️
+            {/* 🕊️ */}
+            <Send />
           </button>
         </form>
       </div>

@@ -2,16 +2,16 @@ import swal from "@sweetalert/with-react";
 
 export default function Alert(message, success) {
   // enable vibration support
-  navigator.vibrate =
-    navigator.vibrate ||
-    navigator.webkitVibrate ||
-    navigator.mozVibrate ||
-    navigator.msVibrate;
+  window.navigator.vibrate =
+    window.navigator.vibrate ||
+    window.navigator.webkitVibrate ||
+    window.navigator.mozVibrate ||
+    window.navigator.msVibrate;
 
-  if (navigator.vibrate) {
+  if (window.navigator.vibrate) {
     // vibration API supported
-    navigator.vibrate(1000);
   }
+  window.navigator.vibrate(1000);
 
   return swal({
     title: success ? "" : "Alert",

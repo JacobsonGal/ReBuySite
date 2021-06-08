@@ -12,6 +12,7 @@ import { Avatar } from "@material-ui/core";
 import { NavItem } from "react-bootstrap";
 import { func } from "prop-types";
 import ChatRoom from "./ChatRoom";
+import { useIntl } from "react-intl";
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -29,7 +30,11 @@ const Chat = () => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       {ifSeller ? (
-        <SellerArea sellerId={sellerId} prodId={secondaryId} />
+        <SellerArea
+          sellerId={sellerId}
+          prodId={secondaryId}
+          productName={description}
+        />
       ) : (
         <ChatRoom
           sellerId={sellerId}
@@ -45,7 +50,8 @@ const Chat = () => {
 
 export default Chat;
 
-export function SellerArea({ sellerId, prodId }) {
+export function SellerArea({ sellerId, prodId, productName }) {
+  const intl = useIntl();
   console.log("sellerId : " + sellerId);
   console.log("prodId : " + prodId);
   let tmp = [{ name: "loading" }];
@@ -74,7 +80,10 @@ export function SellerArea({ sellerId, prodId }) {
         <div className="card-header">
           <div className="col-12">
             <div className="header ">
-              <h1>People who interested your product</h1>
+              <h1>
+                {productName ? productName.toUpperCase() : ""}
+                {intl.formatMessage({ id: "intrestedPeople" })}{" "}
+              </h1>
             </div>
           </div>
         </div>

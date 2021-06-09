@@ -61,20 +61,7 @@ export default function User({
               </MenuItem>
             </>
           )}
-          <MenuItem icon={<Star />}>
-            {intl.formatMessage({ id: "Language" })}
-            {"    |  "}
-            <Switch
-              height={10}
-              width={30}
-              checkedIcon={true}
-              uncheckedIcon={true}
-              onChange={() => setLocale(locale === "he" ? "en" : "he")}
-              checked={locale === "he" ? true : false}
-              onColor="#219de9"
-              offColor="#bbbbbb"
-            />
-          </MenuItem>
+
           <MenuItem onClick={() => firebaseConfig.auth().signOut()}>
             {intl.formatMessage({ id: "disconnect" })}
           </MenuItem>

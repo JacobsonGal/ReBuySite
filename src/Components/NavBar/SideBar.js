@@ -126,7 +126,32 @@ export default function SideBar({
           />
         </SidebarContent>
         <SidebarFooter className="sideBarFooter">
-          <div className="sidebar-btn-wrapper">
+          <div
+            className="sidebar-btn-wrapper"
+            style={{ flexDirection: "column" }}
+          >
+            <Menu iconShape="circle" className="lng">
+              <MenuItem
+                icon={
+                  locale === "he" ? (
+                    <img
+                      src="https://www.freeiconspng.com/uploads/israel-flag-icon-1.png"
+                      alt="israel"
+                      style={{ width: "80%" }}
+                    />
+                  ) : (
+                    <img
+                      src="https://www.freeiconspng.com/uploads/us-flag-icon-13.png"
+                      alt="usa"
+                      style={{ width: "100%" }}
+                    />
+                  )
+                }
+                onClick={() => setLocale(locale === "he" ? "en" : "he")}
+              >
+                {intl.formatMessage({ id: "Language" })}
+              </MenuItem>
+            </Menu>
             <a
               iconShape="circle"
               href="https://www.facebook.com/ReBuyPlatform"

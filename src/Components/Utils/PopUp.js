@@ -118,54 +118,56 @@ export default function Marker({
                     color="textSecondary"
                     component="p"
                   >
-                    {users.some((user) => user.uid === product.ownerId) && (
-                      <div
-                        style={{
-                          backgroundColor: "#ececec",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <p>
-                          {users
-                            .find((user) => user._id === product["owner"])
-                            ["name"].toUpperCase()}
-                          <Person />
-                        </p>
+                    {users &&
+                      users.some((user) => user.uid === product.ownerId) && (
+                        <div
+                          style={{
+                            backgroundColor: "#ececec",
+                            borderRadius: "15px",
+                          }}
+                        >
+                          <p>
+                            {users &&
+                              users
+                                .find((user) => user._id === product["owner"])
+                                ["name"].toUpperCase()}
+                            <Person />
+                          </p>
 
-                        <p>
-                          <Button>
-                            <Link
-                              to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
-                              style={{ color: "blue" }}
+                          <p>
+                            <Button>
+                              <Link
+                                to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
+                                style={{ color: "blue" }}
+                              >
+                                <Chat style={{ color: "#496c9e" }} />
+                              </Link>
+                            </Button>
+                            <ReactWhatsapp
+                              number={
+                                "+972" +
+                                users.find(
+                                  (user) => user._id === product["owner"]
+                                )["phone"]
+                              }
+                              message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
+                              element={Button}
                             >
-                              <Chat style={{ color: "#496c9e" }} />
-                            </Link>
-                          </Button>
-                          <ReactWhatsapp
-                            number={
-                              "+972" +
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }
-                            message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
-                            element={Button}
-                          >
-                            <WhatsApp style={{ color: "#128c7e" }} />
-                          </ReactWhatsapp>
-                          {/* <WhatsApp /> */}
-                          <Button
-                            href={`tel:${
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }`}
-                          >
-                            <Phone style={{ color: "#496c9e" }} />
-                          </Button>
-                        </p>
-                      </div>
-                    )}
+                              <WhatsApp style={{ color: "#128c7e" }} />
+                            </ReactWhatsapp>
+                            {/* <WhatsApp /> */}
+                            <Button
+                              href={`tel:${
+                                users.find(
+                                  (user) => user._id === product["owner"]
+                                )["phone"]
+                              }`}
+                            >
+                              <Phone style={{ color: "#496c9e" }} />
+                            </Button>
+                          </p>
+                        </div>
+                      )}
                     <p>
                       <PayPal />
                     </p>
@@ -288,54 +290,56 @@ export default function Marker({
                     color="textSecondary"
                     component="p"
                   >
-                    {users.some((user) => user.uid === product.ownerId) && (
-                      <div
-                        style={{
-                          backgroundColor: "#ececec",
-                          borderRadius: "15px",
-                        }}
-                      >
-                        <p>
-                          {users
-                            .find((user) => user._id === product["owner"])
-                            ["name"].toUpperCase()}
-                          <Person />
-                        </p>
+                    {users &&
+                      users.some((user) => user.uid === product.ownerId) && (
+                        <div
+                          style={{
+                            backgroundColor: "#ececec",
+                            borderRadius: "15px",
+                          }}
+                        >
+                          <p>
+                            {users &&
+                              users
+                                .find((user) => user._id === product["owner"])
+                                ["name"].toUpperCase()}
+                            <Person />
+                          </p>
 
-                        <p>
-                          <Button>
-                            <Link
-                              to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
-                              style={{ color: "blue" }}
+                          <p>
+                            <Button>
+                              <Link
+                                to={`/${product["ownerId"]}/${product["description"]} / ${product["seconderyId"]}`}
+                                style={{ color: "blue" }}
+                              >
+                                <Chat style={{ color: "#496c9e" }} />
+                              </Link>
+                            </Button>
+                            <ReactWhatsapp
+                              number={
+                                "+972" +
+                                users.find(
+                                  (user) => user._id === product["owner"]
+                                )["phone"]
+                              }
+                              message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
+                              element={Button}
                             >
-                              <Chat style={{ color: "#496c9e" }} />
-                            </Link>
-                          </Button>
-                          <ReactWhatsapp
-                            number={
-                              "+972" +
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }
-                            message={`היי ! הגעתי אליך דרך ReBuy ואני רוצה את המוצר הזה: ${product["name"]}`}
-                            element={Button}
-                          >
-                            <WhatsApp style={{ color: "#128c7e" }} />
-                          </ReactWhatsapp>
-                          {/* <WhatsApp /> */}
-                          <Button
-                            href={`tel:${
-                              users.find(
-                                (user) => user._id === product["owner"]
-                              )["phone"]
-                            }`}
-                          >
-                            <Phone style={{ color: "#496c9e" }} />
-                          </Button>
-                        </p>
-                      </div>
-                    )}
+                              <WhatsApp style={{ color: "#128c7e" }} />
+                            </ReactWhatsapp>
+                            {/* <WhatsApp /> */}
+                            <Button
+                              href={`tel:${
+                                users.find(
+                                  (user) => user._id === product["owner"]
+                                )["phone"]
+                              }`}
+                            >
+                              <Phone style={{ color: "#496c9e" }} />
+                            </Button>
+                          </p>
+                        </div>
+                      )}
                     <p>
                       <PayPal />
                     </p>

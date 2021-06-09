@@ -26,7 +26,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PopUp from "../../Utils/PopUp";
 import { AuthContext, Admins } from "../../SSO/Auth";
 import Person from "@material-ui/icons/PersonRounded";
-
+import { useIntl } from "react-intl";
 import { IoPinOutline } from "react-icons/io5";
 import Alert from "../../Utils/Alert";
 import rebuyProduct from "../../../Assets/Images/ReBuy.png";
@@ -46,12 +46,15 @@ const Delete = styled.div`
 `;
 
 function UpdateProduct({ id }) {
+  const intl = useIntl();
   const history = useHistory();
   const updateUser = (event) => {
     event.preventDefault();
     history.push(`/Update/${id}`);
   };
-  return <Update onClick={updateUser}>Update</Update>;
+  return (
+    <Update onClick={updateUser}>{intl.formatMessage({ id: "Update" })}</Update>
+  );
 }
 
 export class DeleteProduct extends Component {
@@ -89,7 +92,13 @@ export class DeleteProduct extends Component {
     });
   };
   render() {
-    return <Delete onClick={this.deleteUser}>DELETE</Delete>;
+    return (
+      <Delete onClick={this.deleteUser}>
+        {this.props.intl
+          ? this.props.intl.formatMessage({ id: "Delete" })
+          : "Delete"}
+      </Delete>
+    );
   }
 }
 const useStyles = makeStyles((theme) => ({
@@ -163,6 +172,7 @@ export default function CardList({
   from,
   to,
 }) {
+  const intl = useIntl();
   const classes = useStyles();
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [product, setproduct] = useState(null);
@@ -344,6 +354,7 @@ export default function CardList({
                             <DeleteProduct
                               id={product["seconderyId"]}
                               deleteHandler={deleteHandler}
+                              intl={intl}
                             />
                           </Button>
                           <Button size="medium" variant="primary">
@@ -471,6 +482,7 @@ export default function CardList({
                       <DeleteProduct
                         id={product["seconderyId"]}
                         deleteHandler={deleteHandler}
+                        intl={intl}
                       />
                     </Button>
                     <Button size="small" color="primary">

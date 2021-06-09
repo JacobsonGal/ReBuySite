@@ -128,20 +128,29 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
-      overflow: "hidden",
+      overflow: "visible",
     },
     gridList: {
       width: "100%",
       height: "100%",
+      overflow: "initial",
     },
     icon: {
       color: "black",
+    },
+    tile: {
+      // height: "100%",
+      overflow: "initial",
+      borderRadius: "15px",
     },
     tileBar: {
       backgroundColor: "rgba(255,255,255,0.7)",
       justifyContent: "center",
       color: "black",
       display: "flex",
+      marginLeft: "3px",
+      marginRight: "3px",
+      borderRadius: "0px 0px 15px 15px",
     },
   },
 }));
@@ -226,12 +235,12 @@ export default function CardList({
         <GridList cellHeight={200} className={classes.gridList}>
           {products &&
             products.map((product, i) => (
-              <GridListTile key={i}>
+              <GridListTile key={i} className={classes.tile}>
                 <Card
                   style={{
-                    margin: "5px",
+                    margin: "2px",
                     // width: "5rem",
-                    // height: 500,
+                    height: "100%",
                     border: "1px solid #ececec",
                     borderRadius: "15px",
                     zIndex: 100,
@@ -239,7 +248,7 @@ export default function CardList({
                   onClick={() => setData(product)}
                 >
                   {product["photo"] ? (
-                    <Carousel>
+                    <Carousel style={{ borderRadius: "15px" }}>
                       {product["photo"]
                         .toString()
                         .split(",")
@@ -248,10 +257,15 @@ export default function CardList({
                             style={{
                               width: "100%",
                               height: 200,
+                              borderRadius: "15px",
                             }}
                           >
                             <img
-                              style={{ width: "100%", height: "100%" }}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                borderRadius: "15px",
+                              }}
                               src={Image}
                               alt={Image}
                             />
@@ -260,7 +274,11 @@ export default function CardList({
                     </Carousel>
                   ) : (
                     <img
-                      style={{ width: "100%", height: 200 }}
+                      style={{
+                        width: "100%",
+                        height: 200,
+                        borderRadius: "15px",
+                      }}
                       src={rebuyProduct}
                       alt={"rebuyProduct"}
                     />

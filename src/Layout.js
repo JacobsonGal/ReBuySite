@@ -27,9 +27,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
   const [sideBarImage, setSideBarImage] = useState(false);
   const [toggled, setToggled] = useState(true);
   const [title, setTitle] = useState("ReBuy");
-  const [notificationData, setnotificationData] = useState();
-  const count = notificationData ? notificationData.length : 0;
-  const [notificationCount, setNotificationCount] = useState(count);
+  const [notificationCount, setNotificationCount] = useState(0);
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState(null);
   const [name, setName] = useState(null);

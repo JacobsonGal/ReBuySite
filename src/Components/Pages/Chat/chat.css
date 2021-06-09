@@ -105,21 +105,23 @@ button:disabled {
   width: 100%;
   height: 100%;
   direction: ltr;
-  opacity: 0.8;
-  border-radius: 0;
-  border: 0px;
+  opacity: 0.9;
+  border: none;
+  /* border-radius: 0; */
+  /* border: 0px; */
+  /* background-color: #f5f7fb; */
 }
 .contacts_body {
   /* padding: 0.75rem 0 !important; */
   overflow-y: auto;
   border: 0px;
   height: 100%;
-  border: 0px;
+  border: none;
   /* white-space: nowrap; */
 }
 .msg_card_body {
   overflow-y: auto;
-  height: 100%;
+  height: 5px;
   border: 0px;
 }
 .card-body {
@@ -130,7 +132,7 @@ button:disabled {
 .card-header {
   background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
   background: linear-gradient(to right, #f64f59, #c471ed, #12c2e9);
-  border-radius: 15px 15px 0 0 !important;
+  /* border-radius: 15px 15px 0 0 !important; */
   border-bottom: 0 !important;
   text-align: center;
   align-items: center;
@@ -142,6 +144,7 @@ button:disabled {
 .card-footer {
   border-radius: 0 0 15px 15px !important;
   border-top: 0 !important;
+  justify-content: end;
 }
 .contain {
   align-content: left;
@@ -322,8 +325,14 @@ button:disabled {
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.2);
 }
-/* @media (max-width: 576px) {
+@media (max-width: 800px) {
+  .card {
+    background-color: #f5f7fb !important;
+    margin-top: 50px;
+  }
   .contacts_card {
+    background-color: #f5f7fb;
+    margin-top: 35px;
     margin-bottom: 15px !important;
   }
-} */
+}

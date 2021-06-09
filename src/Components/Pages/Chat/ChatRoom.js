@@ -128,7 +128,16 @@ function ChatRoom({ sellerId, currentId, productId, currentName, desc }) {
   };
 
   return (
-    <div className="card">
+    <div
+      className="card"
+      style={{
+        width: "100%",
+        height: "100%",
+        direction: "ltr",
+        border: "0px",
+        borderRadius: "0px",
+      }}
+    >
       <div className="card-header msg_head">
         <div className="d-flex head  bd-highlight">
           {/* <img

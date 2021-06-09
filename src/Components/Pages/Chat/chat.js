@@ -70,7 +70,7 @@ export function SellerArea({ sellerId, prodId, productName }) {
 
   return (
     <>
-      <div className="card contacts_card">
+      <div className="card contacts_card border-0">
         <div className="card-header">
           <div className="col-12">
             <div className="header ">

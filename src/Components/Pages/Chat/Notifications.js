@@ -48,15 +48,7 @@ export default function Notifications({ title, setTitle, setActive, user }) {
       FAB="none"
       dots={false}
     >
-      <div
-        className="card contacts_card"
-        style={{
-          width: "100%",
-          height: "100%",
-          direction: "ltr",
-          border: "0px",
-        }}
-      >
+      <div className="card contacts_card border-0">
         <div className="card-header">
           <div className="col-12">
             <div className="header ">

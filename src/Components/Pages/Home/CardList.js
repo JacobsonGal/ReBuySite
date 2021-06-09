@@ -157,9 +157,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CardList({
   products,
-  images,
   users,
   deleteHandler,
+  favorites,
   from,
   to,
 }) {
@@ -167,11 +167,36 @@ export default function CardList({
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [product, setproduct] = useState(null);
   const { currentUser } = useContext(AuthContext);
-  const [change, setChange] = useState(false);
+  const [favoritesStates, setFavoritesStates] = useState([]);
+
+  function changeState(i) {
+    let newArr = [...favoritesStates];
+    newArr[i] = !newArr[i];
+    setFavoritesStates(newArr);
+  }
 
   useEffect(() => {
-    // console.log(change);
-  }, [change]);
+    const user = users?.find(
+      (usr) =>
+        usr["email"] === currentUser.email.toUpperCase() ||
+        (usr["email"] === currentUser.email.toLowerCase() && usr["email"])
+    );
+    favorites
+      ? products &&
+        products.map((product) => {
+          return setFavoritesStates((oldArray) => [...oldArray, true]);
+        })
+      : products &&
+        products.map((product) => {
+          return user &&
+            user.favorites &&
+            user.favorites?.some((p) => {
+              return product.name === p.name;
+            })
+            ? setFavoritesStates((oldArray) => [...oldArray, true])
+            : setFavoritesStates((oldArray) => [...oldArray, false]);
+        });
+  }, [products, users, currentUser, favorites, setFavoritesStates]);
 
   const user = users?.find(
     (usr) =>
@@ -222,12 +247,18 @@ export default function CardList({
     setIsModelOpen(true);
   }
 
+  function removeProduct(product) {
+    const index = products.indexOf(product);
+    if (index > -1) {
+      products.splice(index, 1);
+    }
+  }
+
   return (
     <div className={classes.root}>
       <PopUp
         product={product}
         users={users}
-        images={images}
         isModelOpen={isModelOpen}
         setIsModelOpen={setIsModelOpen}
       />
@@ -244,6 +275,7 @@ export default function CardList({
                     border: "1px solid #ececec",
                     borderRadius: "15px",
                     zIndex: 100,
+                    display: favorites && !favoritesStates[i] ? "none" : "",
                   }}
                   onClick={() => setData(product)}
                 >
@@ -318,16 +350,13 @@ export default function CardList({
                             <UpdateProduct id={product["seconderyId"]} />
                           </Button>
                         </>
-                      ) : user &&
-                        user.favorites &&
-                        user.favorites?.some((p) => {
-                          return product.name === p.name;
-                        }) ? (
+                      ) : favoritesStates[i] ? (
                         <Button size="small" color="primary">
                           <Star
                             onClick={() => {
                               api.removeFromFavorites(user, product);
-                              setChange((prev) => !prev);
+                              favorites && removeProduct(product);
+                              changeState(i);
                             }}
                           />
                         </Button>
@@ -336,7 +365,7 @@ export default function CardList({
                           <StarBorderIcon
                             onClick={() => {
                               api.addToFavorites(user, product);
-                              setChange((prev) => !prev);
+                              changeState(i);
                             }}
                           />
                         </Button>
@@ -359,6 +388,7 @@ export default function CardList({
                 width: 300,
                 border: "1px solid #ececec",
                 borderRadius: "15px",
+                display: favorites && !favoritesStates[i] ? "none" : "",
               }}
             >
               {product["photo"] ? (
@@ -390,9 +420,9 @@ export default function CardList({
               )}{" "}
               <CardActionArea
                 onClick={() => setData(product)}
-                // style={{
-                //   height: 400,
-                // }}
+                style={{
+                  height: 250,
+                }}
               >
                 <CardContent>
                   <Typography>
@@ -400,7 +430,9 @@ export default function CardList({
                       {product["name"].toUpperCase()}
                     </h4>
                     <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>
-                    <p>{product["description"]}</p>
+                    <p style={{ height: "4.5rem", overflow: "scroll" }}>
+                      {product["description"]}
+                    </p>
                     <p>
                       {product["address"]} <IoPinOutline />
                     </p>
@@ -445,16 +477,13 @@ export default function CardList({
                       <UpdateProduct id={product["seconderyId"]} />
                     </Button>
                   </>
-                ) : user &&
-                  user.favorites &&
-                  user.favorites?.some((p) => {
-                    return product.name === p.name;
-                  }) ? (
+                ) : favoritesStates[i] ? (
                   <Button size="small" color="primary">
                     <Star
                       onClick={() => {
                         api.removeFromFavorites(user, product);
-                        setChange((prev) => !prev);
+                        favorites && removeProduct(product);
+                        changeState(i);
                       }}
                     />
                   </Button>
@@ -463,13 +492,12 @@ export default function CardList({
                     <StarBorderIcon
                       onClick={() => {
                         api.addToFavorites(user, product);
-                        setChange((prev) => !prev);
+                        changeState(i);
                       }}
                     />
                   </Button>
                 )}
               </CardActions>
-              {/* {console.log(user)} */}
             </Card>
           ))}
       </MediaQuery>

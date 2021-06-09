@@ -86,6 +86,7 @@ export function FavoritesPage({
             products={products}
             users={users}
             deleteHandler={DeleteProduct}
+            favorites={true}
           />
         ) : (
           <Card

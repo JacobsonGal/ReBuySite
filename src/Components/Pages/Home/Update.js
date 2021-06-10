@@ -112,8 +112,10 @@ export default class ProductUpdate extends Component {
     data.append("description", this.state.description);
     data.append("category", this.state.category);
     data.append("address", this.state.address);
-    for (let i = 0; i < this.state.images.length; i++) {
-      data.append("images", this.state.images[i]);
+    if (this.state.images) {
+      for (let i = 0; i < this.state.images.length; i++) {
+        data.append("images", this.state.images[i]);
+      }
     }
 
     data.append("price", this.state.price);

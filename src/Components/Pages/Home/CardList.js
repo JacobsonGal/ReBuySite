@@ -442,7 +442,13 @@ export default function CardList({
               >
                 <CardContent>
                   <Typography>
-                    <h4 style={{ font: "bold" }}>
+                    <h4
+                      style={{
+                        font: "bold",
+                        height: "3rem",
+                        overflow: "scroll",
+                      }}
+                    >
                       {product["name"].toUpperCase()}
                     </h4>
                     <h5 style={{ color: "dodgerblue" }}>{product["price"]}₪</h5>

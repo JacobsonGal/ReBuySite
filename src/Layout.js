@@ -237,6 +237,7 @@ export default function Layout({ locale, setLocale, setActive, isActive }) {
                 )} */}
                 </div>
               </div>
+              <div class="elfsight-app-9cb9c2ad-dbf2-466b-8fb1-b94405193035" />
             </div>
           </Switch>
         </BrowserRouter>

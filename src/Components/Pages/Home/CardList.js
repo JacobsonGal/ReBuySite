@@ -485,7 +485,9 @@ export default function CardList({
                   </Typography>
                 </CardContent>
               </CardActionArea>
-              <CardActions style={{ justifyContent: "center", height: "2rem" }}>
+              <CardActions
+                style={{ justifyContent: "center", height: "2.6rem" }}
+              >
                 {(user && user.uid === product.ownerId) ||
                 Admins(currentUser.email) ? (
                   <>

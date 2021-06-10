@@ -143,7 +143,10 @@ export default class ProductUpdate extends Component {
             alert: false,
           });
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          Alert(err.message);
+        });
     }
   };
   componentDidMount = async () => {
@@ -260,7 +263,7 @@ export default class ProductUpdate extends Component {
         <div>
           <div style={{ textAlign: "center" }}>
             <Button onClick={this.handleIncludeProduct}>Update Product</Button>
-            <CancelButton href={"/Home"}>Cancel</CancelButton>
+            <CancelButton href={"/"}>Cancel</CancelButton>
             {alertMessage}
           </div>{" "}
         </div>

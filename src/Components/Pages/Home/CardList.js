@@ -307,6 +307,7 @@ export default function CardList({
                                 width: "100%",
                                 height: "100%",
                                 borderRadius: "15px",
+                                objectFit: "cover",
                               }}
                               src={Image}
                               alt={Image}
@@ -415,7 +416,11 @@ export default function CardList({
                         }}
                       >
                         <img
-                          style={{ width: "100%", height: "100%" }}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
                           src={Image}
                           alt={Image}
                         />

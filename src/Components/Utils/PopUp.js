@@ -88,7 +88,11 @@ export default function Marker({
                         >
                           <img
                             className="d-block w-100"
-                            style={{ width: "100%", height: "100%" }}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
                             src={Image}
                             alt={Image}
                           />
@@ -260,7 +264,11 @@ export default function Marker({
                         >
                           <img
                             className="d-block w-100"
-                            style={{ width: "100%", height: "100%" }}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
                             src={Image}
                             alt={Image}
                           />

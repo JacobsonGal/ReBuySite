@@ -26,6 +26,7 @@ export default class ProductsList extends Component {
       imagePath: "",
       setLoading: this.props.setLoading,
       intl: props.intl,
+      searching: false,
       currentUser: props.currentUser,
       favCategories: [],
       favProduct: [],
@@ -98,6 +99,7 @@ export default class ProductsList extends Component {
   searchHandler = (products) => {
     this.setState({
       products: products.data,
+      searching: true,
     });
   };
   deleteHandler = (productId) => {
@@ -108,7 +110,7 @@ export default class ProductsList extends Component {
     });
   };
   render() {
-    const { products, users, intl, favProduct } = this.state;
+    const { products, users, intl, favProduct, searching } = this.state;
 
     return (
       <Wrapper
@@ -123,7 +125,7 @@ export default class ProductsList extends Component {
         <Search searchHandler={this.searchHandler} />
         {/* <Sort searchHandler={this.searchHandler} /> */}
 
-        {favProduct.length > 0 && (
+        {!searching && favProduct.length > 0 && (
           <>
             <h1>{intl.formatMessage({ id: "Recommendedforyou" })}</h1>
             {/* <h3>

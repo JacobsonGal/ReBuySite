@@ -89,7 +89,7 @@ export default class GoogleMap extends Component {
   };
   searchHandler = (products) => {
     this.setState({
-      products,
+      products: products.data,
     });
   };
   productHandler = (product) => {
@@ -317,6 +317,7 @@ export default class GoogleMap extends Component {
               lng={lng}
             />
             {products &&
+              products.length > 0 &&
               products.map((product, i) => {
                 // console.log(locations.find((x) => x.id === product._id));
                 return (
